@@ -5,15 +5,14 @@ import "github.com/7-Dany/chess/core"
 func (e *DefaultEngine) Undo(ctx *core.TurnContext, snapshot core.Snapshot) {
 	move := snapshot.Move
 
-	// return piece to its previous position
-	ctx.Board.Place(move.From, move.Piece)
-
 	switch move.Type {
 	case core.NORMAL, core.PROMOTION:
 		e.restoreDestination(ctx, move)
 	case core.CASTLING:
+		ctx.Board.Place(move.From, move.Piece)
 		e.restoreCastling(ctx, move)
 	case core.EN_PASSANT:
+		ctx.Board.Place(move.From, move.Piece)
 		e.restoreEnPassant(ctx, move)
 	}
 
@@ -23,10 +22,13 @@ func (e *DefaultEngine) Undo(ctx *core.TurnContext, snapshot core.Snapshot) {
 }
 
 func (e *DefaultEngine) restoreDestination(ctx *core.TurnContext, move core.Move) {
+	// Move the piece back to its origin, empty the destination.
+	ctx.Board.Move(move.To, move.From)
+	if move.Type == core.PROMOTION {
+		ctx.Board.Place(move.From, move.Piece) // overwrite with original (un-promoted) piece
+	}
 	if move.HasCapture {
 		ctx.Board.Place(move.To, move.Captured)
-	} else {
-		ctx.Board.Clear(move.To)
 	}
 }
 

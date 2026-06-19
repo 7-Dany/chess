@@ -11,8 +11,10 @@ func (e *DefaultEngine) Apply(ctx *core.TurnContext, move core.Move) core.Snapsh
 	}
 
 	// Move the piece to its destination, empty the origin.
-	ctx.Board.Clear(move.From)
-	ctx.Board.Place(move.To, piece)
+	ctx.Board.Move(move.From, move.To)
+	if move.Type == core.PROMOTION {
+		ctx.Board.Place(move.To, piece) // overwrite with promoted piece
+	}
 
 	// Move-type specific board / rights mutations.
 	switch move.Type {
