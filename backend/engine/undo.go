@@ -6,7 +6,7 @@ func (e *DefaultEngine) Undo(ctx *core.TurnContext, snapshot core.Snapshot) {
 	move := snapshot.Move
 
 	// return piece to its previous position
-	ctx.Board[move.From] = core.Square{Piece: move.Piece, Occupied: true}
+	ctx.Board.Place(move.From, move.Piece)
 
 	switch move.Type {
 	case core.NORMAL, core.PROMOTION:
@@ -24,14 +24,14 @@ func (e *DefaultEngine) Undo(ctx *core.TurnContext, snapshot core.Snapshot) {
 
 func (e *DefaultEngine) restoreDestination(ctx *core.TurnContext, move core.Move) {
 	if move.HasCapture {
-		ctx.Board[move.To] = core.Square{Piece: move.Captured, Occupied: true}
+		ctx.Board.Place(move.To, move.Captured)
 	} else {
-		ctx.Board[move.To] = core.Square{}
+		ctx.Board.Clear(move.To)
 	}
 }
 
 func (e *DefaultEngine) restoreCastling(ctx *core.TurnContext, move core.Move) {
-	ctx.Board[move.To] = core.Square{}
+	ctx.Board.Clear(move.To)
 	if move.To.File() > move.From.File() {
 		// King side from (F -> H)
 		moveRook(ctx, move.From.Rank(), core.FILE_F, core.FILE_H)
@@ -42,7 +42,7 @@ func (e *DefaultEngine) restoreCastling(ctx *core.TurnContext, move core.Move) {
 }
 
 func (e *DefaultEngine) restoreEnPassant(ctx *core.TurnContext, move core.Move) {
-	ctx.Board[move.To] = core.Square{}
+	ctx.Board.Clear(move.To)
 	capturedPawnPos := core.NewPosition(move.To.File(), move.From.Rank())
-	ctx.Board[capturedPawnPos] = core.Square{Piece: move.Captured, Occupied: true}
+	ctx.Board.Place(capturedPawnPos, move.Captured)
 }

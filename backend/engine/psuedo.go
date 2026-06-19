@@ -1,45 +1,42 @@
 package engine
 
 import (
-	"slices"
-
 	"github.com/7-Dany/chess/core"
 )
 
 func (e *DefaultEngine) GetPseudoLegalMoves(position core.Position, ctx core.TurnContext) []core.Move {
 	square := ctx.Board[position]
 	if !square.IsOccupiedBy(ctx.SideToMove) {
-		return []core.Move{}
+		return nil
 	}
 
-	piece := e.pieces.GetPiece(square.Piece.Type)
+	piece := e.pieces.GetPiece(square.Type())
 	moves := piece.PseudoLegalMoves(position, ctx.MoveContext)
 
 	// add castling moves
 	if ctx.Sides[ctx.SideToMove].KingPosition == position {
-		moves = append(moves, e.castlingMoves(position, ctx)...)
+		moves = e.castlingMoves(moves, position, ctx)
 	}
 
 	return moves
 }
 
 // return king castling moves, if rights are valid
-func (e *DefaultEngine) castlingMoves(kingPosition core.Position, ctx core.TurnContext) []core.Move {
+func (e *DefaultEngine) castlingMoves(moves []core.Move, kingPosition core.Position, ctx core.TurnContext) []core.Move {
 	current := ctx.SideToMove
 	enemy := current.Opponent()
 
 	// King must be on its home file. If CastlingRights are set but the king
 	// is elsewhere, state is corrupt — bail.
 	if kingPosition.File() != core.FILE_E {
-		return nil
+		return moves
 	}
 
 	// if the king is in check, return
 	if e.IsSquareAttacked(kingPosition, enemy, ctx) {
-		return nil
+		return moves
 	}
 
-	moves := make([]core.Move, 0, 2)
 	king := core.Piece{Type: core.KING, Color: current}
 	rank := kingPosition.Rank()
 
@@ -61,7 +58,7 @@ func (e *DefaultEngine) castlingMoves(kingPosition core.Position, ctx core.TurnC
 		})
 	}
 
-	return slices.Clip(moves)
+	return moves
 }
 
 // canCastleKingSide return true, if rights allow the king to castle from king side
@@ -75,7 +72,7 @@ func (e *DefaultEngine) canCastleKingSide(rank core.Rank, ctx core.TurnContext) 
 	path := core.NewPosition(core.FILE_F, rank)
 	dest := core.NewPosition(core.FILE_G, rank)
 
-	if ctx.Board[path].Occupied || ctx.Board[dest].Occupied {
+	if ctx.Board[path].IsOccupied() || ctx.Board[dest].IsOccupied() {
 		return false
 	}
 
@@ -98,7 +95,7 @@ func (e *DefaultEngine) canCastleQueenSide(rank core.Rank, ctx core.TurnContext)
 	dest := core.NewPosition(core.FILE_C, rank)
 	between := core.NewPosition(core.FILE_B, rank)
 
-	if ctx.Board[path].Occupied || ctx.Board[dest].Occupied || ctx.Board[between].Occupied {
+	if ctx.Board[path].IsOccupied() || ctx.Board[dest].IsOccupied() || ctx.Board[between].IsOccupied() {
 		return false
 	}
 

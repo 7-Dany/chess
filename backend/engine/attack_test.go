@@ -22,7 +22,7 @@ func TestIsSquareAttacked(t *testing.T) {
 			attackerColor: core.WHITE,
 			sideToMove:    core.BLACK,
 			setupBoard: func(b *core.Board) {
-				b[core.D7] = core.Square{Occupied: true, Piece: core.Piece{Type: core.KNIGHT, Color: core.WHITE}}
+				b[core.D7] = core.NewSquare(core.Piece{Type: core.KNIGHT, Color: core.WHITE})
 			},
 			expected: true,
 		},
@@ -32,7 +32,7 @@ func TestIsSquareAttacked(t *testing.T) {
 			attackerColor: core.WHITE,
 			sideToMove:    core.BLACK,
 			setupBoard: func(b *core.Board) {
-				b[core.D6] = core.Square{Occupied: true, Piece: core.Piece{Type: core.KNIGHT, Color: core.WHITE}}
+				b[core.D6] = core.NewSquare(core.Piece{Type: core.KNIGHT, Color: core.WHITE})
 			},
 			expected: false,
 		},
@@ -42,7 +42,7 @@ func TestIsSquareAttacked(t *testing.T) {
 			attackerColor: core.WHITE,
 			sideToMove:    core.BLACK,
 			setupBoard: func(b *core.Board) {
-				b[core.D7] = core.Square{Occupied: true, Piece: core.Piece{Type: core.KNIGHT, Color: core.BLACK}}
+				b[core.D7] = core.NewSquare(core.Piece{Type: core.KNIGHT, Color: core.BLACK})
 			},
 			expected: false,
 		},
@@ -52,7 +52,7 @@ func TestIsSquareAttacked(t *testing.T) {
 			attackerColor: core.WHITE,
 			sideToMove:    core.BLACK,
 			setupBoard: func(b *core.Board) {
-				b[core.H8] = core.Square{Occupied: true, Piece: core.Piece{Type: core.KNIGHT, Color: core.WHITE}}
+				b[core.H8] = core.NewSquare(core.Piece{Type: core.KNIGHT, Color: core.WHITE})
 			},
 			expected: true,
 		},
@@ -64,7 +64,7 @@ func TestIsSquareAttacked(t *testing.T) {
 			attackerColor: core.WHITE,
 			sideToMove:    core.BLACK,
 			setupBoard: func(b *core.Board) {
-				b[core.B2] = core.Square{Occupied: true, Piece: core.Piece{Type: core.BISHOP, Color: core.WHITE}}
+				b[core.B2] = core.NewSquare(core.Piece{Type: core.BISHOP, Color: core.WHITE})
 			},
 			expected: true,
 		},
@@ -74,7 +74,7 @@ func TestIsSquareAttacked(t *testing.T) {
 			attackerColor: core.WHITE,
 			sideToMove:    core.BLACK,
 			setupBoard: func(b *core.Board) {
-				b[core.D4] = core.Square{Occupied: true, Piece: core.Piece{Type: core.BISHOP, Color: core.WHITE}}
+				b[core.D4] = core.NewSquare(core.Piece{Type: core.BISHOP, Color: core.WHITE})
 			},
 			expected: true,
 		},
@@ -84,8 +84,8 @@ func TestIsSquareAttacked(t *testing.T) {
 			attackerColor: core.WHITE,
 			sideToMove:    core.BLACK,
 			setupBoard: func(b *core.Board) {
-				b[core.B2] = core.Square{Occupied: true, Piece: core.Piece{Type: core.BISHOP, Color: core.WHITE}}
-				b[core.D4] = core.Square{Occupied: true, Piece: core.Piece{Type: core.KNIGHT, Color: core.WHITE}}
+				b[core.B2] = core.NewSquare(core.Piece{Type: core.BISHOP, Color: core.WHITE})
+				b[core.D4] = core.NewSquare(core.Piece{Type: core.KNIGHT, Color: core.WHITE})
 			},
 			expected: false,
 		},
@@ -95,8 +95,8 @@ func TestIsSquareAttacked(t *testing.T) {
 			attackerColor: core.WHITE,
 			sideToMove:    core.BLACK,
 			setupBoard: func(b *core.Board) {
-				b[core.B2] = core.Square{Occupied: true, Piece: core.Piece{Type: core.BISHOP, Color: core.WHITE}}
-				b[core.D4] = core.Square{Occupied: true, Piece: core.Piece{Type: core.PAWN, Color: core.BLACK}}
+				b[core.B2] = core.NewSquare(core.Piece{Type: core.BISHOP, Color: core.WHITE})
+				b[core.D4] = core.NewSquare(core.Piece{Type: core.PAWN, Color: core.BLACK})
 			},
 			expected: false,
 		},
@@ -106,7 +106,7 @@ func TestIsSquareAttacked(t *testing.T) {
 			attackerColor: core.WHITE,
 			sideToMove:    core.BLACK,
 			setupBoard: func(b *core.Board) {
-				b[core.E3] = core.Square{Occupied: true, Piece: core.Piece{Type: core.BISHOP, Color: core.WHITE}}
+				b[core.E3] = core.NewSquare(core.Piece{Type: core.BISHOP, Color: core.WHITE})
 			},
 			expected: false,
 		},
@@ -118,7 +118,7 @@ func TestIsSquareAttacked(t *testing.T) {
 			attackerColor: core.WHITE,
 			sideToMove:    core.BLACK,
 			setupBoard: func(b *core.Board) {
-				b[core.E2] = core.Square{Occupied: true, Piece: core.Piece{Type: core.ROOK, Color: core.WHITE}}
+				b[core.E2] = core.NewSquare(core.Piece{Type: core.ROOK, Color: core.WHITE})
 			},
 			expected: true,
 		},
@@ -128,7 +128,7 @@ func TestIsSquareAttacked(t *testing.T) {
 			attackerColor: core.WHITE,
 			sideToMove:    core.BLACK,
 			setupBoard: func(b *core.Board) {
-				b[core.A5] = core.Square{Occupied: true, Piece: core.Piece{Type: core.ROOK, Color: core.WHITE}}
+				b[core.A5] = core.NewSquare(core.Piece{Type: core.ROOK, Color: core.WHITE})
 			},
 			expected: true,
 		},
@@ -138,8 +138,8 @@ func TestIsSquareAttacked(t *testing.T) {
 			attackerColor: core.WHITE,
 			sideToMove:    core.BLACK,
 			setupBoard: func(b *core.Board) {
-				b[core.E2] = core.Square{Occupied: true, Piece: core.Piece{Type: core.ROOK, Color: core.WHITE}}
-				b[core.E4] = core.Square{Occupied: true, Piece: core.Piece{Type: core.KNIGHT, Color: core.WHITE}}
+				b[core.E2] = core.NewSquare(core.Piece{Type: core.ROOK, Color: core.WHITE})
+				b[core.E4] = core.NewSquare(core.Piece{Type: core.KNIGHT, Color: core.WHITE})
 			},
 			expected: false,
 		},
@@ -149,8 +149,8 @@ func TestIsSquareAttacked(t *testing.T) {
 			attackerColor: core.WHITE,
 			sideToMove:    core.BLACK,
 			setupBoard: func(b *core.Board) {
-				b[core.E2] = core.Square{Occupied: true, Piece: core.Piece{Type: core.ROOK, Color: core.WHITE}}
-				b[core.E4] = core.Square{Occupied: true, Piece: core.Piece{Type: core.PAWN, Color: core.BLACK}}
+				b[core.E2] = core.NewSquare(core.Piece{Type: core.ROOK, Color: core.WHITE})
+				b[core.E4] = core.NewSquare(core.Piece{Type: core.PAWN, Color: core.BLACK})
 			},
 			expected: false,
 		},
@@ -160,7 +160,7 @@ func TestIsSquareAttacked(t *testing.T) {
 			attackerColor: core.WHITE,
 			sideToMove:    core.BLACK,
 			setupBoard: func(b *core.Board) {
-				b[core.D4] = core.Square{Occupied: true, Piece: core.Piece{Type: core.ROOK, Color: core.WHITE}}
+				b[core.D4] = core.NewSquare(core.Piece{Type: core.ROOK, Color: core.WHITE})
 			},
 			expected: false,
 		},
@@ -172,7 +172,7 @@ func TestIsSquareAttacked(t *testing.T) {
 			attackerColor: core.WHITE,
 			sideToMove:    core.BLACK,
 			setupBoard: func(b *core.Board) {
-				b[core.B2] = core.Square{Occupied: true, Piece: core.Piece{Type: core.QUEEN, Color: core.WHITE}}
+				b[core.B2] = core.NewSquare(core.Piece{Type: core.QUEEN, Color: core.WHITE})
 			},
 			expected: true,
 		},
@@ -182,7 +182,7 @@ func TestIsSquareAttacked(t *testing.T) {
 			attackerColor: core.WHITE,
 			sideToMove:    core.BLACK,
 			setupBoard: func(b *core.Board) {
-				b[core.E2] = core.Square{Occupied: true, Piece: core.Piece{Type: core.QUEEN, Color: core.WHITE}}
+				b[core.E2] = core.NewSquare(core.Piece{Type: core.QUEEN, Color: core.WHITE})
 			},
 			expected: true,
 		},
@@ -192,8 +192,8 @@ func TestIsSquareAttacked(t *testing.T) {
 			attackerColor: core.WHITE,
 			sideToMove:    core.BLACK,
 			setupBoard: func(b *core.Board) {
-				b[core.B2] = core.Square{Occupied: true, Piece: core.Piece{Type: core.QUEEN, Color: core.WHITE}}
-				b[core.D4] = core.Square{Occupied: true, Piece: core.Piece{Type: core.KNIGHT, Color: core.WHITE}}
+				b[core.B2] = core.NewSquare(core.Piece{Type: core.QUEEN, Color: core.WHITE})
+				b[core.D4] = core.NewSquare(core.Piece{Type: core.KNIGHT, Color: core.WHITE})
 			},
 			expected: false,
 		},
@@ -203,8 +203,8 @@ func TestIsSquareAttacked(t *testing.T) {
 			attackerColor: core.WHITE,
 			sideToMove:    core.BLACK,
 			setupBoard: func(b *core.Board) {
-				b[core.E2] = core.Square{Occupied: true, Piece: core.Piece{Type: core.QUEEN, Color: core.WHITE}}
-				b[core.E4] = core.Square{Occupied: true, Piece: core.Piece{Type: core.PAWN, Color: core.BLACK}}
+				b[core.E2] = core.NewSquare(core.Piece{Type: core.QUEEN, Color: core.WHITE})
+				b[core.E4] = core.NewSquare(core.Piece{Type: core.PAWN, Color: core.BLACK})
 			},
 			expected: false,
 		},
@@ -216,7 +216,7 @@ func TestIsSquareAttacked(t *testing.T) {
 			attackerColor: core.WHITE,
 			sideToMove:    core.BLACK,
 			setupBoard: func(b *core.Board) {
-				b[core.E6] = core.Square{Occupied: true, Piece: core.Piece{Type: core.KING, Color: core.WHITE}}
+				b[core.E6] = core.NewSquare(core.Piece{Type: core.KING, Color: core.WHITE})
 			},
 			expected: true,
 		},
@@ -226,7 +226,7 @@ func TestIsSquareAttacked(t *testing.T) {
 			attackerColor: core.WHITE,
 			sideToMove:    core.BLACK,
 			setupBoard: func(b *core.Board) {
-				b[core.F6] = core.Square{Occupied: true, Piece: core.Piece{Type: core.KING, Color: core.WHITE}}
+				b[core.F6] = core.NewSquare(core.Piece{Type: core.KING, Color: core.WHITE})
 			},
 			expected: true,
 		},
@@ -236,7 +236,7 @@ func TestIsSquareAttacked(t *testing.T) {
 			attackerColor: core.WHITE,
 			sideToMove:    core.BLACK,
 			setupBoard: func(b *core.Board) {
-				b[core.E7] = core.Square{Occupied: true, Piece: core.Piece{Type: core.KING, Color: core.WHITE}}
+				b[core.E7] = core.NewSquare(core.Piece{Type: core.KING, Color: core.WHITE})
 			},
 			expected: false,
 		},
@@ -246,7 +246,7 @@ func TestIsSquareAttacked(t *testing.T) {
 			attackerColor: core.WHITE,
 			sideToMove:    core.BLACK,
 			setupBoard: func(b *core.Board) {
-				b[core.E6] = core.Square{Occupied: true, Piece: core.Piece{Type: core.KING, Color: core.BLACK}}
+				b[core.E6] = core.NewSquare(core.Piece{Type: core.KING, Color: core.BLACK})
 			},
 			expected: false,
 		},
@@ -258,7 +258,7 @@ func TestIsSquareAttacked(t *testing.T) {
 			attackerColor: core.WHITE,
 			sideToMove:    core.BLACK,
 			setupBoard: func(b *core.Board) {
-				b[core.D4] = core.Square{Occupied: true, Piece: core.Piece{Type: core.PAWN, Color: core.WHITE}}
+				b[core.D4] = core.NewSquare(core.Piece{Type: core.PAWN, Color: core.WHITE})
 			},
 			expected: true,
 		},
@@ -268,7 +268,7 @@ func TestIsSquareAttacked(t *testing.T) {
 			attackerColor: core.WHITE,
 			sideToMove:    core.BLACK,
 			setupBoard: func(b *core.Board) {
-				b[core.F4] = core.Square{Occupied: true, Piece: core.Piece{Type: core.PAWN, Color: core.WHITE}}
+				b[core.F4] = core.NewSquare(core.Piece{Type: core.PAWN, Color: core.WHITE})
 			},
 			expected: true,
 		},
@@ -278,7 +278,7 @@ func TestIsSquareAttacked(t *testing.T) {
 			attackerColor: core.WHITE,
 			sideToMove:    core.BLACK,
 			setupBoard: func(b *core.Board) {
-				b[core.D6] = core.Square{Occupied: true, Piece: core.Piece{Type: core.PAWN, Color: core.WHITE}}
+				b[core.D6] = core.NewSquare(core.Piece{Type: core.PAWN, Color: core.WHITE})
 			},
 			expected: false,
 		},
@@ -288,7 +288,7 @@ func TestIsSquareAttacked(t *testing.T) {
 			attackerColor: core.WHITE,
 			sideToMove:    core.BLACK,
 			setupBoard: func(b *core.Board) {
-				b[core.E4] = core.Square{Occupied: true, Piece: core.Piece{Type: core.PAWN, Color: core.WHITE}}
+				b[core.E4] = core.NewSquare(core.Piece{Type: core.PAWN, Color: core.WHITE})
 			},
 			expected: false,
 		},
@@ -300,7 +300,7 @@ func TestIsSquareAttacked(t *testing.T) {
 			attackerColor: core.BLACK,
 			sideToMove:    core.WHITE,
 			setupBoard: func(b *core.Board) {
-				b[core.D6] = core.Square{Occupied: true, Piece: core.Piece{Type: core.PAWN, Color: core.BLACK}}
+				b[core.D6] = core.NewSquare(core.Piece{Type: core.PAWN, Color: core.BLACK})
 			},
 			expected: true,
 		},
@@ -310,7 +310,7 @@ func TestIsSquareAttacked(t *testing.T) {
 			attackerColor: core.BLACK,
 			sideToMove:    core.WHITE,
 			setupBoard: func(b *core.Board) {
-				b[core.F6] = core.Square{Occupied: true, Piece: core.Piece{Type: core.PAWN, Color: core.BLACK}}
+				b[core.F6] = core.NewSquare(core.Piece{Type: core.PAWN, Color: core.BLACK})
 			},
 			expected: true,
 		},
@@ -320,7 +320,7 @@ func TestIsSquareAttacked(t *testing.T) {
 			attackerColor: core.BLACK,
 			sideToMove:    core.WHITE,
 			setupBoard: func(b *core.Board) {
-				b[core.D4] = core.Square{Occupied: true, Piece: core.Piece{Type: core.PAWN, Color: core.BLACK}}
+				b[core.D4] = core.NewSquare(core.Piece{Type: core.PAWN, Color: core.BLACK})
 			},
 			expected: false,
 		},
@@ -330,7 +330,7 @@ func TestIsSquareAttacked(t *testing.T) {
 			attackerColor: core.BLACK,
 			sideToMove:    core.WHITE,
 			setupBoard: func(b *core.Board) {
-				b[core.E6] = core.Square{Occupied: true, Piece: core.Piece{Type: core.PAWN, Color: core.BLACK}}
+				b[core.E6] = core.NewSquare(core.Piece{Type: core.PAWN, Color: core.BLACK})
 			},
 			expected: false,
 		},
@@ -358,7 +358,7 @@ func TestIsSquareAttacked(t *testing.T) {
 			attackerColor: core.BLACK,
 			sideToMove:    core.WHITE,
 			setupBoard: func(b *core.Board) {
-				b[core.D2] = core.Square{Occupied: true, Piece: core.Piece{Type: core.PAWN, Color: core.BLACK}}
+				b[core.D2] = core.NewSquare(core.Piece{Type: core.PAWN, Color: core.BLACK})
 			},
 			expected: true,
 		},
@@ -368,7 +368,7 @@ func TestIsSquareAttacked(t *testing.T) {
 			attackerColor: core.WHITE,
 			sideToMove:    core.BLACK,
 			setupBoard: func(b *core.Board) {
-				b[core.D7] = core.Square{Occupied: true, Piece: core.Piece{Type: core.PAWN, Color: core.WHITE}}
+				b[core.D7] = core.NewSquare(core.Piece{Type: core.PAWN, Color: core.WHITE})
 			},
 			expected: true,
 		},
@@ -378,7 +378,7 @@ func TestIsSquareAttacked(t *testing.T) {
 			attackerColor: core.WHITE,
 			sideToMove:    core.BLACK,
 			setupBoard: func(b *core.Board) {
-				b[core.B4] = core.Square{Occupied: true, Piece: core.Piece{Type: core.PAWN, Color: core.WHITE}}
+				b[core.B4] = core.NewSquare(core.Piece{Type: core.PAWN, Color: core.WHITE})
 			},
 			expected: true,
 		},
@@ -396,7 +396,7 @@ func TestIsSquareAttacked(t *testing.T) {
 			attackerColor: core.WHITE,
 			sideToMove:    core.BLACK,
 			setupBoard: func(b *core.Board) {
-				b[core.G4] = core.Square{Occupied: true, Piece: core.Piece{Type: core.PAWN, Color: core.WHITE}}
+				b[core.G4] = core.NewSquare(core.Piece{Type: core.PAWN, Color: core.WHITE})
 			},
 			expected: true,
 		},
@@ -414,7 +414,7 @@ func TestIsSquareAttacked(t *testing.T) {
 			attackerColor: core.WHITE,
 			sideToMove:    core.BLACK,
 			setupBoard: func(b *core.Board) {
-				b[core.D4] = core.Square{Occupied: true, Piece: core.Piece{Type: core.PAWN, Color: core.BLACK}}
+				b[core.D4] = core.NewSquare(core.Piece{Type: core.PAWN, Color: core.BLACK})
 			},
 			expected: false,
 		},
@@ -424,7 +424,7 @@ func TestIsSquareAttacked(t *testing.T) {
 			attackerColor: core.WHITE,
 			sideToMove:    core.BLACK,
 			setupBoard: func(b *core.Board) {
-				b[core.D4] = core.Square{Occupied: true, Piece: core.Piece{Type: core.ROOK, Color: core.WHITE}}
+				b[core.D4] = core.NewSquare(core.Piece{Type: core.ROOK, Color: core.WHITE})
 			},
 			expected: false,
 		},
@@ -436,8 +436,8 @@ func TestIsSquareAttacked(t *testing.T) {
 			attackerColor: core.WHITE,
 			sideToMove:    core.BLACK,
 			setupBoard: func(b *core.Board) {
-				b[core.D5] = core.Square{Occupied: true, Piece: core.Piece{Type: core.ROOK, Color: core.WHITE}}
-				b[core.C5] = core.Square{Occupied: true, Piece: core.Piece{Type: core.ROOK, Color: core.WHITE}}
+				b[core.D5] = core.NewSquare(core.Piece{Type: core.ROOK, Color: core.WHITE})
+				b[core.C5] = core.NewSquare(core.Piece{Type: core.ROOK, Color: core.WHITE})
 			},
 			expected: true,
 		},
@@ -447,8 +447,8 @@ func TestIsSquareAttacked(t *testing.T) {
 			attackerColor: core.WHITE,
 			sideToMove:    core.BLACK,
 			setupBoard: func(b *core.Board) {
-				b[core.E3] = core.Square{Occupied: true, Piece: core.Piece{Type: core.PAWN, Color: core.BLACK}}
-				b[core.E2] = core.Square{Occupied: true, Piece: core.Piece{Type: core.QUEEN, Color: core.WHITE}}
+				b[core.E3] = core.NewSquare(core.Piece{Type: core.PAWN, Color: core.BLACK})
+				b[core.E2] = core.NewSquare(core.Piece{Type: core.QUEEN, Color: core.WHITE})
 			},
 			expected: false,
 		},
@@ -458,8 +458,8 @@ func TestIsSquareAttacked(t *testing.T) {
 			attackerColor: core.WHITE,
 			sideToMove:    core.BLACK,
 			setupBoard: func(b *core.Board) {
-				b[core.D4] = core.Square{Occupied: true, Piece: core.Piece{Type: core.PAWN, Color: core.BLACK}}
-				b[core.C3] = core.Square{Occupied: true, Piece: core.Piece{Type: core.QUEEN, Color: core.WHITE}}
+				b[core.D4] = core.NewSquare(core.Piece{Type: core.PAWN, Color: core.BLACK})
+				b[core.C3] = core.NewSquare(core.Piece{Type: core.QUEEN, Color: core.WHITE})
 			},
 			expected: false,
 		},
@@ -471,7 +471,7 @@ func TestIsSquareAttacked(t *testing.T) {
 			attackerColor: core.WHITE,
 			sideToMove:    core.BLACK,
 			setupBoard: func(b *core.Board) {
-				b[core.A1] = core.Square{Occupied: true, Piece: core.Piece{Type: core.ROOK, Color: core.WHITE}}
+				b[core.A1] = core.NewSquare(core.Piece{Type: core.ROOK, Color: core.WHITE})
 			},
 			expected: true,
 		},
@@ -481,7 +481,7 @@ func TestIsSquareAttacked(t *testing.T) {
 			attackerColor: core.WHITE,
 			sideToMove:    core.BLACK,
 			setupBoard: func(b *core.Board) {
-				b[core.A1] = core.Square{Occupied: true, Piece: core.Piece{Type: core.BISHOP, Color: core.WHITE}}
+				b[core.A1] = core.NewSquare(core.Piece{Type: core.BISHOP, Color: core.WHITE})
 			},
 			expected: true,
 		},
@@ -493,8 +493,8 @@ func TestIsSquareAttacked(t *testing.T) {
 			attackerColor: core.WHITE,
 			sideToMove:    core.BLACK,
 			setupBoard: func(b *core.Board) {
-				b[core.D7] = core.Square{Occupied: true, Piece: core.Piece{Type: core.KNIGHT, Color: core.WHITE}}
-				b[core.E2] = core.Square{Occupied: true, Piece: core.Piece{Type: core.ROOK, Color: core.WHITE}}
+				b[core.D7] = core.NewSquare(core.Piece{Type: core.KNIGHT, Color: core.WHITE})
+				b[core.E2] = core.NewSquare(core.Piece{Type: core.ROOK, Color: core.WHITE})
 			},
 			expected: true,
 		},
@@ -504,8 +504,8 @@ func TestIsSquareAttacked(t *testing.T) {
 			attackerColor: core.WHITE,
 			sideToMove:    core.BLACK,
 			setupBoard: func(b *core.Board) {
-				b[core.D7] = core.Square{Occupied: true, Piece: core.Piece{Type: core.KNIGHT, Color: core.BLACK}}
-				b[core.E2] = core.Square{Occupied: true, Piece: core.Piece{Type: core.ROOK, Color: core.BLACK}}
+				b[core.D7] = core.NewSquare(core.Piece{Type: core.KNIGHT, Color: core.BLACK})
+				b[core.E2] = core.NewSquare(core.Piece{Type: core.ROOK, Color: core.BLACK})
 			},
 			expected: false,
 		},

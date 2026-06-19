@@ -37,7 +37,7 @@ func (p Pawn) IsAttacking(color core.PieceColor, target core.Position, ctx core.
 }
 
 func (p Pawn) Attacks(from core.Position, ctx core.BoardContext) []core.Position {
-	color := ctx.Board[from].Piece.Color
+	color := ctx.Board[from].Color()
 	step, _, _ := p.direction(color)
 
 	return p.diagonals(from, step)
@@ -50,7 +50,7 @@ func (p Pawn) PseudoLegalMoves(from core.Position, ctx core.MoveContext) []core.
 	// next rank with guard, pawn can't pass the last rank (raw)
 	rank, ok := from.Rank().Add(step)
 	if !ok {
-		return []core.Move{}
+		return nil
 	}
 
 	// rule 1: if the next rank is the end, it's a promotion
@@ -61,10 +61,10 @@ func (p Pawn) PseudoLegalMoves(from core.Position, ctx core.MoveContext) []core.
 	moves := make([]core.Move, 0, 4)
 
 	// rule 2: handle push, at start singe or double, otherwise single
-	moves = append(moves, p.push(from, ctx)...)
+	moves = p.push(moves, from, ctx)
 
 	// rule 3: capture on right file, or left file if occupied by enemy
-	moves = append(moves, p.captures(from, ctx)...)
+	moves = p.captures(moves, from, ctx)
 
 	return slices.Clip(moves)
 }
@@ -101,7 +101,7 @@ func (p Pawn) promote(from core.Position, ctx core.MoveContext) []core.Move {
 
 	// forward push promotion (only if the square is empty)
 	forward := core.NewPosition(from.File(), rank)
-	if !ctx.Board[forward].Occupied {
+	if ctx.Board[forward].IsEmpty() {
 		stamp(forward, false, core.Piece{})
 	}
 
@@ -109,7 +109,7 @@ func (p Pawn) promote(from core.Position, ctx core.MoveContext) []core.Move {
 	for _, to := range p.diagonals(from, step) {
 		square := ctx.Board[to]
 		if square.IsOccupiedBy(pawn.Color.Opponent()) {
-			stamp(to, true, square.Piece)
+			stamp(to, true, square.Piece())
 		}
 	}
 
@@ -117,21 +117,20 @@ func (p Pawn) promote(from core.Position, ctx core.MoveContext) []core.Move {
 }
 
 // push returns forward pushes only (single, and double from the start rank)
-func (p Pawn) push(from core.Position, ctx core.MoveContext) []core.Move {
+func (p Pawn) push(moves []core.Move, from core.Position, ctx core.MoveContext) []core.Move {
 	step, start, _ := p.direction(ctx.SideToMove)
 	pawn := core.Piece{Type: core.PAWN, Color: ctx.SideToMove}
-	moves := make([]core.Move, 0, 2)
 
 	rank, ok := from.Rank().Add(step)
 	if !ok {
-		return []core.Move{}
+		return moves
 	}
 
 	// single push: front square must be empty
 	next := core.NewPosition(from.File(), rank)
 	square := ctx.Board[next]
-	if square.Occupied {
-		return []core.Move{}
+	if square.IsOccupied() {
+		return moves
 	}
 
 	moves = append(moves, core.Move{Piece: pawn, From: from, To: next, Type: core.NORMAL})
@@ -146,7 +145,7 @@ func (p Pawn) push(from core.Position, ctx core.MoveContext) []core.Move {
 	doubleRank, _ := rank.Add(step)
 	doublePosition := core.NewPosition(from.File(), doubleRank)
 	doubleSquare := ctx.Board[doublePosition]
-	if doubleSquare.Occupied {
+	if doubleSquare.IsOccupied() {
 		return moves
 	}
 
@@ -156,37 +155,49 @@ func (p Pawn) push(from core.Position, ctx core.MoveContext) []core.Move {
 }
 
 // captures returns diagonal capture moves, including en passant.
-func (p Pawn) captures(from core.Position, ctx core.MoveContext) []core.Move {
+func (p Pawn) captures(moves []core.Move, from core.Position, ctx core.MoveContext) []core.Move {
 	pawn := core.Piece{Type: core.PAWN, Color: ctx.SideToMove}
 	enemy := ctx.SideToMove.Opponent()
-	moves := make([]core.Move, 0, 2)
-
 	step, _, _ := p.direction(ctx.SideToMove)
-	for _, attack := range p.diagonals(from, step) {
-		// en passant square is empty, but its capture according to pawn rules
+
+	// Guard: compute the forward rank once
+	rank, ok := from.Rank().Add(step)
+	if !ok {
+		return moves
+	}
+
+	// Try right (+1) and left (-1) files
+	for _, fileDelta := range [2]int8{1, -1} {
+		file, ok := from.File().Add(fileDelta)
+		if !ok {
+			continue // pawn is on the A or H file, skip that side
+		}
+
+		attack := core.NewPosition(file, rank)
+
+		// En passant: square is empty but still a valid capture
 		if ctx.EnPassantTarget == attack {
 			moves = append(moves, core.Move{
 				Type:       core.EN_PASSANT,
 				Piece:      pawn,
-				To:         attack,
 				From:       from,
+				To:         attack,
 				HasCapture: true,
 				Captured:   core.Piece{Type: core.PAWN, Color: enemy},
 			})
-
 			continue
 		}
 
-		// if the square occupied by enemy, its valid capture
+		// Normal diagonal capture: square must be occupied by an enemy
 		square := ctx.Board[attack]
 		if square.IsOccupiedBy(enemy) {
 			moves = append(moves, core.Move{
 				Type:       core.NORMAL,
 				Piece:      pawn,
-				To:         attack,
 				From:       from,
+				To:         attack,
 				HasCapture: true,
-				Captured:   square.Piece,
+				Captured:   square.Piece(),
 			})
 		}
 	}

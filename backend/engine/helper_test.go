@@ -208,52 +208,52 @@ func TestMoveRook(t *testing.T) {
 		{
 			name: "white king-side rook H1 to F1",
 			setupBoard: func(b *core.Board) {
-				b[core.NewPosition(core.FILE_H, core.RANK_1)] = core.Square{Piece: core.Piece{Type: core.ROOK, Color: core.WHITE}, Occupied: true}
+				b[core.NewPosition(core.FILE_H, core.RANK_1)] = core.NewSquare(core.Piece{Type: core.ROOK, Color: core.WHITE})
 			},
 			rank: core.RANK_1,
 			from: core.FILE_H,
 			to:   core.FILE_F,
 			expectAt: map[core.Position]core.Square{
-				core.NewPosition(core.FILE_F, core.RANK_1): {Piece: core.Piece{Type: core.ROOK, Color: core.WHITE}, Occupied: true},
+				core.NewPosition(core.FILE_F, core.RANK_1): core.NewSquare(core.Piece{Type: core.ROOK, Color: core.WHITE}),
 			},
 			expectEmpty: []core.Position{core.NewPosition(core.FILE_H, core.RANK_1)},
 		},
 		{
 			name: "white queen-side rook A1 to D1",
 			setupBoard: func(b *core.Board) {
-				b[core.NewPosition(core.FILE_A, core.RANK_1)] = core.Square{Piece: core.Piece{Type: core.ROOK, Color: core.WHITE}, Occupied: true}
+				b[core.NewPosition(core.FILE_A, core.RANK_1)] = core.NewSquare(core.Piece{Type: core.ROOK, Color: core.WHITE})
 			},
 			rank: core.RANK_1,
 			from: core.FILE_A,
 			to:   core.FILE_D,
 			expectAt: map[core.Position]core.Square{
-				core.NewPosition(core.FILE_D, core.RANK_1): {Piece: core.Piece{Type: core.ROOK, Color: core.WHITE}, Occupied: true},
+				core.NewPosition(core.FILE_D, core.RANK_1): core.NewSquare(core.Piece{Type: core.ROOK, Color: core.WHITE}),
 			},
 			expectEmpty: []core.Position{core.NewPosition(core.FILE_A, core.RANK_1)},
 		},
 		{
 			name: "black king-side rook H8 to F8",
 			setupBoard: func(b *core.Board) {
-				b[core.NewPosition(core.FILE_H, core.RANK_8)] = core.Square{Piece: core.Piece{Type: core.ROOK, Color: core.BLACK}, Occupied: true}
+				b[core.NewPosition(core.FILE_H, core.RANK_8)] = core.NewSquare(core.Piece{Type: core.ROOK, Color: core.BLACK})
 			},
 			rank: core.RANK_8,
 			from: core.FILE_H,
 			to:   core.FILE_F,
 			expectAt: map[core.Position]core.Square{
-				core.NewPosition(core.FILE_F, core.RANK_8): {Piece: core.Piece{Type: core.ROOK, Color: core.BLACK}, Occupied: true},
+				core.NewPosition(core.FILE_F, core.RANK_8): core.NewSquare(core.Piece{Type: core.ROOK, Color: core.BLACK}),
 			},
 			expectEmpty: []core.Position{core.NewPosition(core.FILE_H, core.RANK_8)},
 		},
 		{
 			name: "black queen-side rook A8 to D8",
 			setupBoard: func(b *core.Board) {
-				b[core.NewPosition(core.FILE_A, core.RANK_8)] = core.Square{Piece: core.Piece{Type: core.ROOK, Color: core.BLACK}, Occupied: true}
+				b[core.NewPosition(core.FILE_A, core.RANK_8)] = core.NewSquare(core.Piece{Type: core.ROOK, Color: core.BLACK})
 			},
 			rank: core.RANK_8,
 			from: core.FILE_A,
 			to:   core.FILE_D,
 			expectAt: map[core.Position]core.Square{
-				core.NewPosition(core.FILE_D, core.RANK_8): {Piece: core.Piece{Type: core.ROOK, Color: core.BLACK}, Occupied: true},
+				core.NewPosition(core.FILE_D, core.RANK_8): core.NewSquare(core.Piece{Type: core.ROOK, Color: core.BLACK}),
 			},
 			expectEmpty: []core.Position{core.NewPosition(core.FILE_A, core.RANK_8)},
 		},
@@ -279,7 +279,7 @@ func TestMoveRook(t *testing.T) {
 				}
 			}
 			for _, pos := range tt.expectEmpty {
-				if ctx.Board[pos].Occupied {
+				if ctx.Board[pos].IsOccupied() {
 					t.Errorf("board[%v] should be empty, got %v", pos, ctx.Board[pos])
 				}
 			}

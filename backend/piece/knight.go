@@ -42,9 +42,9 @@ func (Knight) IsAttacking(color core.PieceColor, target core.Position, ctx core.
 func (Knight) Attacks(from core.Position, _ core.BoardContext) []core.Position {
 	attacks := make([]core.Position, 0, 8)
 
-	for _, position := range KnightDirections {
-		file, fok := from.File().Add(position[0])
-		rank, rok := from.Rank().Add(position[1])
+	for _, direction := range KnightDirections {
+		file, fok := from.File().Add(direction[0])
+		rank, rok := from.Rank().Add(direction[1])
 		if rok && fok {
 			attacks = append(attacks, core.NewPosition(file, rank))
 		}
@@ -55,12 +55,17 @@ func (Knight) Attacks(from core.Position, _ core.BoardContext) []core.Position {
 
 func (k Knight) PseudoLegalMoves(from core.Position, ctx core.MoveContext) []core.Move {
 	knight := core.Piece{Type: core.KNIGHT, Color: ctx.SideToMove}
+	moves := make([]core.Move, 0, 8)
 
-	attacks := k.Attacks(from, ctx.BoardContext)
-	moves := make([]core.Move, 0, len(attacks))
+	for _, direction := range KnightDirections {
+		file, fok := from.File().Add(direction[0])
+		rank, rok := from.Rank().Add(direction[1])
+		if !fok || !rok {
+			continue
+		}
 
-	for _, attack := range attacks {
-		square := ctx.Board[attack]
+		position := core.NewPosition(file, rank)
+		square := ctx.Board[position]
 
 		// if the square is occupied by our side, ignore
 		if square.IsOccupiedBy(ctx.SideToMove) {
@@ -71,12 +76,12 @@ func (k Knight) PseudoLegalMoves(from core.Position, ctx core.MoveContext) []cor
 			Type:  core.NORMAL,
 			Piece: knight,
 			From:  from,
-			To:    attack,
+			To:    position,
 		}
 
-		if square.Occupied {
+		if square.IsOccupied() {
 			move.HasCapture = true
-			move.Captured = square.Piece
+			move.Captured = square.Piece()
 		}
 
 		moves = append(moves, move)

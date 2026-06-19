@@ -31,12 +31,13 @@ func (Bishop) IsAttacking(color core.PieceColor, target core.Position, ctx core.
 
 			file, rank = nextFile, nextRank
 			position := core.NewPosition(file, rank)
+
 			square := ctx.Board[position]
 			if square.IsOccupiedByAny(color, core.BISHOP) {
 				return true
 			}
 
-			if square.Occupied {
+			if square.IsOccupied() {
 				break
 			}
 		}
@@ -62,7 +63,9 @@ func (Bishop) Attacks(from core.Position, ctx core.BoardContext) []core.Position
 			file, rank = nextFile, nextRank
 			position := core.NewPosition(file, rank)
 			attacks = append(attacks, position)
-			if ctx.Board[position].Occupied {
+
+			square := ctx.Board[position]
+			if square.IsOccupied() {
 				break
 			}
 		}
@@ -77,7 +80,6 @@ func (b Bishop) PseudoLegalMoves(from core.Position, ctx core.MoveContext) []cor
 
 	for _, direction := range BishopDirections {
 		file, rank := from.File(), from.Rank()
-
 		for {
 			nextFile, fok := file.Add(direction[0])
 			nextRank, rok := rank.Add(direction[1])
@@ -101,9 +103,9 @@ func (b Bishop) PseudoLegalMoves(from core.Position, ctx core.MoveContext) []cor
 				To:    position,
 			}
 
-			if square.Occupied {
+			if square.IsOccupied() {
 				move.HasCapture = true
-				move.Captured = square.Piece
+				move.Captured = square.Piece()
 				moves = append(moves, move)
 				break
 			}

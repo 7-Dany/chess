@@ -1,30 +1,42 @@
 package engine
 
 import (
-	"slices"
-
 	"github.com/7-Dany/chess/core"
 )
 
 func (e *DefaultEngine) GetLegalMoves(position core.Position, ctx core.TurnContext) []core.Move {
-	pseudoMoves := e.GetPseudoLegalMoves(position, ctx)
-
+	moves := e.GetPseudoLegalMoves(position, ctx)
 	current := ctx.SideToMove
 	enemy := current.Opponent()
-	moves := make([]core.Move, 0, len(pseudoMoves))
 
-	for _, move := range pseudoMoves {
+	square := ctx.Board[position]
+	isKing := square.Type() == core.KING
+	staticKing := ctx.Sides[current].KingPosition
+
+	slot := 0
+	for _, move := range moves {
 		snapshot := e.Apply(&ctx, move)
-		kingPosition := ctx.Sides[current].KingPosition
 
+		// after Apply, KingPosition is only updated when the king itself moved.
+		// for all other pieces, staticKing stays valid throughout the loop.
+		var kingPosition core.Position
+		if isKing {
+			kingPosition = ctx.Sides[current].KingPosition
+		} else {
+			kingPosition = staticKing
+		}
+
+		// king is safe, write legal moves back into the same slice to avoid a second allocation
 		if !e.IsSquareAttacked(kingPosition, enemy, ctx) {
-			moves = append(moves, move)
+			// update move in place, ignoring invalid moves.
+			moves[slot] = move
+			slot++
 		}
 
 		e.Undo(&ctx, snapshot)
 	}
 
-	return slices.Clip(moves)
+	return moves[:slot]
 }
 
 func (e *DefaultEngine) HasAnyLegalMoves(ctx core.TurnContext) bool {

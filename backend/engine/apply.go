@@ -11,8 +11,8 @@ func (e *DefaultEngine) Apply(ctx *core.TurnContext, move core.Move) core.Snapsh
 	}
 
 	// Move the piece to its destination, empty the origin.
-	ctx.Board[move.From] = core.Square{}
-	ctx.Board[move.To] = core.Square{Piece: piece, Occupied: true}
+	ctx.Board.Clear(move.From)
+	ctx.Board.Place(move.To, piece)
 
 	// Move-type specific board / rights mutations.
 	switch move.Type {
@@ -63,5 +63,5 @@ func (e *DefaultEngine) applyCastling(ctx *core.TurnContext, move core.Move) {
 
 func (e *DefaultEngine) applyEnPassant(ctx *core.TurnContext, move core.Move) {
 	capturedPawnPosition := core.NewPosition(move.To.File(), move.From.Rank())
-	ctx.Board[capturedPawnPosition] = core.Square{}
+	ctx.Board.Clear(capturedPawnPosition)
 }

@@ -16,14 +16,10 @@ func benchStartPos() core.TurnContext {
 		core.KING, core.BISHOP, core.KNIGHT, core.ROOK}
 
 	for f := uint8(0); f < 8; f++ {
-		board[core.NewPosition(core.File(f), core.RANK_1)] = core.Square{
-			Occupied: true, Piece: core.Piece{Type: back[f], Color: core.WHITE}}
-		board[core.NewPosition(core.File(f), core.RANK_2)] = core.Square{
-			Occupied: true, Piece: core.Piece{Type: core.PAWN, Color: core.WHITE}}
-		board[core.NewPosition(core.File(f), core.RANK_7)] = core.Square{
-			Occupied: true, Piece: core.Piece{Type: core.PAWN, Color: core.BLACK}}
-		board[core.NewPosition(core.File(f), core.RANK_8)] = core.Square{
-			Occupied: true, Piece: core.Piece{Type: back[f], Color: core.BLACK}}
+		board[core.NewPosition(core.File(f), core.RANK_1)] = core.NewSquare(core.Piece{Type: back[f], Color: core.WHITE})
+		board[core.NewPosition(core.File(f), core.RANK_2)] = core.NewSquare(core.Piece{Type: core.PAWN, Color: core.WHITE})
+		board[core.NewPosition(core.File(f), core.RANK_7)] = core.NewSquare(core.Piece{Type: core.PAWN, Color: core.BLACK})
+		board[core.NewPosition(core.File(f), core.RANK_8)] = core.NewSquare(core.Piece{Type: back[f], Color: core.BLACK})
 	}
 
 	return core.TurnContext{
@@ -44,27 +40,23 @@ func benchFoolsMate() core.TurnContext {
 		core.KING, core.BISHOP, core.KNIGHT, core.ROOK}
 
 	for f := uint8(0); f < 8; f++ {
-		board[core.NewPosition(core.File(f), core.RANK_1)] = core.Square{
-			Occupied: true, Piece: core.Piece{Type: back[f], Color: core.WHITE}}
-		board[core.NewPosition(core.File(f), core.RANK_8)] = core.Square{
-			Occupied: true, Piece: core.Piece{Type: back[f], Color: core.BLACK}}
+		board[core.NewPosition(core.File(f), core.RANK_1)] = core.NewSquare(core.Piece{Type: back[f], Color: core.WHITE})
+		board[core.NewPosition(core.File(f), core.RANK_8)] = core.NewSquare(core.Piece{Type: back[f], Color: core.BLACK})
 	}
 
 	for _, f := range []core.File{core.FILE_A, core.FILE_B, core.FILE_C, core.FILE_D, core.FILE_E, core.FILE_H} {
-		board[core.NewPosition(f, core.RANK_2)] = core.Square{
-			Occupied: true, Piece: core.Piece{Type: core.PAWN, Color: core.WHITE}}
+		board[core.NewPosition(f, core.RANK_2)] = core.NewSquare(core.Piece{Type: core.PAWN, Color: core.WHITE})
 	}
-	board[core.F3] = core.Square{Occupied: true, Piece: core.Piece{Type: core.PAWN, Color: core.WHITE}}
-	board[core.G4] = core.Square{Occupied: true, Piece: core.Piece{Type: core.PAWN, Color: core.WHITE}}
+	board[core.F3] = core.NewSquare(core.Piece{Type: core.PAWN, Color: core.WHITE})
+	board[core.G4] = core.NewSquare(core.Piece{Type: core.PAWN, Color: core.WHITE})
 
 	for _, f := range []core.File{core.FILE_A, core.FILE_B, core.FILE_C, core.FILE_D, core.FILE_F, core.FILE_G, core.FILE_H} {
-		board[core.NewPosition(f, core.RANK_7)] = core.Square{
-			Occupied: true, Piece: core.Piece{Type: core.PAWN, Color: core.BLACK}}
+		board[core.NewPosition(f, core.RANK_7)] = core.NewSquare(core.Piece{Type: core.PAWN, Color: core.BLACK})
 	}
-	board[core.E5] = core.Square{Occupied: true, Piece: core.Piece{Type: core.PAWN, Color: core.BLACK}}
+	board[core.E5] = core.NewSquare(core.Piece{Type: core.PAWN, Color: core.BLACK})
 
-	board[core.D8] = core.Square{}
-	board[core.H4] = core.Square{Occupied: true, Piece: core.Piece{Type: core.QUEEN, Color: core.BLACK}}
+	board[core.D8] = core.EmptySquare
+	board[core.H4] = core.NewSquare(core.Piece{Type: core.QUEEN, Color: core.BLACK})
 
 	return core.TurnContext{
 		MoveContext: core.MoveContext{
@@ -80,9 +72,9 @@ func benchFoolsMate() core.TurnContext {
 
 func benchStalemate() core.TurnContext {
 	var board core.Board
-	board[core.A8] = core.Square{Occupied: true, Piece: core.Piece{Type: core.KING, Color: core.BLACK}}
-	board[core.C7] = core.Square{Occupied: true, Piece: core.Piece{Type: core.QUEEN, Color: core.WHITE}}
-	board[core.C6] = core.Square{Occupied: true, Piece: core.Piece{Type: core.KING, Color: core.WHITE}}
+	board[core.A8] = core.NewSquare(core.Piece{Type: core.KING, Color: core.BLACK})
+	board[core.C7] = core.NewSquare(core.Piece{Type: core.QUEEN, Color: core.WHITE})
+	board[core.C6] = core.NewSquare(core.Piece{Type: core.KING, Color: core.WHITE})
 
 	return core.TurnContext{
 		MoveContext: core.MoveContext{
@@ -99,7 +91,7 @@ func benchStalemate() core.TurnContext {
 func benchKiwipete() core.TurnContext {
 	var board core.Board
 	place := func(file core.File, rank core.Rank, p core.Piece) {
-		board[core.NewPosition(file, rank)] = core.Square{Occupied: true, Piece: p}
+		board[core.NewPosition(file, rank)] = core.NewSquare(p)
 	}
 
 	place(core.FILE_A, core.RANK_8, core.Piece{Type: core.ROOK, Color: core.BLACK})
@@ -156,9 +148,9 @@ func benchKiwipete() core.TurnContext {
 
 func benchEndgame() core.TurnContext {
 	var board core.Board
-	board[core.H1] = core.Square{Occupied: true, Piece: core.Piece{Type: core.KING, Color: core.WHITE}}
-	board[core.A3] = core.Square{Occupied: true, Piece: core.Piece{Type: core.ROOK, Color: core.WHITE}}
-	board[core.H8] = core.Square{Occupied: true, Piece: core.Piece{Type: core.KING, Color: core.BLACK}}
+	board[core.H1] = core.NewSquare(core.Piece{Type: core.KING, Color: core.WHITE})
+	board[core.A3] = core.NewSquare(core.Piece{Type: core.ROOK, Color: core.WHITE})
+	board[core.H8] = core.NewSquare(core.Piece{Type: core.KING, Color: core.BLACK})
 
 	return core.TurnContext{
 		MoveContext: core.MoveContext{
@@ -174,7 +166,7 @@ func benchEndgame() core.TurnContext {
 
 func benchEmptyBoard() core.TurnContext {
 	var board core.Board
-	board[core.E4] = core.Square{Occupied: true, Piece: core.Piece{Type: core.KING, Color: core.WHITE}}
+	board[core.E4] = core.NewSquare(core.Piece{Type: core.KING, Color: core.WHITE})
 	return core.TurnContext{
 		MoveContext: core.MoveContext{
 			BoardContext: core.BoardContext{Board: &board},
@@ -189,8 +181,8 @@ func benchEmptyBoard() core.TurnContext {
 
 func benchAttackedSquare() core.TurnContext {
 	var board core.Board
-	board[core.E4] = core.Square{Occupied: true, Piece: core.Piece{Type: core.KING, Color: core.WHITE}}
-	board[core.E8] = core.Square{Occupied: true, Piece: core.Piece{Type: core.ROOK, Color: core.BLACK}}
+	board[core.E4] = core.NewSquare(core.Piece{Type: core.KING, Color: core.WHITE})
+	board[core.E8] = core.NewSquare(core.Piece{Type: core.ROOK, Color: core.BLACK})
 	return core.TurnContext{
 		MoveContext: core.MoveContext{
 			BoardContext: core.BoardContext{Board: &board},
@@ -501,8 +493,8 @@ func BenchmarkApply_NormalKnightMove(b *testing.B) {
 func BenchmarkApply_Capture(b *testing.B) {
 	engine := NewDefaultEngine()
 	var board core.Board
-	board[core.E4] = core.Square{Occupied: true, Piece: core.Piece{Type: core.PAWN, Color: core.WHITE}}
-	board[core.D5] = core.Square{Occupied: true, Piece: core.Piece{Type: core.PAWN, Color: core.BLACK}}
+	board[core.E4] = core.NewSquare(core.Piece{Type: core.PAWN, Color: core.WHITE})
+	board[core.D5] = core.NewSquare(core.Piece{Type: core.PAWN, Color: core.BLACK})
 	base := core.TurnContext{
 		MoveContext: core.MoveContext{
 			BoardContext: core.BoardContext{Board: &board},
@@ -531,8 +523,8 @@ func BenchmarkApply_Capture(b *testing.B) {
 func BenchmarkApply_EnPassant(b *testing.B) {
 	engine := NewDefaultEngine()
 	var board core.Board
-	board[core.D5] = core.Square{Occupied: true, Piece: core.Piece{Type: core.PAWN, Color: core.WHITE}}
-	board[core.E5] = core.Square{Occupied: true, Piece: core.Piece{Type: core.PAWN, Color: core.BLACK}}
+	board[core.D5] = core.NewSquare(core.Piece{Type: core.PAWN, Color: core.WHITE})
+	board[core.E5] = core.NewSquare(core.Piece{Type: core.PAWN, Color: core.BLACK})
 	base := core.TurnContext{
 		MoveContext: core.MoveContext{
 			BoardContext:    core.BoardContext{Board: &board},
@@ -562,8 +554,8 @@ func BenchmarkApply_EnPassant(b *testing.B) {
 func BenchmarkApply_CastlingKingSide(b *testing.B) {
 	engine := NewDefaultEngine()
 	var board core.Board
-	board[core.E1] = core.Square{Occupied: true, Piece: core.Piece{Type: core.KING, Color: core.WHITE}}
-	board[core.H1] = core.Square{Occupied: true, Piece: core.Piece{Type: core.ROOK, Color: core.WHITE}}
+	board[core.E1] = core.NewSquare(core.Piece{Type: core.KING, Color: core.WHITE})
+	board[core.H1] = core.NewSquare(core.Piece{Type: core.ROOK, Color: core.WHITE})
 	base := core.TurnContext{
 		MoveContext: core.MoveContext{
 			BoardContext: core.BoardContext{Board: &board},
@@ -590,8 +582,8 @@ func BenchmarkApply_CastlingKingSide(b *testing.B) {
 func BenchmarkApply_CastlingQueenSide(b *testing.B) {
 	engine := NewDefaultEngine()
 	var board core.Board
-	board[core.E1] = core.Square{Occupied: true, Piece: core.Piece{Type: core.KING, Color: core.WHITE}}
-	board[core.A1] = core.Square{Occupied: true, Piece: core.Piece{Type: core.ROOK, Color: core.WHITE}}
+	board[core.E1] = core.NewSquare(core.Piece{Type: core.KING, Color: core.WHITE})
+	board[core.A1] = core.NewSquare(core.Piece{Type: core.ROOK, Color: core.WHITE})
 	base := core.TurnContext{
 		MoveContext: core.MoveContext{
 			BoardContext: core.BoardContext{Board: &board},
@@ -618,7 +610,7 @@ func BenchmarkApply_CastlingQueenSide(b *testing.B) {
 func BenchmarkApply_Promotion(b *testing.B) {
 	engine := NewDefaultEngine()
 	var board core.Board
-	board[core.E7] = core.Square{Occupied: true, Piece: core.Piece{Type: core.PAWN, Color: core.WHITE}}
+	board[core.E7] = core.NewSquare(core.Piece{Type: core.PAWN, Color: core.WHITE})
 	base := core.TurnContext{
 		MoveContext: core.MoveContext{
 			BoardContext: core.BoardContext{Board: &board},
@@ -700,8 +692,8 @@ func BenchmarkUndo_NormalKnightMove(b *testing.B) {
 func BenchmarkUndo_Capture(b *testing.B) {
 	engine := NewDefaultEngine()
 	var board core.Board
-	board[core.E4] = core.Square{Occupied: true, Piece: core.Piece{Type: core.PAWN, Color: core.WHITE}}
-	board[core.D5] = core.Square{Occupied: true, Piece: core.Piece{Type: core.PAWN, Color: core.BLACK}}
+	board[core.E4] = core.NewSquare(core.Piece{Type: core.PAWN, Color: core.WHITE})
+	board[core.D5] = core.NewSquare(core.Piece{Type: core.PAWN, Color: core.BLACK})
 	base := core.TurnContext{
 		MoveContext: core.MoveContext{
 			BoardContext: core.BoardContext{Board: &board},
@@ -731,8 +723,8 @@ func BenchmarkUndo_Capture(b *testing.B) {
 func BenchmarkUndo_EnPassant(b *testing.B) {
 	engine := NewDefaultEngine()
 	var board core.Board
-	board[core.D5] = core.Square{Occupied: true, Piece: core.Piece{Type: core.PAWN, Color: core.WHITE}}
-	board[core.E5] = core.Square{Occupied: true, Piece: core.Piece{Type: core.PAWN, Color: core.BLACK}}
+	board[core.D5] = core.NewSquare(core.Piece{Type: core.PAWN, Color: core.WHITE})
+	board[core.E5] = core.NewSquare(core.Piece{Type: core.PAWN, Color: core.BLACK})
 	base := core.TurnContext{
 		MoveContext: core.MoveContext{
 			BoardContext:    core.BoardContext{Board: &board},
@@ -763,8 +755,8 @@ func BenchmarkUndo_EnPassant(b *testing.B) {
 func BenchmarkUndo_CastlingKingSide(b *testing.B) {
 	engine := NewDefaultEngine()
 	var board core.Board
-	board[core.E1] = core.Square{Occupied: true, Piece: core.Piece{Type: core.KING, Color: core.WHITE}}
-	board[core.H1] = core.Square{Occupied: true, Piece: core.Piece{Type: core.ROOK, Color: core.WHITE}}
+	board[core.E1] = core.NewSquare(core.Piece{Type: core.KING, Color: core.WHITE})
+	board[core.H1] = core.NewSquare(core.Piece{Type: core.ROOK, Color: core.WHITE})
 	base := core.TurnContext{
 		MoveContext: core.MoveContext{
 			BoardContext: core.BoardContext{Board: &board},
@@ -792,7 +784,7 @@ func BenchmarkUndo_CastlingKingSide(b *testing.B) {
 func BenchmarkUndo_Promotion(b *testing.B) {
 	engine := NewDefaultEngine()
 	var board core.Board
-	board[core.E7] = core.Square{Occupied: true, Piece: core.Piece{Type: core.PAWN, Color: core.WHITE}}
+	board[core.E7] = core.NewSquare(core.Piece{Type: core.PAWN, Color: core.WHITE})
 	base := core.TurnContext{
 		MoveContext: core.MoveContext{
 			BoardContext: core.BoardContext{Board: &board},
@@ -859,8 +851,8 @@ func BenchmarkApplyUndo_KnightMove(b *testing.B) {
 func BenchmarkApplyUndo_Castling(b *testing.B) {
 	engine := NewDefaultEngine()
 	var board core.Board
-	board[core.E1] = core.Square{Occupied: true, Piece: core.Piece{Type: core.KING, Color: core.WHITE}}
-	board[core.H1] = core.Square{Occupied: true, Piece: core.Piece{Type: core.ROOK, Color: core.WHITE}}
+	board[core.E1] = core.NewSquare(core.Piece{Type: core.KING, Color: core.WHITE})
+	board[core.H1] = core.NewSquare(core.Piece{Type: core.ROOK, Color: core.WHITE})
 	base := core.TurnContext{
 		MoveContext: core.MoveContext{
 			BoardContext: core.BoardContext{Board: &board},

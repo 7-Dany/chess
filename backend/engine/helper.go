@@ -30,7 +30,7 @@ func moveRook(ctx *core.TurnContext, rank core.Rank, from, to core.File) {
 	toPos := core.NewPosition(to, rank)
 
 	ctx.Board[toPos] = ctx.Board[fromPos]
-	ctx.Board[fromPos] = core.Square{}
+	ctx.Board.Clear(fromPos)
 }
 
 // clearCastlingRightByFile clears the castling right associated with a home file.

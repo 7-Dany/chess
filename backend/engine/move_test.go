@@ -59,9 +59,9 @@ func TestGetLegalMoves(t *testing.T) {
 		{
 			name: "pinned rook can only move along pin lines",
 			setupBoard: func(b *core.Board) {
-				b[core.E1] = core.Square{Piece: core.Piece{Type: core.KING, Color: core.WHITE}, Occupied: true}
-				b[core.E2] = core.Square{Piece: core.Piece{Type: core.ROOK, Color: core.WHITE}, Occupied: true}
-				b[core.E8] = core.Square{Piece: core.Piece{Type: core.ROOK, Color: core.BLACK}, Occupied: true}
+				b[core.E1] = core.NewSquare(core.Piece{Type: core.KING, Color: core.WHITE})
+				b[core.E2] = core.NewSquare(core.Piece{Type: core.ROOK, Color: core.WHITE})
+				b[core.E8] = core.NewSquare(core.Piece{Type: core.ROOK, Color: core.BLACK})
 			},
 			sideToMove: core.WHITE,
 			sides:      defaultSides,
@@ -77,10 +77,10 @@ func TestGetLegalMoves(t *testing.T) {
 		{
 			name: "pinned bishop has no legal moves",
 			setupBoard: func(b *core.Board) {
-				b[core.E1] = core.Square{Piece: core.Piece{Type: core.KING, Color: core.WHITE}, Occupied: true}
-				b[core.E2] = core.Square{Piece: core.Piece{Type: core.BISHOP, Color: core.WHITE}, Occupied: true}
-				b[core.E8] = core.Square{Piece: core.Piece{Type: core.ROOK, Color: core.BLACK}, Occupied: true}
-				b[core.H8] = core.Square{Piece: core.Piece{Type: core.KING, Color: core.BLACK}, Occupied: true}
+				b[core.E1] = core.NewSquare(core.Piece{Type: core.KING, Color: core.WHITE})
+				b[core.E2] = core.NewSquare(core.Piece{Type: core.BISHOP, Color: core.WHITE})
+				b[core.E8] = core.NewSquare(core.Piece{Type: core.ROOK, Color: core.BLACK})
+				b[core.H8] = core.NewSquare(core.Piece{Type: core.KING, Color: core.BLACK})
 			},
 			sideToMove: core.WHITE,
 			sides: [2]core.SideState{
@@ -93,8 +93,8 @@ func TestGetLegalMoves(t *testing.T) {
 		{
 			name: "king in check on E-file must escape sideways",
 			setupBoard: func(b *core.Board) {
-				b[core.E1] = core.Square{Piece: core.Piece{Type: core.KING, Color: core.WHITE}, Occupied: true}
-				b[core.E8] = core.Square{Piece: core.Piece{Type: core.ROOK, Color: core.BLACK}, Occupied: true}
+				b[core.E1] = core.NewSquare(core.Piece{Type: core.KING, Color: core.WHITE})
+				b[core.E8] = core.NewSquare(core.Piece{Type: core.ROOK, Color: core.BLACK})
 			},
 			sideToMove: core.WHITE,
 			sides:      defaultSides,
@@ -112,8 +112,8 @@ func TestGetLegalMoves(t *testing.T) {
 		{
 			name: "king in check on rank 1 cannot stay on rank",
 			setupBoard: func(b *core.Board) {
-				b[core.E1] = core.Square{Piece: core.Piece{Type: core.KING, Color: core.WHITE}, Occupied: true}
-				b[core.A1] = core.Square{Piece: core.Piece{Type: core.ROOK, Color: core.BLACK}, Occupied: true}
+				b[core.E1] = core.NewSquare(core.Piece{Type: core.KING, Color: core.WHITE})
+				b[core.A1] = core.NewSquare(core.Piece{Type: core.ROOK, Color: core.BLACK})
 			},
 			sideToMove: core.WHITE,
 			sides:      defaultSides,
@@ -130,9 +130,9 @@ func TestGetLegalMoves(t *testing.T) {
 		{
 			name: "king can capture undefended checker",
 			setupBoard: func(b *core.Board) {
-				b[core.E4] = core.Square{Piece: core.Piece{Type: core.KING, Color: core.WHITE}, Occupied: true}
-				b[core.E5] = core.Square{Piece: core.Piece{Type: core.ROOK, Color: core.BLACK}, Occupied: true}
-				b[core.E8] = core.Square{Piece: core.Piece{Type: core.KING, Color: core.BLACK}, Occupied: true}
+				b[core.E4] = core.NewSquare(core.Piece{Type: core.KING, Color: core.WHITE})
+				b[core.E5] = core.NewSquare(core.Piece{Type: core.ROOK, Color: core.BLACK})
+				b[core.E8] = core.NewSquare(core.Piece{Type: core.KING, Color: core.BLACK})
 			},
 			sideToMove: core.WHITE,
 			sides: [2]core.SideState{
@@ -155,10 +155,10 @@ func TestGetLegalMoves(t *testing.T) {
 		{
 			name: "king cannot capture defended checker",
 			setupBoard: func(b *core.Board) {
-				b[core.E4] = core.Square{Piece: core.Piece{Type: core.KING, Color: core.WHITE}, Occupied: true}
-				b[core.E5] = core.Square{Piece: core.Piece{Type: core.ROOK, Color: core.BLACK}, Occupied: true}
-				b[core.D6] = core.Square{Piece: core.Piece{Type: core.PAWN, Color: core.BLACK}, Occupied: true}
-				b[core.E8] = core.Square{Piece: core.Piece{Type: core.KING, Color: core.BLACK}, Occupied: true}
+				b[core.E4] = core.NewSquare(core.Piece{Type: core.KING, Color: core.WHITE})
+				b[core.E5] = core.NewSquare(core.Piece{Type: core.ROOK, Color: core.BLACK})
+				b[core.D6] = core.NewSquare(core.Piece{Type: core.PAWN, Color: core.BLACK})
+				b[core.E8] = core.NewSquare(core.Piece{Type: core.KING, Color: core.BLACK})
 			},
 			sideToMove: core.WHITE,
 			sides: [2]core.SideState{
@@ -181,10 +181,10 @@ func TestGetLegalMoves(t *testing.T) {
 		{
 			name: "king cannot capture defended adjacent piece",
 			setupBoard: func(b *core.Board) {
-				b[core.E1] = core.Square{Piece: core.Piece{Type: core.KING, Color: core.WHITE}, Occupied: true}
-				b[core.D2] = core.Square{Piece: core.Piece{Type: core.KNIGHT, Color: core.BLACK}, Occupied: true}
-				b[core.C3] = core.Square{Piece: core.Piece{Type: core.PAWN, Color: core.BLACK}, Occupied: true}
-				b[core.E8] = core.Square{Piece: core.Piece{Type: core.KING, Color: core.BLACK}, Occupied: true}
+				b[core.E1] = core.NewSquare(core.Piece{Type: core.KING, Color: core.WHITE})
+				b[core.D2] = core.NewSquare(core.Piece{Type: core.KNIGHT, Color: core.BLACK})
+				b[core.C3] = core.NewSquare(core.Piece{Type: core.PAWN, Color: core.BLACK})
+				b[core.E8] = core.NewSquare(core.Piece{Type: core.KING, Color: core.BLACK})
 			},
 			sideToMove: core.WHITE,
 			sides: [2]core.SideState{
@@ -204,8 +204,8 @@ func TestGetLegalMoves(t *testing.T) {
 		{
 			name: "king cannot move adjacent to enemy king",
 			setupBoard: func(b *core.Board) {
-				b[core.E4] = core.Square{Piece: core.Piece{Type: core.KING, Color: core.WHITE}, Occupied: true}
-				b[core.E6] = core.Square{Piece: core.Piece{Type: core.KING, Color: core.BLACK}, Occupied: true}
+				b[core.E4] = core.NewSquare(core.Piece{Type: core.KING, Color: core.WHITE})
+				b[core.E6] = core.NewSquare(core.Piece{Type: core.KING, Color: core.BLACK})
 			},
 			sideToMove: core.WHITE,
 			sides: [2]core.SideState{
@@ -228,10 +228,10 @@ func TestGetLegalMoves(t *testing.T) {
 		{
 			name: "knight can block check by interposing",
 			setupBoard: func(b *core.Board) {
-				b[core.E1] = core.Square{Piece: core.Piece{Type: core.KING, Color: core.WHITE}, Occupied: true}
-				b[core.D6] = core.Square{Piece: core.Piece{Type: core.KNIGHT, Color: core.WHITE}, Occupied: true}
-				b[core.E8] = core.Square{Piece: core.Piece{Type: core.ROOK, Color: core.BLACK}, Occupied: true}
-				b[core.H8] = core.Square{Piece: core.Piece{Type: core.KING, Color: core.BLACK}, Occupied: true}
+				b[core.E1] = core.NewSquare(core.Piece{Type: core.KING, Color: core.WHITE})
+				b[core.D6] = core.NewSquare(core.Piece{Type: core.KNIGHT, Color: core.WHITE})
+				b[core.E8] = core.NewSquare(core.Piece{Type: core.ROOK, Color: core.BLACK})
+				b[core.H8] = core.NewSquare(core.Piece{Type: core.KING, Color: core.BLACK})
 			},
 			sideToMove: core.WHITE,
 			sides: [2]core.SideState{
@@ -251,10 +251,10 @@ func TestGetLegalMoves(t *testing.T) {
 		{
 			name: "knight can capture checker or interpose to resolve check",
 			setupBoard: func(b *core.Board) {
-				b[core.E1] = core.Square{Piece: core.Piece{Type: core.KING, Color: core.WHITE}, Occupied: true}
-				b[core.C7] = core.Square{Piece: core.Piece{Type: core.KNIGHT, Color: core.WHITE}, Occupied: true}
-				b[core.E8] = core.Square{Piece: core.Piece{Type: core.ROOK, Color: core.BLACK}, Occupied: true}
-				b[core.H8] = core.Square{Piece: core.Piece{Type: core.KING, Color: core.BLACK}, Occupied: true}
+				b[core.E1] = core.NewSquare(core.Piece{Type: core.KING, Color: core.WHITE})
+				b[core.C7] = core.NewSquare(core.Piece{Type: core.KNIGHT, Color: core.WHITE})
+				b[core.E8] = core.NewSquare(core.Piece{Type: core.ROOK, Color: core.BLACK})
+				b[core.H8] = core.NewSquare(core.Piece{Type: core.KING, Color: core.BLACK})
 			},
 			sideToMove: core.WHITE,
 			sides: [2]core.SideState{
@@ -273,11 +273,11 @@ func TestGetLegalMoves(t *testing.T) {
 		{
 			name: "en passant exposing king on the rank is illegal",
 			setupBoard: func(b *core.Board) {
-				b[core.H5] = core.Square{Piece: core.Piece{Type: core.KING, Color: core.WHITE}, Occupied: true}
-				b[core.F5] = core.Square{Piece: core.Piece{Type: core.PAWN, Color: core.WHITE}, Occupied: true}
-				b[core.E5] = core.Square{Piece: core.Piece{Type: core.PAWN, Color: core.BLACK}, Occupied: true}
-				b[core.A5] = core.Square{Piece: core.Piece{Type: core.ROOK, Color: core.BLACK}, Occupied: true}
-				b[core.E8] = core.Square{Piece: core.Piece{Type: core.KING, Color: core.BLACK}, Occupied: true}
+				b[core.H5] = core.NewSquare(core.Piece{Type: core.KING, Color: core.WHITE})
+				b[core.F5] = core.NewSquare(core.Piece{Type: core.PAWN, Color: core.WHITE})
+				b[core.E5] = core.NewSquare(core.Piece{Type: core.PAWN, Color: core.BLACK})
+				b[core.A5] = core.NewSquare(core.Piece{Type: core.ROOK, Color: core.BLACK})
+				b[core.E8] = core.NewSquare(core.Piece{Type: core.KING, Color: core.BLACK})
 			},
 			sideToMove: core.WHITE,
 			sides: [2]core.SideState{
@@ -295,10 +295,10 @@ func TestGetLegalMoves(t *testing.T) {
 		{
 			name: "promotion push blocked by check is filtered",
 			setupBoard: func(b *core.Board) {
-				b[core.E1] = core.Square{Piece: core.Piece{Type: core.KING, Color: core.WHITE}, Occupied: true}
-				b[core.D7] = core.Square{Piece: core.Piece{Type: core.PAWN, Color: core.WHITE}, Occupied: true}
-				b[core.E8] = core.Square{Piece: core.Piece{Type: core.ROOK, Color: core.BLACK}, Occupied: true}
-				b[core.H8] = core.Square{Piece: core.Piece{Type: core.KING, Color: core.BLACK}, Occupied: true}
+				b[core.E1] = core.NewSquare(core.Piece{Type: core.KING, Color: core.WHITE})
+				b[core.D7] = core.NewSquare(core.Piece{Type: core.PAWN, Color: core.WHITE})
+				b[core.E8] = core.NewSquare(core.Piece{Type: core.ROOK, Color: core.BLACK})
+				b[core.H8] = core.NewSquare(core.Piece{Type: core.KING, Color: core.BLACK})
 			},
 			sideToMove: core.WHITE,
 			sides: [2]core.SideState{
@@ -317,10 +317,10 @@ func TestGetLegalMoves(t *testing.T) {
 		{
 			name: "castling available when all conditions met",
 			setupBoard: func(b *core.Board) {
-				b[core.E1] = core.Square{Piece: core.Piece{Type: core.KING, Color: core.WHITE}, Occupied: true}
-				b[core.A1] = core.Square{Piece: core.Piece{Type: core.ROOK, Color: core.WHITE}, Occupied: true}
-				b[core.H1] = core.Square{Piece: core.Piece{Type: core.ROOK, Color: core.WHITE}, Occupied: true}
-				b[core.E8] = core.Square{Piece: core.Piece{Type: core.KING, Color: core.BLACK}, Occupied: true}
+				b[core.E1] = core.NewSquare(core.Piece{Type: core.KING, Color: core.WHITE})
+				b[core.A1] = core.NewSquare(core.Piece{Type: core.ROOK, Color: core.WHITE})
+				b[core.H1] = core.NewSquare(core.Piece{Type: core.ROOK, Color: core.WHITE})
+				b[core.E8] = core.NewSquare(core.Piece{Type: core.KING, Color: core.BLACK})
 			},
 			sideToMove: core.WHITE,
 			sides:      defaultSides,
@@ -336,10 +336,10 @@ func TestGetLegalMoves(t *testing.T) {
 		{
 			name: "castling removed when king in check",
 			setupBoard: func(b *core.Board) {
-				b[core.E1] = core.Square{Piece: core.Piece{Type: core.KING, Color: core.WHITE}, Occupied: true}
-				b[core.A1] = core.Square{Piece: core.Piece{Type: core.ROOK, Color: core.WHITE}, Occupied: true}
-				b[core.H1] = core.Square{Piece: core.Piece{Type: core.ROOK, Color: core.WHITE}, Occupied: true}
-				b[core.E8] = core.Square{Piece: core.Piece{Type: core.ROOK, Color: core.BLACK}, Occupied: true}
+				b[core.E1] = core.NewSquare(core.Piece{Type: core.KING, Color: core.WHITE})
+				b[core.A1] = core.NewSquare(core.Piece{Type: core.ROOK, Color: core.WHITE})
+				b[core.H1] = core.NewSquare(core.Piece{Type: core.ROOK, Color: core.WHITE})
+				b[core.E8] = core.NewSquare(core.Piece{Type: core.ROOK, Color: core.BLACK})
 			},
 			sideToMove: core.WHITE,
 			sides:      defaultSides,
@@ -353,11 +353,11 @@ func TestGetLegalMoves(t *testing.T) {
 		{
 			name: "king-side castling removed when F1 occupied",
 			setupBoard: func(b *core.Board) {
-				b[core.E1] = core.Square{Piece: core.Piece{Type: core.KING, Color: core.WHITE}, Occupied: true}
-				b[core.A1] = core.Square{Piece: core.Piece{Type: core.ROOK, Color: core.WHITE}, Occupied: true}
-				b[core.H1] = core.Square{Piece: core.Piece{Type: core.ROOK, Color: core.WHITE}, Occupied: true}
-				b[core.F1] = core.Square{Piece: core.Piece{Type: core.BISHOP, Color: core.WHITE}, Occupied: true}
-				b[core.E8] = core.Square{Piece: core.Piece{Type: core.KING, Color: core.BLACK}, Occupied: true}
+				b[core.E1] = core.NewSquare(core.Piece{Type: core.KING, Color: core.WHITE})
+				b[core.A1] = core.NewSquare(core.Piece{Type: core.ROOK, Color: core.WHITE})
+				b[core.H1] = core.NewSquare(core.Piece{Type: core.ROOK, Color: core.WHITE})
+				b[core.F1] = core.NewSquare(core.Piece{Type: core.BISHOP, Color: core.WHITE})
+				b[core.E8] = core.NewSquare(core.Piece{Type: core.KING, Color: core.BLACK})
 			},
 			sideToMove: core.WHITE,
 			sides:      defaultSides,
@@ -372,11 +372,11 @@ func TestGetLegalMoves(t *testing.T) {
 		{
 			name: "king-side castling removed when F1 attacked",
 			setupBoard: func(b *core.Board) {
-				b[core.E1] = core.Square{Piece: core.Piece{Type: core.KING, Color: core.WHITE}, Occupied: true}
-				b[core.A1] = core.Square{Piece: core.Piece{Type: core.ROOK, Color: core.WHITE}, Occupied: true}
-				b[core.H1] = core.Square{Piece: core.Piece{Type: core.ROOK, Color: core.WHITE}, Occupied: true}
-				b[core.F8] = core.Square{Piece: core.Piece{Type: core.ROOK, Color: core.BLACK}, Occupied: true}
-				b[core.E8] = core.Square{Piece: core.Piece{Type: core.KING, Color: core.BLACK}, Occupied: true}
+				b[core.E1] = core.NewSquare(core.Piece{Type: core.KING, Color: core.WHITE})
+				b[core.A1] = core.NewSquare(core.Piece{Type: core.ROOK, Color: core.WHITE})
+				b[core.H1] = core.NewSquare(core.Piece{Type: core.ROOK, Color: core.WHITE})
+				b[core.F8] = core.NewSquare(core.Piece{Type: core.ROOK, Color: core.BLACK})
+				b[core.E8] = core.NewSquare(core.Piece{Type: core.KING, Color: core.BLACK})
 			},
 			sideToMove: core.WHITE,
 			sides:      defaultSides,
@@ -393,10 +393,10 @@ func TestGetLegalMoves(t *testing.T) {
 		{
 			name: "no castling when rights lost",
 			setupBoard: func(b *core.Board) {
-				b[core.E1] = core.Square{Piece: core.Piece{Type: core.KING, Color: core.WHITE}, Occupied: true}
-				b[core.A1] = core.Square{Piece: core.Piece{Type: core.ROOK, Color: core.WHITE}, Occupied: true}
-				b[core.H1] = core.Square{Piece: core.Piece{Type: core.ROOK, Color: core.WHITE}, Occupied: true}
-				b[core.E8] = core.Square{Piece: core.Piece{Type: core.KING, Color: core.BLACK}, Occupied: true}
+				b[core.E1] = core.NewSquare(core.Piece{Type: core.KING, Color: core.WHITE})
+				b[core.A1] = core.NewSquare(core.Piece{Type: core.ROOK, Color: core.WHITE})
+				b[core.H1] = core.NewSquare(core.Piece{Type: core.ROOK, Color: core.WHITE})
+				b[core.E8] = core.NewSquare(core.Piece{Type: core.KING, Color: core.BLACK})
 			},
 			sideToMove: core.WHITE,
 			sides:      noRights,
@@ -410,9 +410,9 @@ func TestGetLegalMoves(t *testing.T) {
 		{
 			name: "non-king piece never gets castling moves",
 			setupBoard: func(b *core.Board) {
-				b[core.B1] = core.Square{Piece: core.Piece{Type: core.KNIGHT, Color: core.WHITE}, Occupied: true}
-				b[core.E1] = core.Square{Piece: core.Piece{Type: core.KING, Color: core.WHITE}, Occupied: true}
-				b[core.E8] = core.Square{Piece: core.Piece{Type: core.KING, Color: core.BLACK}, Occupied: true}
+				b[core.B1] = core.NewSquare(core.Piece{Type: core.KNIGHT, Color: core.WHITE})
+				b[core.E1] = core.NewSquare(core.Piece{Type: core.KING, Color: core.WHITE})
+				b[core.E8] = core.NewSquare(core.Piece{Type: core.KING, Color: core.BLACK})
 			},
 			sideToMove: core.WHITE,
 			sides:      defaultSides,
@@ -465,9 +465,9 @@ func TestHasAnyLegalMoves(t *testing.T) {
 		{
 			name: "side with moves returns true",
 			setupBoard: func(b *core.Board) {
-				b[core.E1] = core.Square{Piece: core.Piece{Type: core.KING, Color: core.WHITE}, Occupied: true}
-				b[core.B1] = core.Square{Piece: core.Piece{Type: core.KNIGHT, Color: core.WHITE}, Occupied: true}
-				b[core.E8] = core.Square{Piece: core.Piece{Type: core.KING, Color: core.BLACK}, Occupied: true}
+				b[core.E1] = core.NewSquare(core.Piece{Type: core.KING, Color: core.WHITE})
+				b[core.B1] = core.NewSquare(core.Piece{Type: core.KNIGHT, Color: core.WHITE})
+				b[core.E8] = core.NewSquare(core.Piece{Type: core.KING, Color: core.BLACK})
 			},
 			sideToMove: core.WHITE,
 			sides:      defaultSides,
@@ -476,9 +476,9 @@ func TestHasAnyLegalMoves(t *testing.T) {
 		{
 			name: "checkmate returns false",
 			setupBoard: func(b *core.Board) {
-				b[core.H8] = core.Square{Piece: core.Piece{Type: core.KING, Color: core.BLACK}, Occupied: true}
-				b[core.G7] = core.Square{Piece: core.Piece{Type: core.QUEEN, Color: core.WHITE}, Occupied: true}
-				b[core.F6] = core.Square{Piece: core.Piece{Type: core.KING, Color: core.WHITE}, Occupied: true}
+				b[core.H8] = core.NewSquare(core.Piece{Type: core.KING, Color: core.BLACK})
+				b[core.G7] = core.NewSquare(core.Piece{Type: core.QUEEN, Color: core.WHITE})
+				b[core.F6] = core.NewSquare(core.Piece{Type: core.KING, Color: core.WHITE})
 			},
 			sideToMove: core.BLACK,
 			sides: [2]core.SideState{
@@ -490,9 +490,9 @@ func TestHasAnyLegalMoves(t *testing.T) {
 		{
 			name: "stalemate returns false",
 			setupBoard: func(b *core.Board) {
-				b[core.A1] = core.Square{Piece: core.Piece{Type: core.KING, Color: core.BLACK}, Occupied: true}
-				b[core.B3] = core.Square{Piece: core.Piece{Type: core.QUEEN, Color: core.WHITE}, Occupied: true}
-				b[core.C2] = core.Square{Piece: core.Piece{Type: core.KING, Color: core.WHITE}, Occupied: true}
+				b[core.A1] = core.NewSquare(core.Piece{Type: core.KING, Color: core.BLACK})
+				b[core.B3] = core.NewSquare(core.Piece{Type: core.QUEEN, Color: core.WHITE})
+				b[core.C2] = core.NewSquare(core.Piece{Type: core.KING, Color: core.WHITE})
 			},
 			sideToMove: core.BLACK,
 			sides: [2]core.SideState{
@@ -504,9 +504,9 @@ func TestHasAnyLegalMoves(t *testing.T) {
 		{
 			name: "only checks side-to-move pieces (white stalemated, black has moves)",
 			setupBoard: func(b *core.Board) {
-				b[core.A1] = core.Square{Piece: core.Piece{Type: core.KING, Color: core.WHITE}, Occupied: true}
-				b[core.B3] = core.Square{Piece: core.Piece{Type: core.QUEEN, Color: core.BLACK}, Occupied: true}
-				b[core.C2] = core.Square{Piece: core.Piece{Type: core.KING, Color: core.BLACK}, Occupied: true}
+				b[core.A1] = core.NewSquare(core.Piece{Type: core.KING, Color: core.WHITE})
+				b[core.B3] = core.NewSquare(core.Piece{Type: core.QUEEN, Color: core.BLACK})
+				b[core.C2] = core.NewSquare(core.Piece{Type: core.KING, Color: core.BLACK})
 			},
 			sideToMove: core.WHITE,
 			sides: [2]core.SideState{
@@ -518,9 +518,9 @@ func TestHasAnyLegalMoves(t *testing.T) {
 		{
 			name: "same board, black to move has moves",
 			setupBoard: func(b *core.Board) {
-				b[core.A1] = core.Square{Piece: core.Piece{Type: core.KING, Color: core.WHITE}, Occupied: true}
-				b[core.B3] = core.Square{Piece: core.Piece{Type: core.QUEEN, Color: core.BLACK}, Occupied: true}
-				b[core.C2] = core.Square{Piece: core.Piece{Type: core.KING, Color: core.BLACK}, Occupied: true}
+				b[core.A1] = core.NewSquare(core.Piece{Type: core.KING, Color: core.WHITE})
+				b[core.B3] = core.NewSquare(core.Piece{Type: core.QUEEN, Color: core.BLACK})
+				b[core.C2] = core.NewSquare(core.Piece{Type: core.KING, Color: core.BLACK})
 			},
 			sideToMove: core.BLACK,
 			sides: [2]core.SideState{
@@ -532,7 +532,7 @@ func TestHasAnyLegalMoves(t *testing.T) {
 		{
 			name: "no pieces for side to move returns false",
 			setupBoard: func(b *core.Board) {
-				b[core.E8] = core.Square{Piece: core.Piece{Type: core.KING, Color: core.BLACK}, Occupied: true}
+				b[core.E8] = core.NewSquare(core.Piece{Type: core.KING, Color: core.BLACK})
 			},
 			sideToMove: core.WHITE,
 			sides: [2]core.SideState{
@@ -544,11 +544,11 @@ func TestHasAnyLegalMoves(t *testing.T) {
 		{
 			name: "first piece blocked, second piece has moves",
 			setupBoard: func(b *core.Board) {
-				b[core.E1] = core.Square{Piece: core.Piece{Type: core.KING, Color: core.WHITE}, Occupied: true}
-				b[core.A2] = core.Square{Piece: core.Piece{Type: core.PAWN, Color: core.WHITE}, Occupied: true}
-				b[core.A3] = core.Square{Piece: core.Piece{Type: core.PAWN, Color: core.WHITE}, Occupied: true}
-				b[core.B1] = core.Square{Piece: core.Piece{Type: core.KNIGHT, Color: core.WHITE}, Occupied: true}
-				b[core.E8] = core.Square{Piece: core.Piece{Type: core.KING, Color: core.BLACK}, Occupied: true}
+				b[core.E1] = core.NewSquare(core.Piece{Type: core.KING, Color: core.WHITE})
+				b[core.A2] = core.NewSquare(core.Piece{Type: core.PAWN, Color: core.WHITE})
+				b[core.A3] = core.NewSquare(core.Piece{Type: core.PAWN, Color: core.WHITE})
+				b[core.B1] = core.NewSquare(core.Piece{Type: core.KNIGHT, Color: core.WHITE})
+				b[core.E8] = core.NewSquare(core.Piece{Type: core.KING, Color: core.BLACK})
 			},
 			sideToMove: core.WHITE,
 			sides:      defaultSides,
@@ -557,11 +557,11 @@ func TestHasAnyLegalMoves(t *testing.T) {
 		{
 			name: "pinned piece has no moves but other piece does",
 			setupBoard: func(b *core.Board) {
-				b[core.E1] = core.Square{Piece: core.Piece{Type: core.KING, Color: core.WHITE}, Occupied: true}
-				b[core.E2] = core.Square{Piece: core.Piece{Type: core.BISHOP, Color: core.WHITE}, Occupied: true}
-				b[core.B1] = core.Square{Piece: core.Piece{Type: core.KNIGHT, Color: core.WHITE}, Occupied: true}
-				b[core.E8] = core.Square{Piece: core.Piece{Type: core.ROOK, Color: core.BLACK}, Occupied: true}
-				b[core.H8] = core.Square{Piece: core.Piece{Type: core.KING, Color: core.BLACK}, Occupied: true}
+				b[core.E1] = core.NewSquare(core.Piece{Type: core.KING, Color: core.WHITE})
+				b[core.E2] = core.NewSquare(core.Piece{Type: core.BISHOP, Color: core.WHITE})
+				b[core.B1] = core.NewSquare(core.Piece{Type: core.KNIGHT, Color: core.WHITE})
+				b[core.E8] = core.NewSquare(core.Piece{Type: core.ROOK, Color: core.BLACK})
+				b[core.H8] = core.NewSquare(core.Piece{Type: core.KING, Color: core.BLACK})
 			},
 			sideToMove: core.WHITE,
 			sides: [2]core.SideState{

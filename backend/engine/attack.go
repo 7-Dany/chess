@@ -33,7 +33,7 @@ func (e *DefaultEngine) IsSquareAttacked(target core.Position, color core.PieceC
 				return true
 			}
 
-			if square.Occupied {
+			if square.IsOccupied() {
 				break
 			}
 		}
@@ -56,7 +56,7 @@ func (e *DefaultEngine) IsSquareAttacked(target core.Position, color core.PieceC
 				return true
 			}
 
-			if square.Occupied {
+			if square.IsOccupied() {
 				break
 			}
 		}

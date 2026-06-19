@@ -23,7 +23,7 @@ func TestGetPseudoLegalMoves(t *testing.T) {
 		{
 			name: "empty square returns no moves",
 			setupBoard: func(b *core.Board) {
-				b[core.E1] = core.Square{Piece: core.Piece{Type: core.KING, Color: core.WHITE}, Occupied: true}
+				b[core.E1] = core.NewSquare(core.Piece{Type: core.KING, Color: core.WHITE})
 			},
 			sideToMove: core.WHITE,
 			position:   core.E4,
@@ -32,7 +32,7 @@ func TestGetPseudoLegalMoves(t *testing.T) {
 		{
 			name: "enemy piece returns no moves (out of turn)",
 			setupBoard: func(b *core.Board) {
-				b[core.E8] = core.Square{Piece: core.Piece{Type: core.KING, Color: core.BLACK}, Occupied: true}
+				b[core.E8] = core.NewSquare(core.Piece{Type: core.KING, Color: core.BLACK})
 			},
 			sideToMove: core.WHITE,
 			position:   core.E8,
@@ -41,7 +41,7 @@ func TestGetPseudoLegalMoves(t *testing.T) {
 		{
 			name: "own piece delegates to piece implementation",
 			setupBoard: func(b *core.Board) {
-				b[core.B1] = core.Square{Piece: core.Piece{Type: core.KNIGHT, Color: core.WHITE}, Occupied: true}
+				b[core.B1] = core.NewSquare(core.Piece{Type: core.KNIGHT, Color: core.WHITE})
 			},
 			sideToMove:   core.WHITE,
 			position:     core.B1,
@@ -127,9 +127,9 @@ func TestCastlingMoves(t *testing.T) {
 		{
 			name: "king not on E file returns no castling",
 			setupBoard: func(b *core.Board) {
-				b[core.D1] = core.Square{Piece: core.Piece{Type: core.KING, Color: core.WHITE}, Occupied: true}
-				b[core.A1] = core.Square{Piece: core.Piece{Type: core.ROOK, Color: core.WHITE}, Occupied: true}
-				b[core.H1] = core.Square{Piece: core.Piece{Type: core.ROOK, Color: core.WHITE}, Occupied: true}
+				b[core.D1] = core.NewSquare(core.Piece{Type: core.KING, Color: core.WHITE})
+				b[core.A1] = core.NewSquare(core.Piece{Type: core.ROOK, Color: core.WHITE})
+				b[core.H1] = core.NewSquare(core.Piece{Type: core.ROOK, Color: core.WHITE})
 			},
 			sideToMove: core.WHITE,
 			sides: [2]core.SideState{
@@ -142,10 +142,10 @@ func TestCastlingMoves(t *testing.T) {
 		{
 			name: "king in check returns no castling",
 			setupBoard: func(b *core.Board) {
-				b[core.E1] = core.Square{Piece: core.Piece{Type: core.KING, Color: core.WHITE}, Occupied: true}
-				b[core.A1] = core.Square{Piece: core.Piece{Type: core.ROOK, Color: core.WHITE}, Occupied: true}
-				b[core.H1] = core.Square{Piece: core.Piece{Type: core.ROOK, Color: core.WHITE}, Occupied: true}
-				b[core.E8] = core.Square{Piece: core.Piece{Type: core.ROOK, Color: core.BLACK}, Occupied: true}
+				b[core.E1] = core.NewSquare(core.Piece{Type: core.KING, Color: core.WHITE})
+				b[core.A1] = core.NewSquare(core.Piece{Type: core.ROOK, Color: core.WHITE})
+				b[core.H1] = core.NewSquare(core.Piece{Type: core.ROOK, Color: core.WHITE})
+				b[core.E8] = core.NewSquare(core.Piece{Type: core.ROOK, Color: core.BLACK})
 			},
 			sideToMove: core.WHITE,
 			sides:      defaultSides,
@@ -155,10 +155,10 @@ func TestCastlingMoves(t *testing.T) {
 		{
 			name: "both sides available returns two castling moves",
 			setupBoard: func(b *core.Board) {
-				b[core.E1] = core.Square{Piece: core.Piece{Type: core.KING, Color: core.WHITE}, Occupied: true}
-				b[core.A1] = core.Square{Piece: core.Piece{Type: core.ROOK, Color: core.WHITE}, Occupied: true}
-				b[core.H1] = core.Square{Piece: core.Piece{Type: core.ROOK, Color: core.WHITE}, Occupied: true}
-				b[core.E8] = core.Square{Piece: core.Piece{Type: core.KING, Color: core.BLACK}, Occupied: true}
+				b[core.E1] = core.NewSquare(core.Piece{Type: core.KING, Color: core.WHITE})
+				b[core.A1] = core.NewSquare(core.Piece{Type: core.ROOK, Color: core.WHITE})
+				b[core.H1] = core.NewSquare(core.Piece{Type: core.ROOK, Color: core.WHITE})
+				b[core.E8] = core.NewSquare(core.Piece{Type: core.KING, Color: core.BLACK})
 			},
 			sideToMove: core.WHITE,
 			sides:      defaultSides,
@@ -172,9 +172,9 @@ func TestCastlingMoves(t *testing.T) {
 		{
 			name: "only king-side right returns one castling move",
 			setupBoard: func(b *core.Board) {
-				b[core.E1] = core.Square{Piece: core.Piece{Type: core.KING, Color: core.WHITE}, Occupied: true}
-				b[core.H1] = core.Square{Piece: core.Piece{Type: core.ROOK, Color: core.WHITE}, Occupied: true}
-				b[core.E8] = core.Square{Piece: core.Piece{Type: core.KING, Color: core.BLACK}, Occupied: true}
+				b[core.E1] = core.NewSquare(core.Piece{Type: core.KING, Color: core.WHITE})
+				b[core.H1] = core.NewSquare(core.Piece{Type: core.ROOK, Color: core.WHITE})
+				b[core.E8] = core.NewSquare(core.Piece{Type: core.KING, Color: core.BLACK})
 			},
 			sideToMove: core.WHITE,
 			sides:      kingSideOnly,
@@ -188,9 +188,9 @@ func TestCastlingMoves(t *testing.T) {
 		{
 			name: "only queen-side right returns one castling move",
 			setupBoard: func(b *core.Board) {
-				b[core.E1] = core.Square{Piece: core.Piece{Type: core.KING, Color: core.WHITE}, Occupied: true}
-				b[core.A1] = core.Square{Piece: core.Piece{Type: core.ROOK, Color: core.WHITE}, Occupied: true}
-				b[core.E8] = core.Square{Piece: core.Piece{Type: core.KING, Color: core.BLACK}, Occupied: true}
+				b[core.E1] = core.NewSquare(core.Piece{Type: core.KING, Color: core.WHITE})
+				b[core.A1] = core.NewSquare(core.Piece{Type: core.ROOK, Color: core.WHITE})
+				b[core.E8] = core.NewSquare(core.Piece{Type: core.KING, Color: core.BLACK})
 			},
 			sideToMove: core.WHITE,
 			sides:      queenSideOnly,
@@ -204,10 +204,10 @@ func TestCastlingMoves(t *testing.T) {
 		{
 			name: "black king-side castling on rank 8",
 			setupBoard: func(b *core.Board) {
-				b[core.E8] = core.Square{Piece: core.Piece{Type: core.KING, Color: core.BLACK}, Occupied: true}
-				b[core.H8] = core.Square{Piece: core.Piece{Type: core.ROOK, Color: core.BLACK}, Occupied: true}
-				b[core.A8] = core.Square{Piece: core.Piece{Type: core.ROOK, Color: core.BLACK}, Occupied: true}
-				b[core.E1] = core.Square{Piece: core.Piece{Type: core.KING, Color: core.WHITE}, Occupied: true}
+				b[core.E8] = core.NewSquare(core.Piece{Type: core.KING, Color: core.BLACK})
+				b[core.H8] = core.NewSquare(core.Piece{Type: core.ROOK, Color: core.BLACK})
+				b[core.A8] = core.NewSquare(core.Piece{Type: core.ROOK, Color: core.BLACK})
+				b[core.E1] = core.NewSquare(core.Piece{Type: core.KING, Color: core.WHITE})
 			},
 			sideToMove: core.BLACK,
 			sides:      defaultSides,
@@ -221,12 +221,12 @@ func TestCastlingMoves(t *testing.T) {
 		{
 			name: "both sides blocked returns no castling",
 			setupBoard: func(b *core.Board) {
-				b[core.E1] = core.Square{Piece: core.Piece{Type: core.KING, Color: core.WHITE}, Occupied: true}
-				b[core.A1] = core.Square{Piece: core.Piece{Type: core.ROOK, Color: core.WHITE}, Occupied: true}
-				b[core.H1] = core.Square{Piece: core.Piece{Type: core.ROOK, Color: core.WHITE}, Occupied: true}
-				b[core.F1] = core.Square{Piece: core.Piece{Type: core.BISHOP, Color: core.WHITE}, Occupied: true}
-				b[core.D1] = core.Square{Piece: core.Piece{Type: core.QUEEN, Color: core.WHITE}, Occupied: true}
-				b[core.E8] = core.Square{Piece: core.Piece{Type: core.KING, Color: core.BLACK}, Occupied: true}
+				b[core.E1] = core.NewSquare(core.Piece{Type: core.KING, Color: core.WHITE})
+				b[core.A1] = core.NewSquare(core.Piece{Type: core.ROOK, Color: core.WHITE})
+				b[core.H1] = core.NewSquare(core.Piece{Type: core.ROOK, Color: core.WHITE})
+				b[core.F1] = core.NewSquare(core.Piece{Type: core.BISHOP, Color: core.WHITE})
+				b[core.D1] = core.NewSquare(core.Piece{Type: core.QUEEN, Color: core.WHITE})
+				b[core.E8] = core.NewSquare(core.Piece{Type: core.KING, Color: core.BLACK})
 			},
 			sideToMove: core.WHITE,
 			sides:      defaultSides,
@@ -236,11 +236,11 @@ func TestCastlingMoves(t *testing.T) {
 		{
 			name: "queen-side castling removed when B1 occupied",
 			setupBoard: func(b *core.Board) {
-				b[core.E1] = core.Square{Piece: core.Piece{Type: core.KING, Color: core.WHITE}, Occupied: true}
-				b[core.A1] = core.Square{Piece: core.Piece{Type: core.ROOK, Color: core.WHITE}, Occupied: true}
-				b[core.H1] = core.Square{Piece: core.Piece{Type: core.ROOK, Color: core.WHITE}, Occupied: true}
-				b[core.B1] = core.Square{Piece: core.Piece{Type: core.KNIGHT, Color: core.WHITE}, Occupied: true}
-				b[core.E8] = core.Square{Piece: core.Piece{Type: core.KING, Color: core.BLACK}, Occupied: true}
+				b[core.E1] = core.NewSquare(core.Piece{Type: core.KING, Color: core.WHITE})
+				b[core.A1] = core.NewSquare(core.Piece{Type: core.ROOK, Color: core.WHITE})
+				b[core.H1] = core.NewSquare(core.Piece{Type: core.ROOK, Color: core.WHITE})
+				b[core.B1] = core.NewSquare(core.Piece{Type: core.KNIGHT, Color: core.WHITE})
+				b[core.E8] = core.NewSquare(core.Piece{Type: core.KING, Color: core.BLACK})
 			},
 			sideToMove: core.WHITE,
 			sides:      defaultSides,
@@ -254,11 +254,11 @@ func TestCastlingMoves(t *testing.T) {
 		{
 			name: "queen-side castling removed when enemy on C1",
 			setupBoard: func(b *core.Board) {
-				b[core.E1] = core.Square{Piece: core.Piece{Type: core.KING, Color: core.WHITE}, Occupied: true}
-				b[core.A1] = core.Square{Piece: core.Piece{Type: core.ROOK, Color: core.WHITE}, Occupied: true}
-				b[core.H1] = core.Square{Piece: core.Piece{Type: core.ROOK, Color: core.WHITE}, Occupied: true}
-				b[core.C1] = core.Square{Piece: core.Piece{Type: core.KNIGHT, Color: core.BLACK}, Occupied: true}
-				b[core.E8] = core.Square{Piece: core.Piece{Type: core.KING, Color: core.BLACK}, Occupied: true}
+				b[core.E1] = core.NewSquare(core.Piece{Type: core.KING, Color: core.WHITE})
+				b[core.A1] = core.NewSquare(core.Piece{Type: core.ROOK, Color: core.WHITE})
+				b[core.H1] = core.NewSquare(core.Piece{Type: core.ROOK, Color: core.WHITE})
+				b[core.C1] = core.NewSquare(core.Piece{Type: core.KNIGHT, Color: core.BLACK})
+				b[core.E8] = core.NewSquare(core.Piece{Type: core.KING, Color: core.BLACK})
 			},
 			sideToMove: core.WHITE,
 			sides:      defaultSides,
@@ -283,7 +283,7 @@ func TestCastlingMoves(t *testing.T) {
 					Sides:        tt.sides,
 				},
 			}
-			moves := engine.castlingMoves(tt.position, ctx)
+			moves := engine.castlingMoves(nil, tt.position, ctx)
 			if len(moves) != tt.wantCount {
 				t.Errorf("count = %d, want %d", len(moves), tt.wantCount)
 			}
@@ -321,7 +321,7 @@ func TestCanCastleKingSide(t *testing.T) {
 		{
 			name: "F1 occupied by own piece",
 			setupBoard: func(b *core.Board) {
-				b[core.F1] = core.Square{Piece: core.Piece{Type: core.BISHOP, Color: core.WHITE}, Occupied: true}
+				b[core.F1] = core.NewSquare(core.Piece{Type: core.BISHOP, Color: core.WHITE})
 			},
 			sideToMove: core.WHITE,
 			sides:      defaultSides,
@@ -331,7 +331,7 @@ func TestCanCastleKingSide(t *testing.T) {
 		{
 			name: "G1 occupied by own piece",
 			setupBoard: func(b *core.Board) {
-				b[core.G1] = core.Square{Piece: core.Piece{Type: core.KNIGHT, Color: core.WHITE}, Occupied: true}
+				b[core.G1] = core.NewSquare(core.Piece{Type: core.KNIGHT, Color: core.WHITE})
 			},
 			sideToMove: core.WHITE,
 			sides:      defaultSides,
@@ -341,7 +341,7 @@ func TestCanCastleKingSide(t *testing.T) {
 		{
 			name: "F1 occupied by enemy piece",
 			setupBoard: func(b *core.Board) {
-				b[core.F1] = core.Square{Piece: core.Piece{Type: core.KNIGHT, Color: core.BLACK}, Occupied: true}
+				b[core.F1] = core.NewSquare(core.Piece{Type: core.KNIGHT, Color: core.BLACK})
 			},
 			sideToMove: core.WHITE,
 			sides:      defaultSides,
@@ -351,7 +351,7 @@ func TestCanCastleKingSide(t *testing.T) {
 		{
 			name: "F1 attacked by enemy rook",
 			setupBoard: func(b *core.Board) {
-				b[core.F8] = core.Square{Piece: core.Piece{Type: core.ROOK, Color: core.BLACK}, Occupied: true}
+				b[core.F8] = core.NewSquare(core.Piece{Type: core.ROOK, Color: core.BLACK})
 			},
 			sideToMove: core.WHITE,
 			sides:      defaultSides,
@@ -361,7 +361,7 @@ func TestCanCastleKingSide(t *testing.T) {
 		{
 			name: "G1 attacked by enemy rook",
 			setupBoard: func(b *core.Board) {
-				b[core.G8] = core.Square{Piece: core.Piece{Type: core.ROOK, Color: core.BLACK}, Occupied: true}
+				b[core.G8] = core.NewSquare(core.Piece{Type: core.ROOK, Color: core.BLACK})
 			},
 			sideToMove: core.WHITE,
 			sides:      defaultSides,
@@ -371,7 +371,7 @@ func TestCanCastleKingSide(t *testing.T) {
 		{
 			name: "F1 attacked by enemy bishop",
 			setupBoard: func(b *core.Board) {
-				b[core.A6] = core.Square{Piece: core.Piece{Type: core.BISHOP, Color: core.BLACK}, Occupied: true}
+				b[core.A6] = core.NewSquare(core.Piece{Type: core.BISHOP, Color: core.BLACK})
 			},
 			sideToMove: core.WHITE,
 			sides:      defaultSides,
@@ -389,7 +389,7 @@ func TestCanCastleKingSide(t *testing.T) {
 		{
 			name: "F8 occupied by own piece (black rank 8)",
 			setupBoard: func(b *core.Board) {
-				b[core.F8] = core.Square{Piece: core.Piece{Type: core.BISHOP, Color: core.BLACK}, Occupied: true}
+				b[core.F8] = core.NewSquare(core.Piece{Type: core.BISHOP, Color: core.BLACK})
 			},
 			sideToMove: core.BLACK,
 			sides:      defaultSides,
@@ -399,7 +399,7 @@ func TestCanCastleKingSide(t *testing.T) {
 		{
 			name: "F8 attacked by white rook (black rank 8)",
 			setupBoard: func(b *core.Board) {
-				b[core.F1] = core.Square{Piece: core.Piece{Type: core.ROOK, Color: core.WHITE}, Occupied: true}
+				b[core.F1] = core.NewSquare(core.Piece{Type: core.ROOK, Color: core.WHITE})
 			},
 			sideToMove: core.BLACK,
 			sides:      defaultSides,
@@ -465,7 +465,7 @@ func TestCanCastleQueenSide(t *testing.T) {
 		{
 			name: "B1 occupied by own piece",
 			setupBoard: func(b *core.Board) {
-				b[core.B1] = core.Square{Piece: core.Piece{Type: core.KNIGHT, Color: core.WHITE}, Occupied: true}
+				b[core.B1] = core.NewSquare(core.Piece{Type: core.KNIGHT, Color: core.WHITE})
 			},
 			sideToMove: core.WHITE,
 			sides:      defaultSides,
@@ -475,7 +475,7 @@ func TestCanCastleQueenSide(t *testing.T) {
 		{
 			name: "C1 occupied by own piece",
 			setupBoard: func(b *core.Board) {
-				b[core.C1] = core.Square{Piece: core.Piece{Type: core.BISHOP, Color: core.WHITE}, Occupied: true}
+				b[core.C1] = core.NewSquare(core.Piece{Type: core.BISHOP, Color: core.WHITE})
 			},
 			sideToMove: core.WHITE,
 			sides:      defaultSides,
@@ -485,7 +485,7 @@ func TestCanCastleQueenSide(t *testing.T) {
 		{
 			name: "D1 occupied by own piece",
 			setupBoard: func(b *core.Board) {
-				b[core.D1] = core.Square{Piece: core.Piece{Type: core.QUEEN, Color: core.WHITE}, Occupied: true}
+				b[core.D1] = core.NewSquare(core.Piece{Type: core.QUEEN, Color: core.WHITE})
 			},
 			sideToMove: core.WHITE,
 			sides:      defaultSides,
@@ -495,7 +495,7 @@ func TestCanCastleQueenSide(t *testing.T) {
 		{
 			name: "C1 occupied by enemy piece blocks castling",
 			setupBoard: func(b *core.Board) {
-				b[core.C1] = core.Square{Piece: core.Piece{Type: core.KNIGHT, Color: core.BLACK}, Occupied: true}
+				b[core.C1] = core.NewSquare(core.Piece{Type: core.KNIGHT, Color: core.BLACK})
 			},
 			sideToMove: core.WHITE,
 			sides:      defaultSides,
@@ -505,7 +505,7 @@ func TestCanCastleQueenSide(t *testing.T) {
 		{
 			name: "D1 attacked by enemy rook",
 			setupBoard: func(b *core.Board) {
-				b[core.D8] = core.Square{Piece: core.Piece{Type: core.ROOK, Color: core.BLACK}, Occupied: true}
+				b[core.D8] = core.NewSquare(core.Piece{Type: core.ROOK, Color: core.BLACK})
 			},
 			sideToMove: core.WHITE,
 			sides:      defaultSides,
@@ -515,7 +515,7 @@ func TestCanCastleQueenSide(t *testing.T) {
 		{
 			name: "C1 attacked by enemy rook",
 			setupBoard: func(b *core.Board) {
-				b[core.C8] = core.Square{Piece: core.Piece{Type: core.ROOK, Color: core.BLACK}, Occupied: true}
+				b[core.C8] = core.NewSquare(core.Piece{Type: core.ROOK, Color: core.BLACK})
 			},
 			sideToMove: core.WHITE,
 			sides:      defaultSides,
@@ -525,7 +525,7 @@ func TestCanCastleQueenSide(t *testing.T) {
 		{
 			name: "D1 attacked by enemy bishop",
 			setupBoard: func(b *core.Board) {
-				b[core.A4] = core.Square{Piece: core.Piece{Type: core.BISHOP, Color: core.BLACK}, Occupied: true}
+				b[core.A4] = core.NewSquare(core.Piece{Type: core.BISHOP, Color: core.BLACK})
 			},
 			sideToMove: core.WHITE,
 			sides:      defaultSides,
@@ -535,7 +535,7 @@ func TestCanCastleQueenSide(t *testing.T) {
 		{
 			name: "B1 attacked but C1 and D1 safe — castling allowed",
 			setupBoard: func(b *core.Board) {
-				b[core.B8] = core.Square{Piece: core.Piece{Type: core.ROOK, Color: core.BLACK}, Occupied: true}
+				b[core.B8] = core.NewSquare(core.Piece{Type: core.ROOK, Color: core.BLACK})
 			},
 			sideToMove: core.WHITE,
 			sides:      defaultSides,
@@ -553,7 +553,7 @@ func TestCanCastleQueenSide(t *testing.T) {
 		{
 			name: "B8 occupied by own piece (black rank 8)",
 			setupBoard: func(b *core.Board) {
-				b[core.B8] = core.Square{Piece: core.Piece{Type: core.KNIGHT, Color: core.BLACK}, Occupied: true}
+				b[core.B8] = core.NewSquare(core.Piece{Type: core.KNIGHT, Color: core.BLACK})
 			},
 			sideToMove: core.BLACK,
 			sides:      defaultSides,
@@ -563,7 +563,7 @@ func TestCanCastleQueenSide(t *testing.T) {
 		{
 			name: "D8 attacked by white rook (black rank 8)",
 			setupBoard: func(b *core.Board) {
-				b[core.D1] = core.Square{Piece: core.Piece{Type: core.ROOK, Color: core.WHITE}, Occupied: true}
+				b[core.D1] = core.NewSquare(core.Piece{Type: core.ROOK, Color: core.WHITE})
 			},
 			sideToMove: core.BLACK,
 			sides:      defaultSides,
@@ -573,7 +573,7 @@ func TestCanCastleQueenSide(t *testing.T) {
 		{
 			name: "B1 attacked but C8 and D8 safe — black castling allowed",
 			setupBoard: func(b *core.Board) {
-				b[core.B1] = core.Square{Piece: core.Piece{Type: core.ROOK, Color: core.WHITE}, Occupied: true}
+				b[core.B1] = core.NewSquare(core.Piece{Type: core.ROOK, Color: core.WHITE})
 			},
 			sideToMove: core.BLACK,
 			sides:      defaultSides,

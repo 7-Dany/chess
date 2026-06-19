@@ -53,12 +53,17 @@ func (King) Attacks(from core.Position, ctx core.BoardContext) []core.Position {
 
 func (k King) PseudoLegalMoves(from core.Position, ctx core.MoveContext) []core.Move {
 	king := core.Piece{Type: core.KING, Color: ctx.SideToMove}
+	moves := make([]core.Move, 0, 10)
 
-	attacks := k.Attacks(from, ctx.BoardContext)
-	moves := make([]core.Move, 0, 8)
+	for _, direction := range KingDirections {
+		file, fok := from.File().Add(direction[0])
+		rank, rok := from.Rank().Add(direction[1])
+		if !fok || !rok {
+			continue
+		}
 
-	for _, attack := range attacks {
-		square := ctx.Board[attack]
+		position := core.NewPosition(file, rank)
+		square := ctx.Board[position]
 
 		// if the square is occupied by our side, ignore
 		if square.IsOccupiedBy(ctx.SideToMove) {
@@ -69,16 +74,16 @@ func (k King) PseudoLegalMoves(from core.Position, ctx core.MoveContext) []core.
 			Type:  core.NORMAL,
 			Piece: king,
 			From:  from,
-			To:    attack,
+			To:    position,
 		}
 
-		if square.Occupied {
+		if square.IsOccupied() {
 			move.HasCapture = true
-			move.Captured = square.Piece
+			move.Captured = square.Piece()
 		}
 
 		moves = append(moves, move)
 	}
 
-	return slices.Clip(moves)
+	return moves
 }

@@ -18,7 +18,7 @@ func TestQueenIsAttacking(t *testing.T) {
 		{
 			name: "queen on up-right diagonal attacks target",
 			setupBoard: func(b *core.Board) {
-				b[core.H7] = core.Square{Piece: core.Piece{Type: core.QUEEN, Color: core.WHITE}, Occupied: true}
+				b[core.H7] = core.NewSquare(core.Piece{Type: core.QUEEN, Color: core.WHITE})
 			},
 			color:  core.WHITE,
 			target: core.E4,
@@ -27,7 +27,7 @@ func TestQueenIsAttacking(t *testing.T) {
 		{
 			name: "queen on up-left diagonal attacks target",
 			setupBoard: func(b *core.Board) {
-				b[core.A8] = core.Square{Piece: core.Piece{Type: core.QUEEN, Color: core.WHITE}, Occupied: true}
+				b[core.A8] = core.NewSquare(core.Piece{Type: core.QUEEN, Color: core.WHITE})
 			},
 			color:  core.WHITE,
 			target: core.E4,
@@ -36,7 +36,7 @@ func TestQueenIsAttacking(t *testing.T) {
 		{
 			name: "queen on down-right diagonal attacks target",
 			setupBoard: func(b *core.Board) {
-				b[core.H1] = core.Square{Piece: core.Piece{Type: core.QUEEN, Color: core.WHITE}, Occupied: true}
+				b[core.H1] = core.NewSquare(core.Piece{Type: core.QUEEN, Color: core.WHITE})
 			},
 			color:  core.WHITE,
 			target: core.E4,
@@ -45,7 +45,7 @@ func TestQueenIsAttacking(t *testing.T) {
 		{
 			name: "queen on down-left diagonal attacks target",
 			setupBoard: func(b *core.Board) {
-				b[core.B1] = core.Square{Piece: core.Piece{Type: core.QUEEN, Color: core.WHITE}, Occupied: true}
+				b[core.B1] = core.NewSquare(core.Piece{Type: core.QUEEN, Color: core.WHITE})
 			},
 			color:  core.WHITE,
 			target: core.E4,
@@ -54,7 +54,7 @@ func TestQueenIsAttacking(t *testing.T) {
 		{
 			name: "queen adjacent diagonally attacks (distance 1)",
 			setupBoard: func(b *core.Board) {
-				b[core.D3] = core.Square{Piece: core.Piece{Type: core.QUEEN, Color: core.WHITE}, Occupied: true}
+				b[core.D3] = core.NewSquare(core.Piece{Type: core.QUEEN, Color: core.WHITE})
 			},
 			color:  core.WHITE,
 			target: core.E4,
@@ -63,7 +63,7 @@ func TestQueenIsAttacking(t *testing.T) {
 		{
 			name: "queen at maximum diagonal distance attacks (distance 7)",
 			setupBoard: func(b *core.Board) {
-				b[core.H8] = core.Square{Piece: core.Piece{Type: core.QUEEN, Color: core.WHITE}, Occupied: true}
+				b[core.H8] = core.NewSquare(core.Piece{Type: core.QUEEN, Color: core.WHITE})
 			},
 			color:  core.WHITE,
 			target: core.A1,
@@ -74,7 +74,7 @@ func TestQueenIsAttacking(t *testing.T) {
 		{
 			name: "queen above target on same file attacks",
 			setupBoard: func(b *core.Board) {
-				b[core.E8] = core.Square{Piece: core.Piece{Type: core.QUEEN, Color: core.WHITE}, Occupied: true}
+				b[core.E8] = core.NewSquare(core.Piece{Type: core.QUEEN, Color: core.WHITE})
 			},
 			color:  core.WHITE,
 			target: core.E4,
@@ -83,7 +83,7 @@ func TestQueenIsAttacking(t *testing.T) {
 		{
 			name: "queen below target on same file attacks",
 			setupBoard: func(b *core.Board) {
-				b[core.E1] = core.Square{Piece: core.Piece{Type: core.QUEEN, Color: core.WHITE}, Occupied: true}
+				b[core.E1] = core.NewSquare(core.Piece{Type: core.QUEEN, Color: core.WHITE})
 			},
 			color:  core.WHITE,
 			target: core.E4,
@@ -92,7 +92,7 @@ func TestQueenIsAttacking(t *testing.T) {
 		{
 			name: "queen to the right on same rank attacks",
 			setupBoard: func(b *core.Board) {
-				b[core.H4] = core.Square{Piece: core.Piece{Type: core.QUEEN, Color: core.WHITE}, Occupied: true}
+				b[core.H4] = core.NewSquare(core.Piece{Type: core.QUEEN, Color: core.WHITE})
 			},
 			color:  core.WHITE,
 			target: core.E4,
@@ -101,7 +101,7 @@ func TestQueenIsAttacking(t *testing.T) {
 		{
 			name: "queen to the left on same rank attacks",
 			setupBoard: func(b *core.Board) {
-				b[core.A4] = core.Square{Piece: core.Piece{Type: core.QUEEN, Color: core.WHITE}, Occupied: true}
+				b[core.A4] = core.NewSquare(core.Piece{Type: core.QUEEN, Color: core.WHITE})
 			},
 			color:  core.WHITE,
 			target: core.E4,
@@ -110,7 +110,7 @@ func TestQueenIsAttacking(t *testing.T) {
 		{
 			name: "queen adjacent orthogonally attacks (distance 1)",
 			setupBoard: func(b *core.Board) {
-				b[core.D4] = core.Square{Piece: core.Piece{Type: core.QUEEN, Color: core.WHITE}, Occupied: true}
+				b[core.D4] = core.NewSquare(core.Piece{Type: core.QUEEN, Color: core.WHITE})
 			},
 			color:  core.WHITE,
 			target: core.E4,
@@ -121,7 +121,7 @@ func TestQueenIsAttacking(t *testing.T) {
 		{
 			name: "queen off-diagonal and off-orthogonal does not attack",
 			setupBoard: func(b *core.Board) {
-				b[core.F6] = core.Square{Piece: core.Piece{Type: core.QUEEN, Color: core.WHITE}, Occupied: true}
+				b[core.F6] = core.NewSquare(core.Piece{Type: core.QUEEN, Color: core.WHITE})
 			},
 			color:  core.WHITE,
 			target: core.E4,
@@ -130,7 +130,7 @@ func TestQueenIsAttacking(t *testing.T) {
 		{
 			name: "knight-move away does not attack",
 			setupBoard: func(b *core.Board) {
-				b[core.D6] = core.Square{Piece: core.Piece{Type: core.QUEEN, Color: core.WHITE}, Occupied: true}
+				b[core.D6] = core.NewSquare(core.Piece{Type: core.QUEEN, Color: core.WHITE})
 			},
 			color:  core.WHITE,
 			target: core.E4,
@@ -139,7 +139,7 @@ func TestQueenIsAttacking(t *testing.T) {
 		{
 			name: "queen two files and two ranks away on different diagonal does not attack",
 			setupBoard: func(b *core.Board) {
-				b[core.F6] = core.Square{Piece: core.Piece{Type: core.QUEEN, Color: core.WHITE}, Occupied: true}
+				b[core.F6] = core.NewSquare(core.Piece{Type: core.QUEEN, Color: core.WHITE})
 			},
 			color:  core.WHITE,
 			target: core.E4,
@@ -150,8 +150,8 @@ func TestQueenIsAttacking(t *testing.T) {
 		{
 			name: "friendly piece blocks diagonal attack",
 			setupBoard: func(b *core.Board) {
-				b[core.H7] = core.Square{Piece: core.Piece{Type: core.QUEEN, Color: core.WHITE}, Occupied: true}
-				b[core.F5] = core.Square{Piece: core.Piece{Type: core.PAWN, Color: core.WHITE}, Occupied: true}
+				b[core.H7] = core.NewSquare(core.Piece{Type: core.QUEEN, Color: core.WHITE})
+				b[core.F5] = core.NewSquare(core.Piece{Type: core.PAWN, Color: core.WHITE})
 			},
 			color:  core.WHITE,
 			target: core.E4,
@@ -160,8 +160,8 @@ func TestQueenIsAttacking(t *testing.T) {
 		{
 			name: "enemy piece blocks diagonal attack",
 			setupBoard: func(b *core.Board) {
-				b[core.H7] = core.Square{Piece: core.Piece{Type: core.QUEEN, Color: core.WHITE}, Occupied: true}
-				b[core.F5] = core.Square{Piece: core.Piece{Type: core.PAWN, Color: core.BLACK}, Occupied: true}
+				b[core.H7] = core.NewSquare(core.Piece{Type: core.QUEEN, Color: core.WHITE})
+				b[core.F5] = core.NewSquare(core.Piece{Type: core.PAWN, Color: core.BLACK})
 			},
 			color:  core.WHITE,
 			target: core.E4,
@@ -170,8 +170,8 @@ func TestQueenIsAttacking(t *testing.T) {
 		{
 			name: "blocker adjacent to target blocks diagonal attack",
 			setupBoard: func(b *core.Board) {
-				b[core.H7] = core.Square{Piece: core.Piece{Type: core.QUEEN, Color: core.WHITE}, Occupied: true}
-				b[core.F5] = core.Square{Piece: core.Piece{Type: core.ROOK, Color: core.WHITE}, Occupied: true}
+				b[core.H7] = core.NewSquare(core.Piece{Type: core.QUEEN, Color: core.WHITE})
+				b[core.F5] = core.NewSquare(core.Piece{Type: core.ROOK, Color: core.WHITE})
 			},
 			color:  core.WHITE,
 			target: core.E4,
@@ -182,8 +182,8 @@ func TestQueenIsAttacking(t *testing.T) {
 		{
 			name: "friendly piece blocks orthogonal attack on file",
 			setupBoard: func(b *core.Board) {
-				b[core.E8] = core.Square{Piece: core.Piece{Type: core.QUEEN, Color: core.WHITE}, Occupied: true}
-				b[core.E6] = core.Square{Piece: core.Piece{Type: core.PAWN, Color: core.WHITE}, Occupied: true}
+				b[core.E8] = core.NewSquare(core.Piece{Type: core.QUEEN, Color: core.WHITE})
+				b[core.E6] = core.NewSquare(core.Piece{Type: core.PAWN, Color: core.WHITE})
 			},
 			color:  core.WHITE,
 			target: core.E4,
@@ -192,8 +192,8 @@ func TestQueenIsAttacking(t *testing.T) {
 		{
 			name: "enemy piece blocks orthogonal attack on rank",
 			setupBoard: func(b *core.Board) {
-				b[core.H4] = core.Square{Piece: core.Piece{Type: core.QUEEN, Color: core.WHITE}, Occupied: true}
-				b[core.F4] = core.Square{Piece: core.Piece{Type: core.PAWN, Color: core.BLACK}, Occupied: true}
+				b[core.H4] = core.NewSquare(core.Piece{Type: core.QUEEN, Color: core.WHITE})
+				b[core.F4] = core.NewSquare(core.Piece{Type: core.PAWN, Color: core.BLACK})
 			},
 			color:  core.WHITE,
 			target: core.E4,
@@ -202,8 +202,8 @@ func TestQueenIsAttacking(t *testing.T) {
 		{
 			name: "blocker adjacent to target blocks orthogonal attack",
 			setupBoard: func(b *core.Board) {
-				b[core.H4] = core.Square{Piece: core.Piece{Type: core.QUEEN, Color: core.WHITE}, Occupied: true}
-				b[core.F4] = core.Square{Piece: core.Piece{Type: core.ROOK, Color: core.WHITE}, Occupied: true}
+				b[core.H4] = core.NewSquare(core.Piece{Type: core.QUEEN, Color: core.WHITE})
+				b[core.F4] = core.NewSquare(core.Piece{Type: core.ROOK, Color: core.WHITE})
 			},
 			color:  core.WHITE,
 			target: core.E4,
@@ -214,7 +214,7 @@ func TestQueenIsAttacking(t *testing.T) {
 		{
 			name: "black queen, asking for white attackers",
 			setupBoard: func(b *core.Board) {
-				b[core.H7] = core.Square{Piece: core.Piece{Type: core.QUEEN, Color: core.BLACK}, Occupied: true}
+				b[core.H7] = core.NewSquare(core.Piece{Type: core.QUEEN, Color: core.BLACK})
 			},
 			color:  core.WHITE,
 			target: core.E4,
@@ -223,7 +223,7 @@ func TestQueenIsAttacking(t *testing.T) {
 		{
 			name: "black queen, asking for black attackers",
 			setupBoard: func(b *core.Board) {
-				b[core.H7] = core.Square{Piece: core.Piece{Type: core.QUEEN, Color: core.BLACK}, Occupied: true}
+				b[core.H7] = core.NewSquare(core.Piece{Type: core.QUEEN, Color: core.BLACK})
 			},
 			color:  core.BLACK,
 			target: core.E4,
@@ -234,7 +234,7 @@ func TestQueenIsAttacking(t *testing.T) {
 		{
 			name: "bishop on diagonal does NOT trigger queen attack",
 			setupBoard: func(b *core.Board) {
-				b[core.H7] = core.Square{Piece: core.Piece{Type: core.BISHOP, Color: core.WHITE}, Occupied: true}
+				b[core.H7] = core.NewSquare(core.Piece{Type: core.BISHOP, Color: core.WHITE})
 			},
 			color:  core.WHITE,
 			target: core.E4,
@@ -243,7 +243,7 @@ func TestQueenIsAttacking(t *testing.T) {
 		{
 			name: "rook on orthogonal does NOT trigger queen attack",
 			setupBoard: func(b *core.Board) {
-				b[core.E8] = core.Square{Piece: core.Piece{Type: core.ROOK, Color: core.WHITE}, Occupied: true}
+				b[core.E8] = core.NewSquare(core.Piece{Type: core.ROOK, Color: core.WHITE})
 			},
 			color:  core.WHITE,
 			target: core.E4,
@@ -252,7 +252,7 @@ func TestQueenIsAttacking(t *testing.T) {
 		{
 			name: "knight on attack line does not trigger queen attack",
 			setupBoard: func(b *core.Board) {
-				b[core.E5] = core.Square{Piece: core.Piece{Type: core.KNIGHT, Color: core.WHITE}, Occupied: true}
+				b[core.E5] = core.NewSquare(core.Piece{Type: core.KNIGHT, Color: core.WHITE})
 			},
 			color:  core.WHITE,
 			target: core.E4,
@@ -261,7 +261,7 @@ func TestQueenIsAttacking(t *testing.T) {
 		{
 			name: "king on attack line does not trigger queen attack",
 			setupBoard: func(b *core.Board) {
-				b[core.E5] = core.Square{Piece: core.Piece{Type: core.KING, Color: core.WHITE}, Occupied: true}
+				b[core.E5] = core.NewSquare(core.Piece{Type: core.KING, Color: core.WHITE})
 			},
 			color:  core.WHITE,
 			target: core.E4,
@@ -270,7 +270,7 @@ func TestQueenIsAttacking(t *testing.T) {
 		{
 			name: "pawn on attack line does not trigger queen attack",
 			setupBoard: func(b *core.Board) {
-				b[core.E5] = core.Square{Piece: core.Piece{Type: core.PAWN, Color: core.WHITE}, Occupied: true}
+				b[core.E5] = core.NewSquare(core.Piece{Type: core.PAWN, Color: core.WHITE})
 			},
 			color:  core.WHITE,
 			target: core.E4,
@@ -288,7 +288,7 @@ func TestQueenIsAttacking(t *testing.T) {
 		{
 			name: "queen on target square itself does not attack",
 			setupBoard: func(b *core.Board) {
-				b[core.E4] = core.Square{Piece: core.Piece{Type: core.QUEEN, Color: core.WHITE}, Occupied: true}
+				b[core.E4] = core.NewSquare(core.Piece{Type: core.QUEEN, Color: core.WHITE})
 			},
 			color:  core.WHITE,
 			target: core.E4,
@@ -299,7 +299,7 @@ func TestQueenIsAttacking(t *testing.T) {
 		{
 			name: "target on A1, queen on H8 attacks diagonally",
 			setupBoard: func(b *core.Board) {
-				b[core.H8] = core.Square{Piece: core.Piece{Type: core.QUEEN, Color: core.WHITE}, Occupied: true}
+				b[core.H8] = core.NewSquare(core.Piece{Type: core.QUEEN, Color: core.WHITE})
 			},
 			color:  core.WHITE,
 			target: core.A1,
@@ -308,7 +308,7 @@ func TestQueenIsAttacking(t *testing.T) {
 		{
 			name: "target on A1, queen on A8 attacks on file",
 			setupBoard: func(b *core.Board) {
-				b[core.A8] = core.Square{Piece: core.Piece{Type: core.QUEEN, Color: core.WHITE}, Occupied: true}
+				b[core.A8] = core.NewSquare(core.Piece{Type: core.QUEEN, Color: core.WHITE})
 			},
 			color:  core.WHITE,
 			target: core.A1,
@@ -317,7 +317,7 @@ func TestQueenIsAttacking(t *testing.T) {
 		{
 			name: "target on A1, queen on H1 attacks on rank",
 			setupBoard: func(b *core.Board) {
-				b[core.H1] = core.Square{Piece: core.Piece{Type: core.QUEEN, Color: core.WHITE}, Occupied: true}
+				b[core.H1] = core.NewSquare(core.Piece{Type: core.QUEEN, Color: core.WHITE})
 			},
 			color:  core.WHITE,
 			target: core.A1,
@@ -326,7 +326,7 @@ func TestQueenIsAttacking(t *testing.T) {
 		{
 			name: "target on H8, queen on A1 attacks diagonally",
 			setupBoard: func(b *core.Board) {
-				b[core.A1] = core.Square{Piece: core.Piece{Type: core.QUEEN, Color: core.WHITE}, Occupied: true}
+				b[core.A1] = core.NewSquare(core.Piece{Type: core.QUEEN, Color: core.WHITE})
 			},
 			color:  core.WHITE,
 			target: core.H8,
@@ -335,7 +335,7 @@ func TestQueenIsAttacking(t *testing.T) {
 		{
 			name: "target on A8, queen on H1 attacks diagonally",
 			setupBoard: func(b *core.Board) {
-				b[core.H1] = core.Square{Piece: core.Piece{Type: core.QUEEN, Color: core.WHITE}, Occupied: true}
+				b[core.H1] = core.NewSquare(core.Piece{Type: core.QUEEN, Color: core.WHITE})
 			},
 			color:  core.WHITE,
 			target: core.A8,
@@ -344,7 +344,7 @@ func TestQueenIsAttacking(t *testing.T) {
 		{
 			name: "target on H1, queen on A8 attacks diagonally",
 			setupBoard: func(b *core.Board) {
-				b[core.A8] = core.Square{Piece: core.Piece{Type: core.QUEEN, Color: core.WHITE}, Occupied: true}
+				b[core.A8] = core.NewSquare(core.Piece{Type: core.QUEEN, Color: core.WHITE})
 			},
 			color:  core.WHITE,
 			target: core.H1,
@@ -355,9 +355,9 @@ func TestQueenIsAttacking(t *testing.T) {
 		{
 			name: "multiple queens, one attacks diagonally",
 			setupBoard: func(b *core.Board) {
-				b[core.A1] = core.Square{Piece: core.Piece{Type: core.QUEEN, Color: core.WHITE}, Occupied: true}
-				b[core.H7] = core.Square{Piece: core.Piece{Type: core.QUEEN, Color: core.WHITE}, Occupied: true}
-				b[core.A8] = core.Square{Piece: core.Piece{Type: core.QUEEN, Color: core.WHITE}, Occupied: true}
+				b[core.A1] = core.NewSquare(core.Piece{Type: core.QUEEN, Color: core.WHITE})
+				b[core.H7] = core.NewSquare(core.Piece{Type: core.QUEEN, Color: core.WHITE})
+				b[core.A8] = core.NewSquare(core.Piece{Type: core.QUEEN, Color: core.WHITE})
 			},
 			color:  core.WHITE,
 			target: core.E4,
@@ -366,9 +366,9 @@ func TestQueenIsAttacking(t *testing.T) {
 		{
 			name: "multiple queens, one attacks orthogonally",
 			setupBoard: func(b *core.Board) {
-				b[core.A1] = core.Square{Piece: core.Piece{Type: core.QUEEN, Color: core.WHITE}, Occupied: true}
-				b[core.H8] = core.Square{Piece: core.Piece{Type: core.QUEEN, Color: core.WHITE}, Occupied: true}
-				b[core.E8] = core.Square{Piece: core.Piece{Type: core.QUEEN, Color: core.WHITE}, Occupied: true}
+				b[core.A1] = core.NewSquare(core.Piece{Type: core.QUEEN, Color: core.WHITE})
+				b[core.H8] = core.NewSquare(core.Piece{Type: core.QUEEN, Color: core.WHITE})
+				b[core.E8] = core.NewSquare(core.Piece{Type: core.QUEEN, Color: core.WHITE})
 			},
 			color:  core.WHITE,
 			target: core.E4,
@@ -377,8 +377,8 @@ func TestQueenIsAttacking(t *testing.T) {
 		{
 			name: "multiple enemy queens, none matching color",
 			setupBoard: func(b *core.Board) {
-				b[core.H7] = core.Square{Piece: core.Piece{Type: core.QUEEN, Color: core.BLACK}, Occupied: true}
-				b[core.E8] = core.Square{Piece: core.Piece{Type: core.QUEEN, Color: core.BLACK}, Occupied: true}
+				b[core.H7] = core.NewSquare(core.Piece{Type: core.QUEEN, Color: core.BLACK})
+				b[core.E8] = core.NewSquare(core.Piece{Type: core.QUEEN, Color: core.BLACK})
 			},
 			color:  core.WHITE,
 			target: core.E4,
@@ -387,8 +387,8 @@ func TestQueenIsAttacking(t *testing.T) {
 		{
 			name: "mixed-color queens, only matching color counts",
 			setupBoard: func(b *core.Board) {
-				b[core.H7] = core.Square{Piece: core.Piece{Type: core.QUEEN, Color: core.BLACK}, Occupied: true}
-				b[core.E8] = core.Square{Piece: core.Piece{Type: core.QUEEN, Color: core.WHITE}, Occupied: true}
+				b[core.H7] = core.NewSquare(core.Piece{Type: core.QUEEN, Color: core.BLACK})
+				b[core.E8] = core.NewSquare(core.Piece{Type: core.QUEEN, Color: core.WHITE})
 			},
 			color:  core.WHITE,
 			target: core.E4,
@@ -399,8 +399,8 @@ func TestQueenIsAttacking(t *testing.T) {
 		{
 			name: "enemy queen on ray blocks but doesn't count as attacker",
 			setupBoard: func(b *core.Board) {
-				b[core.H7] = core.Square{Piece: core.Piece{Type: core.QUEEN, Color: core.WHITE}, Occupied: true}
-				b[core.G6] = core.Square{Piece: core.Piece{Type: core.QUEEN, Color: core.BLACK}, Occupied: true}
+				b[core.H7] = core.NewSquare(core.Piece{Type: core.QUEEN, Color: core.WHITE})
+				b[core.G6] = core.NewSquare(core.Piece{Type: core.QUEEN, Color: core.BLACK})
 			},
 			color:  core.WHITE,
 			target: core.E4,
@@ -409,8 +409,8 @@ func TestQueenIsAttacking(t *testing.T) {
 		{
 			name: "enemy queen as blocker, asking for black",
 			setupBoard: func(b *core.Board) {
-				b[core.H7] = core.Square{Piece: core.Piece{Type: core.QUEEN, Color: core.WHITE}, Occupied: true}
-				b[core.G6] = core.Square{Piece: core.Piece{Type: core.QUEEN, Color: core.BLACK}, Occupied: true}
+				b[core.H7] = core.NewSquare(core.Piece{Type: core.QUEEN, Color: core.WHITE})
+				b[core.G6] = core.NewSquare(core.Piece{Type: core.QUEEN, Color: core.BLACK})
 			},
 			color:  core.BLACK,
 			target: core.E4,
@@ -535,8 +535,8 @@ func TestQueenAttacks(t *testing.T) {
 			name: "center D4 blocked on orthogonal Up and diagonal NE",
 			from: core.D4,
 			setupBoard: func(b *core.Board) {
-				b[core.D6] = core.Square{Occupied: true} // blocks Up ray
-				b[core.F6] = core.Square{Occupied: true} // blocks NE ray
+				b[core.D6] = core.NewSquare(core.Piece{Type: core.PAWN, Color: core.WHITE}) // blocks Up ray
+				b[core.F6] = core.NewSquare(core.Piece{Type: core.PAWN, Color: core.WHITE}) // blocks NE ray
 			},
 			expected: []core.Position{
 				// Orthogonal — Up stops at D6 (inclusive)
@@ -554,14 +554,14 @@ func TestQueenAttacks(t *testing.T) {
 			name: "center D4 trapped — all 8 directions blocked by adjacent pieces",
 			from: core.D4,
 			setupBoard: func(b *core.Board) {
-				b[core.D5] = core.Square{Occupied: true} // Up
-				b[core.D3] = core.Square{Occupied: true} // Down
-				b[core.E4] = core.Square{Occupied: true} // Right
-				b[core.C4] = core.Square{Occupied: true} // Left
-				b[core.E5] = core.Square{Occupied: true} // NE
-				b[core.E3] = core.Square{Occupied: true} // SE
-				b[core.C5] = core.Square{Occupied: true} // NW
-				b[core.C3] = core.Square{Occupied: true} // SW
+				b[core.D5] = core.NewSquare(core.Piece{Type: core.PAWN, Color: core.WHITE}) // Up
+				b[core.D3] = core.NewSquare(core.Piece{Type: core.PAWN, Color: core.WHITE}) // Down
+				b[core.E4] = core.NewSquare(core.Piece{Type: core.PAWN, Color: core.WHITE}) // Right
+				b[core.C4] = core.NewSquare(core.Piece{Type: core.PAWN, Color: core.WHITE}) // Left
+				b[core.E5] = core.NewSquare(core.Piece{Type: core.PAWN, Color: core.WHITE}) // NE
+				b[core.E3] = core.NewSquare(core.Piece{Type: core.PAWN, Color: core.WHITE}) // SE
+				b[core.C5] = core.NewSquare(core.Piece{Type: core.PAWN, Color: core.WHITE}) // NW
+				b[core.C3] = core.NewSquare(core.Piece{Type: core.PAWN, Color: core.WHITE}) // SW
 			},
 			expected: []core.Position{
 				core.D5, core.D3, core.E4, core.C4,
@@ -641,8 +641,8 @@ func TestQueenPseudoLegalMoves(t *testing.T) {
 			from:       core.D4,
 			sideToMove: core.WHITE,
 			setupBoard: func(b *core.Board) {
-				b[core.F4] = core.Square{Occupied: true, Piece: core.Piece{Type: core.PAWN, Color: core.BLACK}} // orthogonal Right
-				b[core.F6] = core.Square{Occupied: true, Piece: core.Piece{Type: core.PAWN, Color: core.BLACK}} // diagonal NE
+				b[core.F4] = core.NewSquare(core.Piece{Type: core.PAWN, Color: core.BLACK}) // orthogonal Right
+				b[core.F6] = core.NewSquare(core.Piece{Type: core.PAWN, Color: core.BLACK}) // diagonal NE
 			},
 			expectedTos: []core.Position{
 				// Orthogonal — Right stops at F4 (inclusive)
@@ -663,8 +663,8 @@ func TestQueenPseudoLegalMoves(t *testing.T) {
 			from:       core.D4,
 			sideToMove: core.WHITE,
 			setupBoard: func(b *core.Board) {
-				b[core.F4] = core.Square{Occupied: true, Piece: core.Piece{Type: core.PAWN, Color: core.WHITE}} // orthogonal
-				b[core.F6] = core.Square{Occupied: true, Piece: core.Piece{Type: core.PAWN, Color: core.WHITE}} // diagonal
+				b[core.F4] = core.NewSquare(core.Piece{Type: core.PAWN, Color: core.WHITE}) // orthogonal
+				b[core.F6] = core.NewSquare(core.Piece{Type: core.PAWN, Color: core.WHITE}) // diagonal
 			},
 			expectedTos: []core.Position{
 				// Orthogonal Right stops before F4 (exclusive)
@@ -685,8 +685,8 @@ func TestQueenPseudoLegalMoves(t *testing.T) {
 			from:       core.D4,
 			sideToMove: core.WHITE,
 			setupBoard: func(b *core.Board) {
-				b[core.E4] = core.Square{Occupied: true, Piece: core.Piece{Type: core.PAWN, Color: core.WHITE}}
-				b[core.F4] = core.Square{Occupied: true, Piece: core.Piece{Type: core.PAWN, Color: core.BLACK}}
+				b[core.E4] = core.NewSquare(core.Piece{Type: core.PAWN, Color: core.WHITE})
+				b[core.F4] = core.NewSquare(core.Piece{Type: core.PAWN, Color: core.BLACK})
 			},
 			expectedTos: []core.Position{
 				// Orthogonal Right fully blocked by E4
@@ -705,8 +705,8 @@ func TestQueenPseudoLegalMoves(t *testing.T) {
 			from:       core.D4,
 			sideToMove: core.WHITE,
 			setupBoard: func(b *core.Board) {
-				b[core.E5] = core.Square{Occupied: true, Piece: core.Piece{Type: core.PAWN, Color: core.WHITE}}
-				b[core.F6] = core.Square{Occupied: true, Piece: core.Piece{Type: core.PAWN, Color: core.BLACK}}
+				b[core.E5] = core.NewSquare(core.Piece{Type: core.PAWN, Color: core.WHITE})
+				b[core.F6] = core.NewSquare(core.Piece{Type: core.PAWN, Color: core.BLACK})
 			},
 			expectedTos: []core.Position{
 				// Orthogonal unchanged
@@ -724,8 +724,8 @@ func TestQueenPseudoLegalMoves(t *testing.T) {
 			from:       core.D4,
 			sideToMove: core.WHITE,
 			setupBoard: func(b *core.Board) {
-				b[core.F6] = core.Square{Occupied: true, Piece: core.Piece{Type: core.PAWN, Color: core.BLACK}}
-				b[core.H8] = core.Square{Occupied: true, Piece: core.Piece{Type: core.ROOK, Color: core.WHITE}}
+				b[core.F6] = core.NewSquare(core.Piece{Type: core.PAWN, Color: core.BLACK})
+				b[core.H8] = core.NewSquare(core.Piece{Type: core.ROOK, Color: core.WHITE})
 			},
 			expectedTos: []core.Position{
 				// Diagonal NE stops at F6 (inclusive) — H8 unreachable
@@ -744,8 +744,8 @@ func TestQueenPseudoLegalMoves(t *testing.T) {
 			from:       core.D4,
 			sideToMove: core.WHITE,
 			setupBoard: func(b *core.Board) {
-				b[core.F4] = core.Square{Occupied: true, Piece: core.Piece{Type: core.PAWN, Color: core.BLACK}}
-				b[core.H4] = core.Square{Occupied: true, Piece: core.Piece{Type: core.ROOK, Color: core.WHITE}}
+				b[core.F4] = core.NewSquare(core.Piece{Type: core.PAWN, Color: core.BLACK})
+				b[core.H4] = core.NewSquare(core.Piece{Type: core.ROOK, Color: core.WHITE})
 			},
 			expectedTos: []core.Position{
 				// Orthogonal Right stops at F4 (inclusive) — H4 unreachable
@@ -765,14 +765,14 @@ func TestQueenPseudoLegalMoves(t *testing.T) {
 			from:       core.D4,
 			sideToMove: core.WHITE,
 			setupBoard: func(b *core.Board) {
-				b[core.D5] = core.Square{Occupied: true, Piece: core.Piece{Type: core.PAWN, Color: core.WHITE}}
-				b[core.D3] = core.Square{Occupied: true, Piece: core.Piece{Type: core.PAWN, Color: core.WHITE}}
-				b[core.E4] = core.Square{Occupied: true, Piece: core.Piece{Type: core.PAWN, Color: core.WHITE}}
-				b[core.C4] = core.Square{Occupied: true, Piece: core.Piece{Type: core.PAWN, Color: core.WHITE}}
-				b[core.E5] = core.Square{Occupied: true, Piece: core.Piece{Type: core.PAWN, Color: core.WHITE}}
-				b[core.E3] = core.Square{Occupied: true, Piece: core.Piece{Type: core.PAWN, Color: core.WHITE}}
-				b[core.C5] = core.Square{Occupied: true, Piece: core.Piece{Type: core.PAWN, Color: core.WHITE}}
-				b[core.C3] = core.Square{Occupied: true, Piece: core.Piece{Type: core.PAWN, Color: core.WHITE}}
+				b[core.D5] = core.NewSquare(core.Piece{Type: core.PAWN, Color: core.WHITE})
+				b[core.D3] = core.NewSquare(core.Piece{Type: core.PAWN, Color: core.WHITE})
+				b[core.E4] = core.NewSquare(core.Piece{Type: core.PAWN, Color: core.WHITE})
+				b[core.C4] = core.NewSquare(core.Piece{Type: core.PAWN, Color: core.WHITE})
+				b[core.E5] = core.NewSquare(core.Piece{Type: core.PAWN, Color: core.WHITE})
+				b[core.E3] = core.NewSquare(core.Piece{Type: core.PAWN, Color: core.WHITE})
+				b[core.C5] = core.NewSquare(core.Piece{Type: core.PAWN, Color: core.WHITE})
+				b[core.C3] = core.NewSquare(core.Piece{Type: core.PAWN, Color: core.WHITE})
 			},
 			expectedTos: []core.Position{},
 		},
@@ -781,14 +781,14 @@ func TestQueenPseudoLegalMoves(t *testing.T) {
 			from:       core.D4,
 			sideToMove: core.WHITE,
 			setupBoard: func(b *core.Board) {
-				b[core.D5] = core.Square{Occupied: true, Piece: core.Piece{Type: core.PAWN, Color: core.BLACK}}
-				b[core.D3] = core.Square{Occupied: true, Piece: core.Piece{Type: core.PAWN, Color: core.BLACK}}
-				b[core.E4] = core.Square{Occupied: true, Piece: core.Piece{Type: core.PAWN, Color: core.BLACK}}
-				b[core.C4] = core.Square{Occupied: true, Piece: core.Piece{Type: core.PAWN, Color: core.BLACK}}
-				b[core.E5] = core.Square{Occupied: true, Piece: core.Piece{Type: core.PAWN, Color: core.BLACK}}
-				b[core.E3] = core.Square{Occupied: true, Piece: core.Piece{Type: core.PAWN, Color: core.BLACK}}
-				b[core.C5] = core.Square{Occupied: true, Piece: core.Piece{Type: core.PAWN, Color: core.BLACK}}
-				b[core.C3] = core.Square{Occupied: true, Piece: core.Piece{Type: core.PAWN, Color: core.BLACK}}
+				b[core.D5] = core.NewSquare(core.Piece{Type: core.PAWN, Color: core.BLACK})
+				b[core.D3] = core.NewSquare(core.Piece{Type: core.PAWN, Color: core.BLACK})
+				b[core.E4] = core.NewSquare(core.Piece{Type: core.PAWN, Color: core.BLACK})
+				b[core.C4] = core.NewSquare(core.Piece{Type: core.PAWN, Color: core.BLACK})
+				b[core.E5] = core.NewSquare(core.Piece{Type: core.PAWN, Color: core.BLACK})
+				b[core.E3] = core.NewSquare(core.Piece{Type: core.PAWN, Color: core.BLACK})
+				b[core.C5] = core.NewSquare(core.Piece{Type: core.PAWN, Color: core.BLACK})
+				b[core.C3] = core.NewSquare(core.Piece{Type: core.PAWN, Color: core.BLACK})
 			},
 			expectedTos: []core.Position{core.D5, core.D3, core.E4, core.C4, core.E5, core.E3, core.C5, core.C3},
 		},
@@ -797,8 +797,8 @@ func TestQueenPseudoLegalMoves(t *testing.T) {
 			from:       core.D4,
 			sideToMove: core.BLACK,
 			setupBoard: func(b *core.Board) {
-				b[core.F4] = core.Square{Occupied: true, Piece: core.Piece{Type: core.PAWN, Color: core.WHITE}}
-				b[core.F6] = core.Square{Occupied: true, Piece: core.Piece{Type: core.PAWN, Color: core.WHITE}}
+				b[core.F4] = core.NewSquare(core.Piece{Type: core.PAWN, Color: core.WHITE})
+				b[core.F6] = core.NewSquare(core.Piece{Type: core.PAWN, Color: core.WHITE})
 			},
 			expectedTos: []core.Position{
 				// Orthogonal Right stops at F4 (inclusive)
@@ -819,8 +819,8 @@ func TestQueenPseudoLegalMoves(t *testing.T) {
 			from:       core.D4,
 			sideToMove: core.BLACK,
 			setupBoard: func(b *core.Board) {
-				b[core.F4] = core.Square{Occupied: true, Piece: core.Piece{Type: core.PAWN, Color: core.BLACK}}
-				b[core.F6] = core.Square{Occupied: true, Piece: core.Piece{Type: core.PAWN, Color: core.BLACK}}
+				b[core.F4] = core.NewSquare(core.Piece{Type: core.PAWN, Color: core.BLACK})
+				b[core.F6] = core.NewSquare(core.Piece{Type: core.PAWN, Color: core.BLACK})
 			},
 			expectedTos: []core.Position{
 				// Orthogonal Right stops before F4 (exclusive)
@@ -842,15 +842,15 @@ func TestQueenPseudoLegalMoves(t *testing.T) {
 			sideToMove: core.WHITE,
 			setupBoard: func(b *core.Board) {
 				// Different enemy piece types — orthogonal captures
-				b[core.D6] = core.Square{Occupied: true, Piece: core.Piece{Type: core.QUEEN, Color: core.BLACK}}  // Up
-				b[core.D2] = core.Square{Occupied: true, Piece: core.Piece{Type: core.ROOK, Color: core.BLACK}}   // Down
-				b[core.F4] = core.Square{Occupied: true, Piece: core.Piece{Type: core.BISHOP, Color: core.BLACK}} // Right
-				b[core.B4] = core.Square{Occupied: true, Piece: core.Piece{Type: core.KNIGHT, Color: core.BLACK}} // Left
+				b[core.D6] = core.NewSquare(core.Piece{Type: core.QUEEN, Color: core.BLACK})  // Up
+				b[core.D2] = core.NewSquare(core.Piece{Type: core.ROOK, Color: core.BLACK})   // Down
+				b[core.F4] = core.NewSquare(core.Piece{Type: core.BISHOP, Color: core.BLACK}) // Right
+				b[core.B4] = core.NewSquare(core.Piece{Type: core.KNIGHT, Color: core.BLACK}) // Left
 				// Diagonal captures
-				b[core.F6] = core.Square{Occupied: true, Piece: core.Piece{Type: core.PAWN, Color: core.BLACK}} // NE
-				b[core.F2] = core.Square{Occupied: true, Piece: core.Piece{Type: core.PAWN, Color: core.BLACK}} // SE
-				b[core.B6] = core.Square{Occupied: true, Piece: core.Piece{Type: core.PAWN, Color: core.BLACK}} // NW
-				b[core.B2] = core.Square{Occupied: true, Piece: core.Piece{Type: core.PAWN, Color: core.BLACK}} // SW
+				b[core.F6] = core.NewSquare(core.Piece{Type: core.PAWN, Color: core.BLACK}) // NE
+				b[core.F2] = core.NewSquare(core.Piece{Type: core.PAWN, Color: core.BLACK}) // SE
+				b[core.B6] = core.NewSquare(core.Piece{Type: core.PAWN, Color: core.BLACK}) // NW
+				b[core.B2] = core.NewSquare(core.Piece{Type: core.PAWN, Color: core.BLACK}) // SW
 			},
 			expectedTos: []core.Position{
 				// Up: D5, D6 (capture)
@@ -924,8 +924,8 @@ func TestQueenPseudoLegalMoves(t *testing.T) {
 			expectedCaptures := map[core.Position]core.Piece{}
 			for _, pos := range tt.expectedTos {
 				sq := board[pos]
-				if sq.Occupied && sq.Piece.Color != tt.sideToMove {
-					expectedCaptures[pos] = sq.Piece
+				if sq.IsOccupied() && sq.Color() != tt.sideToMove {
+					expectedCaptures[pos] = sq.Piece()
 				}
 			}
 

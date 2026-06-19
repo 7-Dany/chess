@@ -19,7 +19,7 @@ func TestPawnIsAttacking(t *testing.T) {
 		{
 			name: "white pawn attacks from down-left (D3 attacks E4)",
 			setupBoard: func(b *core.Board) {
-				b[core.D3] = core.Square{Piece: core.Piece{Type: core.PAWN, Color: core.WHITE}, Occupied: true}
+				b[core.D3] = core.NewSquare(core.Piece{Type: core.PAWN, Color: core.WHITE})
 			},
 			color:  core.WHITE,
 			target: core.E4,
@@ -28,7 +28,7 @@ func TestPawnIsAttacking(t *testing.T) {
 		{
 			name: "white pawn attacks from down-right (F3 attacks E4)",
 			setupBoard: func(b *core.Board) {
-				b[core.F3] = core.Square{Piece: core.Piece{Type: core.PAWN, Color: core.WHITE}, Occupied: true}
+				b[core.F3] = core.NewSquare(core.Piece{Type: core.PAWN, Color: core.WHITE})
 			},
 			color:  core.WHITE,
 			target: core.E4,
@@ -40,7 +40,7 @@ func TestPawnIsAttacking(t *testing.T) {
 		{
 			name: "black pawn attacks from up-left (D5 attacks E4)",
 			setupBoard: func(b *core.Board) {
-				b[core.D5] = core.Square{Piece: core.Piece{Type: core.PAWN, Color: core.BLACK}, Occupied: true}
+				b[core.D5] = core.NewSquare(core.Piece{Type: core.PAWN, Color: core.BLACK})
 			},
 			color:  core.BLACK,
 			target: core.E4,
@@ -49,7 +49,7 @@ func TestPawnIsAttacking(t *testing.T) {
 		{
 			name: "black pawn attacks from up-right (F5 attacks E4)",
 			setupBoard: func(b *core.Board) {
-				b[core.F5] = core.Square{Piece: core.Piece{Type: core.PAWN, Color: core.BLACK}, Occupied: true}
+				b[core.F5] = core.NewSquare(core.Piece{Type: core.PAWN, Color: core.BLACK})
 			},
 			color:  core.BLACK,
 			target: core.E4,
@@ -60,7 +60,7 @@ func TestPawnIsAttacking(t *testing.T) {
 		{
 			name: "white pawn directly below target (same file) does NOT attack",
 			setupBoard: func(b *core.Board) {
-				b[core.E3] = core.Square{Piece: core.Piece{Type: core.PAWN, Color: core.WHITE}, Occupied: true}
+				b[core.E3] = core.NewSquare(core.Piece{Type: core.PAWN, Color: core.WHITE})
 			},
 			color:  core.WHITE,
 			target: core.E4,
@@ -69,7 +69,7 @@ func TestPawnIsAttacking(t *testing.T) {
 		{
 			name: "black pawn directly above target (same file) does NOT attack",
 			setupBoard: func(b *core.Board) {
-				b[core.E5] = core.Square{Piece: core.Piece{Type: core.PAWN, Color: core.BLACK}, Occupied: true}
+				b[core.E5] = core.NewSquare(core.Piece{Type: core.PAWN, Color: core.BLACK})
 			},
 			color:  core.BLACK,
 			target: core.E4,
@@ -78,7 +78,7 @@ func TestPawnIsAttacking(t *testing.T) {
 		{
 			name: "white pawn two ranks below target does not attack",
 			setupBoard: func(b *core.Board) {
-				b[core.D2] = core.Square{Piece: core.Piece{Type: core.PAWN, Color: core.WHITE}, Occupied: true}
+				b[core.D2] = core.NewSquare(core.Piece{Type: core.PAWN, Color: core.WHITE})
 			},
 			color:  core.WHITE,
 			target: core.E4,
@@ -87,7 +87,7 @@ func TestPawnIsAttacking(t *testing.T) {
 		{
 			name: "white pawn above target does not attack (wrong direction)",
 			setupBoard: func(b *core.Board) {
-				b[core.D5] = core.Square{Piece: core.Piece{Type: core.PAWN, Color: core.WHITE}, Occupied: true}
+				b[core.D5] = core.NewSquare(core.Piece{Type: core.PAWN, Color: core.WHITE})
 			},
 			color:  core.WHITE,
 			target: core.E4,
@@ -96,7 +96,7 @@ func TestPawnIsAttacking(t *testing.T) {
 		{
 			name: "black pawn below target does not attack (wrong direction)",
 			setupBoard: func(b *core.Board) {
-				b[core.F3] = core.Square{Piece: core.Piece{Type: core.PAWN, Color: core.BLACK}, Occupied: true}
+				b[core.F3] = core.NewSquare(core.Piece{Type: core.PAWN, Color: core.BLACK})
 			},
 			color:  core.BLACK,
 			target: core.E4,
@@ -105,7 +105,7 @@ func TestPawnIsAttacking(t *testing.T) {
 		{
 			name: "white pawn on same rank does not attack",
 			setupBoard: func(b *core.Board) {
-				b[core.D4] = core.Square{Piece: core.Piece{Type: core.PAWN, Color: core.WHITE}, Occupied: true}
+				b[core.D4] = core.NewSquare(core.Piece{Type: core.PAWN, Color: core.WHITE})
 			},
 			color:  core.WHITE,
 			target: core.E4,
@@ -116,7 +116,7 @@ func TestPawnIsAttacking(t *testing.T) {
 		{
 			name: "black pawn on white-attack square, asking for white",
 			setupBoard: func(b *core.Board) {
-				b[core.D3] = core.Square{Piece: core.Piece{Type: core.PAWN, Color: core.BLACK}, Occupied: true}
+				b[core.D3] = core.NewSquare(core.Piece{Type: core.PAWN, Color: core.BLACK})
 			},
 			color:  core.WHITE,
 			target: core.E4,
@@ -125,7 +125,7 @@ func TestPawnIsAttacking(t *testing.T) {
 		{
 			name: "white pawn on black-attack square, asking for black",
 			setupBoard: func(b *core.Board) {
-				b[core.D5] = core.Square{Piece: core.Piece{Type: core.PAWN, Color: core.WHITE}, Occupied: true}
+				b[core.D5] = core.NewSquare(core.Piece{Type: core.PAWN, Color: core.WHITE})
 			},
 			color:  core.BLACK,
 			target: core.E4,
@@ -134,7 +134,7 @@ func TestPawnIsAttacking(t *testing.T) {
 		{
 			name: "black pawn on white-attack square, asking for black",
 			setupBoard: func(b *core.Board) {
-				b[core.D3] = core.Square{Piece: core.Piece{Type: core.PAWN, Color: core.BLACK}, Occupied: true}
+				b[core.D3] = core.NewSquare(core.Piece{Type: core.PAWN, Color: core.BLACK})
 			},
 			color:  core.BLACK,
 			target: core.E4,
@@ -143,7 +143,7 @@ func TestPawnIsAttacking(t *testing.T) {
 		{
 			name: "white pawn on black-attack square, asking for white",
 			setupBoard: func(b *core.Board) {
-				b[core.D5] = core.Square{Piece: core.Piece{Type: core.PAWN, Color: core.WHITE}, Occupied: true}
+				b[core.D5] = core.NewSquare(core.Piece{Type: core.PAWN, Color: core.WHITE})
 			},
 			color:  core.WHITE,
 			target: core.E4,
@@ -154,7 +154,7 @@ func TestPawnIsAttacking(t *testing.T) {
 		{
 			name: "queen on attack diagonal does NOT trigger pawn attack",
 			setupBoard: func(b *core.Board) {
-				b[core.D3] = core.Square{Piece: core.Piece{Type: core.QUEEN, Color: core.WHITE}, Occupied: true}
+				b[core.D3] = core.NewSquare(core.Piece{Type: core.QUEEN, Color: core.WHITE})
 			},
 			color:  core.WHITE,
 			target: core.E4,
@@ -163,7 +163,7 @@ func TestPawnIsAttacking(t *testing.T) {
 		{
 			name: "bishop on attack diagonal does not trigger pawn attack",
 			setupBoard: func(b *core.Board) {
-				b[core.D3] = core.Square{Piece: core.Piece{Type: core.BISHOP, Color: core.WHITE}, Occupied: true}
+				b[core.D3] = core.NewSquare(core.Piece{Type: core.BISHOP, Color: core.WHITE})
 			},
 			color:  core.WHITE,
 			target: core.E4,
@@ -172,7 +172,7 @@ func TestPawnIsAttacking(t *testing.T) {
 		{
 			name: "knight on attack diagonal does not trigger pawn attack",
 			setupBoard: func(b *core.Board) {
-				b[core.F3] = core.Square{Piece: core.Piece{Type: core.KNIGHT, Color: core.WHITE}, Occupied: true}
+				b[core.F3] = core.NewSquare(core.Piece{Type: core.KNIGHT, Color: core.WHITE})
 			},
 			color:  core.WHITE,
 			target: core.E4,
@@ -181,7 +181,7 @@ func TestPawnIsAttacking(t *testing.T) {
 		{
 			name: "rook on attack diagonal does not trigger pawn attack",
 			setupBoard: func(b *core.Board) {
-				b[core.F3] = core.Square{Piece: core.Piece{Type: core.ROOK, Color: core.WHITE}, Occupied: true}
+				b[core.F3] = core.NewSquare(core.Piece{Type: core.ROOK, Color: core.WHITE})
 			},
 			color:  core.WHITE,
 			target: core.E4,
@@ -190,7 +190,7 @@ func TestPawnIsAttacking(t *testing.T) {
 		{
 			name: "king on attack diagonal does not trigger pawn attack",
 			setupBoard: func(b *core.Board) {
-				b[core.D3] = core.Square{Piece: core.Piece{Type: core.KING, Color: core.WHITE}, Occupied: true}
+				b[core.D3] = core.NewSquare(core.Piece{Type: core.KING, Color: core.WHITE})
 			},
 			color:  core.WHITE,
 			target: core.E4,
@@ -201,7 +201,7 @@ func TestPawnIsAttacking(t *testing.T) {
 		{
 			name: "target on rank 1 cannot be attacked by white pawn (no rank below)",
 			setupBoard: func(b *core.Board) {
-				b[core.D1] = core.Square{Piece: core.Piece{Type: core.PAWN, Color: core.WHITE}, Occupied: true}
+				b[core.D1] = core.NewSquare(core.Piece{Type: core.PAWN, Color: core.WHITE})
 			},
 			color:  core.WHITE,
 			target: core.E1,
@@ -210,7 +210,7 @@ func TestPawnIsAttacking(t *testing.T) {
 		{
 			name: "target on rank 1 CAN be attacked by black pawn from rank 2",
 			setupBoard: func(b *core.Board) {
-				b[core.D2] = core.Square{Piece: core.Piece{Type: core.PAWN, Color: core.BLACK}, Occupied: true}
+				b[core.D2] = core.NewSquare(core.Piece{Type: core.PAWN, Color: core.BLACK})
 			},
 			color:  core.BLACK,
 			target: core.E1,
@@ -219,7 +219,7 @@ func TestPawnIsAttacking(t *testing.T) {
 		{
 			name: "target on rank 8 cannot be attacked by black pawn (no rank above)",
 			setupBoard: func(b *core.Board) {
-				b[core.D8] = core.Square{Piece: core.Piece{Type: core.PAWN, Color: core.BLACK}, Occupied: true}
+				b[core.D8] = core.NewSquare(core.Piece{Type: core.PAWN, Color: core.BLACK})
 			},
 			color:  core.BLACK,
 			target: core.E8,
@@ -228,7 +228,7 @@ func TestPawnIsAttacking(t *testing.T) {
 		{
 			name: "target on rank 8 CAN be attacked by white pawn from rank 7",
 			setupBoard: func(b *core.Board) {
-				b[core.D7] = core.Square{Piece: core.Piece{Type: core.PAWN, Color: core.WHITE}, Occupied: true}
+				b[core.D7] = core.NewSquare(core.Piece{Type: core.PAWN, Color: core.WHITE})
 			},
 			color:  core.WHITE,
 			target: core.E8,
@@ -239,7 +239,7 @@ func TestPawnIsAttacking(t *testing.T) {
 		{
 			name: "target on A4, white pawn attacks from B3 (only right diagonal valid)",
 			setupBoard: func(b *core.Board) {
-				b[core.B3] = core.Square{Piece: core.Piece{Type: core.PAWN, Color: core.WHITE}, Occupied: true}
+				b[core.B3] = core.NewSquare(core.Piece{Type: core.PAWN, Color: core.WHITE})
 			},
 			color:  core.WHITE,
 			target: core.A4,
@@ -248,7 +248,7 @@ func TestPawnIsAttacking(t *testing.T) {
 		{
 			name: "target on A4, no white pawn attacks from off-board left diagonal",
 			setupBoard: func(b *core.Board) {
-				b[core.B3] = core.Square{Piece: core.Piece{Type: core.PAWN, Color: core.WHITE}, Occupied: true}
+				b[core.B3] = core.NewSquare(core.Piece{Type: core.PAWN, Color: core.WHITE})
 			},
 			color:  core.WHITE,
 			target: core.A4,
@@ -257,7 +257,7 @@ func TestPawnIsAttacking(t *testing.T) {
 		{
 			name: "target on H4, white pawn attacks from G3 (only left diagonal valid)",
 			setupBoard: func(b *core.Board) {
-				b[core.G3] = core.Square{Piece: core.Piece{Type: core.PAWN, Color: core.WHITE}, Occupied: true}
+				b[core.G3] = core.NewSquare(core.Piece{Type: core.PAWN, Color: core.WHITE})
 			},
 			color:  core.WHITE,
 			target: core.H4,
@@ -266,7 +266,7 @@ func TestPawnIsAttacking(t *testing.T) {
 		{
 			name: "target on A4, black pawn attacks from B5",
 			setupBoard: func(b *core.Board) {
-				b[core.B5] = core.Square{Piece: core.Piece{Type: core.PAWN, Color: core.BLACK}, Occupied: true}
+				b[core.B5] = core.NewSquare(core.Piece{Type: core.PAWN, Color: core.BLACK})
 			},
 			color:  core.BLACK,
 			target: core.A4,
@@ -275,7 +275,7 @@ func TestPawnIsAttacking(t *testing.T) {
 		{
 			name: "target on H4, black pawn attacks from G5",
 			setupBoard: func(b *core.Board) {
-				b[core.G5] = core.Square{Piece: core.Piece{Type: core.PAWN, Color: core.BLACK}, Occupied: true}
+				b[core.G5] = core.NewSquare(core.Piece{Type: core.PAWN, Color: core.BLACK})
 			},
 			color:  core.BLACK,
 			target: core.H4,
@@ -286,7 +286,7 @@ func TestPawnIsAttacking(t *testing.T) {
 		{
 			name: "target on A1, no white pawn attack possible (rank 1 + A file)",
 			setupBoard: func(b *core.Board) {
-				b[core.B1] = core.Square{Piece: core.Piece{Type: core.PAWN, Color: core.WHITE}, Occupied: true}
+				b[core.B1] = core.NewSquare(core.Piece{Type: core.PAWN, Color: core.WHITE})
 			},
 			color:  core.WHITE,
 			target: core.A1,
@@ -295,7 +295,7 @@ func TestPawnIsAttacking(t *testing.T) {
 		{
 			name: "target on A1, black pawn attacks from B2",
 			setupBoard: func(b *core.Board) {
-				b[core.B2] = core.Square{Piece: core.Piece{Type: core.PAWN, Color: core.BLACK}, Occupied: true}
+				b[core.B2] = core.NewSquare(core.Piece{Type: core.PAWN, Color: core.BLACK})
 			},
 			color:  core.BLACK,
 			target: core.A1,
@@ -304,7 +304,7 @@ func TestPawnIsAttacking(t *testing.T) {
 		{
 			name: "target on H8, no black pawn attack possible (rank 8 + H file)",
 			setupBoard: func(b *core.Board) {
-				b[core.G8] = core.Square{Piece: core.Piece{Type: core.PAWN, Color: core.BLACK}, Occupied: true}
+				b[core.G8] = core.NewSquare(core.Piece{Type: core.PAWN, Color: core.BLACK})
 			},
 			color:  core.BLACK,
 			target: core.H8,
@@ -313,7 +313,7 @@ func TestPawnIsAttacking(t *testing.T) {
 		{
 			name: "target on H8, white pawn attacks from G7",
 			setupBoard: func(b *core.Board) {
-				b[core.G7] = core.Square{Piece: core.Piece{Type: core.PAWN, Color: core.WHITE}, Occupied: true}
+				b[core.G7] = core.NewSquare(core.Piece{Type: core.PAWN, Color: core.WHITE})
 			},
 			color:  core.WHITE,
 			target: core.H8,
@@ -322,7 +322,7 @@ func TestPawnIsAttacking(t *testing.T) {
 		{
 			name: "target on A8, white pawn attacks from B7",
 			setupBoard: func(b *core.Board) {
-				b[core.B7] = core.Square{Piece: core.Piece{Type: core.PAWN, Color: core.WHITE}, Occupied: true}
+				b[core.B7] = core.NewSquare(core.Piece{Type: core.PAWN, Color: core.WHITE})
 			},
 			color:  core.WHITE,
 			target: core.A8,
@@ -331,7 +331,7 @@ func TestPawnIsAttacking(t *testing.T) {
 		{
 			name: "target on H1, black pawn attacks from G2",
 			setupBoard: func(b *core.Board) {
-				b[core.G2] = core.Square{Piece: core.Piece{Type: core.PAWN, Color: core.BLACK}, Occupied: true}
+				b[core.G2] = core.NewSquare(core.Piece{Type: core.PAWN, Color: core.BLACK})
 			},
 			color:  core.BLACK,
 			target: core.H1,
@@ -349,7 +349,7 @@ func TestPawnIsAttacking(t *testing.T) {
 		{
 			name: "pawn on target square itself does not attack",
 			setupBoard: func(b *core.Board) {
-				b[core.E4] = core.Square{Piece: core.Piece{Type: core.PAWN, Color: core.WHITE}, Occupied: true}
+				b[core.E4] = core.NewSquare(core.Piece{Type: core.PAWN, Color: core.WHITE})
 			},
 			color:  core.WHITE,
 			target: core.E4,
@@ -360,8 +360,8 @@ func TestPawnIsAttacking(t *testing.T) {
 		{
 			name: "two white pawns on both attack diagonals",
 			setupBoard: func(b *core.Board) {
-				b[core.D3] = core.Square{Piece: core.Piece{Type: core.PAWN, Color: core.WHITE}, Occupied: true}
-				b[core.F3] = core.Square{Piece: core.Piece{Type: core.PAWN, Color: core.WHITE}, Occupied: true}
+				b[core.D3] = core.NewSquare(core.Piece{Type: core.PAWN, Color: core.WHITE})
+				b[core.F3] = core.NewSquare(core.Piece{Type: core.PAWN, Color: core.WHITE})
 			},
 			color:  core.WHITE,
 			target: core.E4,
@@ -370,8 +370,8 @@ func TestPawnIsAttacking(t *testing.T) {
 		{
 			name: "white and black pawns on opposite diagonals, asking for white",
 			setupBoard: func(b *core.Board) {
-				b[core.D3] = core.Square{Piece: core.Piece{Type: core.PAWN, Color: core.WHITE}, Occupied: true}
-				b[core.D5] = core.Square{Piece: core.Piece{Type: core.PAWN, Color: core.BLACK}, Occupied: true}
+				b[core.D3] = core.NewSquare(core.Piece{Type: core.PAWN, Color: core.WHITE})
+				b[core.D5] = core.NewSquare(core.Piece{Type: core.PAWN, Color: core.BLACK})
 			},
 			color:  core.WHITE,
 			target: core.E4,
@@ -380,8 +380,8 @@ func TestPawnIsAttacking(t *testing.T) {
 		{
 			name: "white and black pawns on opposite diagonals, asking for black",
 			setupBoard: func(b *core.Board) {
-				b[core.D3] = core.Square{Piece: core.Piece{Type: core.PAWN, Color: core.WHITE}, Occupied: true}
-				b[core.D5] = core.Square{Piece: core.Piece{Type: core.PAWN, Color: core.BLACK}, Occupied: true}
+				b[core.D3] = core.NewSquare(core.Piece{Type: core.PAWN, Color: core.WHITE})
+				b[core.D5] = core.NewSquare(core.Piece{Type: core.PAWN, Color: core.BLACK})
 			},
 			color:  core.BLACK,
 			target: core.E4,
@@ -390,8 +390,8 @@ func TestPawnIsAttacking(t *testing.T) {
 		{
 			name: "pawns on wrong-color attack squares don't match",
 			setupBoard: func(b *core.Board) {
-				b[core.D3] = core.Square{Piece: core.Piece{Type: core.PAWN, Color: core.BLACK}, Occupied: true}
-				b[core.D5] = core.Square{Piece: core.Piece{Type: core.PAWN, Color: core.WHITE}, Occupied: true}
+				b[core.D3] = core.NewSquare(core.Piece{Type: core.PAWN, Color: core.BLACK})
+				b[core.D5] = core.NewSquare(core.Piece{Type: core.PAWN, Color: core.WHITE})
 			},
 			color:  core.WHITE,
 			target: core.E4,
@@ -421,7 +421,7 @@ func TestPawnAttacks(t *testing.T) {
 
 	newCtx := func(from core.Position, color core.PieceColor) core.BoardContext {
 		board := &core.Board{}
-		board[from] = core.Square{Piece: core.Piece{Color: color}, Occupied: true}
+		board[from] = core.NewSquare(core.Piece{Color: color})
 		return core.BoardContext{Board: board}
 	}
 
@@ -639,7 +639,7 @@ func TestPawnPseudoLegalMoves(t *testing.T) {
 			from:       core.E4,
 			sideToMove: core.WHITE,
 			setupBoard: func(b *core.Board) {
-				b[core.E5] = core.Square{Occupied: true, Piece: core.Piece{Type: core.ROOK, Color: core.WHITE}}
+				b[core.E5] = core.NewSquare(core.Piece{Type: core.ROOK, Color: core.WHITE})
 			},
 			expectedTos: []core.Position{},
 		},
@@ -648,7 +648,7 @@ func TestPawnPseudoLegalMoves(t *testing.T) {
 			from:       core.E4,
 			sideToMove: core.WHITE,
 			setupBoard: func(b *core.Board) {
-				b[core.E5] = core.Square{Occupied: true, Piece: core.Piece{Type: core.ROOK, Color: core.BLACK}}
+				b[core.E5] = core.NewSquare(core.Piece{Type: core.ROOK, Color: core.BLACK})
 			},
 			expectedTos: []core.Position{},
 		},
@@ -657,7 +657,7 @@ func TestPawnPseudoLegalMoves(t *testing.T) {
 			from:       core.E5,
 			sideToMove: core.BLACK,
 			setupBoard: func(b *core.Board) {
-				b[core.E4] = core.Square{Occupied: true, Piece: core.Piece{Type: core.ROOK, Color: core.BLACK}}
+				b[core.E4] = core.NewSquare(core.Piece{Type: core.ROOK, Color: core.BLACK})
 			},
 			expectedTos: []core.Position{},
 		},
@@ -666,7 +666,7 @@ func TestPawnPseudoLegalMoves(t *testing.T) {
 			from:       core.E5,
 			sideToMove: core.BLACK,
 			setupBoard: func(b *core.Board) {
-				b[core.E4] = core.Square{Occupied: true, Piece: core.Piece{Type: core.ROOK, Color: core.WHITE}}
+				b[core.E4] = core.NewSquare(core.Piece{Type: core.ROOK, Color: core.WHITE})
 			},
 			expectedTos: []core.Position{},
 		},
@@ -699,7 +699,7 @@ func TestPawnPseudoLegalMoves(t *testing.T) {
 			from:       core.E2,
 			sideToMove: core.WHITE,
 			setupBoard: func(b *core.Board) {
-				b[core.E3] = core.Square{Occupied: true, Piece: core.Piece{Type: core.PAWN, Color: core.WHITE}}
+				b[core.E3] = core.NewSquare(core.Piece{Type: core.PAWN, Color: core.WHITE})
 			},
 			expectedTos: []core.Position{},
 		},
@@ -708,7 +708,7 @@ func TestPawnPseudoLegalMoves(t *testing.T) {
 			from:       core.E2,
 			sideToMove: core.WHITE,
 			setupBoard: func(b *core.Board) {
-				b[core.E3] = core.Square{Occupied: true, Piece: core.Piece{Type: core.PAWN, Color: core.BLACK}}
+				b[core.E3] = core.NewSquare(core.Piece{Type: core.PAWN, Color: core.BLACK})
 			},
 			expectedTos: []core.Position{},
 		},
@@ -717,7 +717,7 @@ func TestPawnPseudoLegalMoves(t *testing.T) {
 			from:       core.E2,
 			sideToMove: core.WHITE,
 			setupBoard: func(b *core.Board) {
-				b[core.E4] = core.Square{Occupied: true, Piece: core.Piece{Type: core.PAWN, Color: core.WHITE}}
+				b[core.E4] = core.NewSquare(core.Piece{Type: core.PAWN, Color: core.WHITE})
 			},
 			expectedTos: []core.Position{core.E3},
 		},
@@ -726,7 +726,7 @@ func TestPawnPseudoLegalMoves(t *testing.T) {
 			from:       core.E2,
 			sideToMove: core.WHITE,
 			setupBoard: func(b *core.Board) {
-				b[core.E4] = core.Square{Occupied: true, Piece: core.Piece{Type: core.PAWN, Color: core.BLACK}}
+				b[core.E4] = core.NewSquare(core.Piece{Type: core.PAWN, Color: core.BLACK})
 			},
 			expectedTos: []core.Position{core.E3},
 		},
@@ -735,7 +735,7 @@ func TestPawnPseudoLegalMoves(t *testing.T) {
 			from:       core.E7,
 			sideToMove: core.BLACK,
 			setupBoard: func(b *core.Board) {
-				b[core.E6] = core.Square{Occupied: true, Piece: core.Piece{Type: core.PAWN, Color: core.BLACK}}
+				b[core.E6] = core.NewSquare(core.Piece{Type: core.PAWN, Color: core.BLACK})
 			},
 			expectedTos: []core.Position{},
 		},
@@ -744,7 +744,7 @@ func TestPawnPseudoLegalMoves(t *testing.T) {
 			from:       core.E7,
 			sideToMove: core.BLACK,
 			setupBoard: func(b *core.Board) {
-				b[core.E6] = core.Square{Occupied: true, Piece: core.Piece{Type: core.PAWN, Color: core.WHITE}}
+				b[core.E6] = core.NewSquare(core.Piece{Type: core.PAWN, Color: core.WHITE})
 			},
 			expectedTos: []core.Position{},
 		},
@@ -753,7 +753,7 @@ func TestPawnPseudoLegalMoves(t *testing.T) {
 			from:       core.E7,
 			sideToMove: core.BLACK,
 			setupBoard: func(b *core.Board) {
-				b[core.E5] = core.Square{Occupied: true, Piece: core.Piece{Type: core.PAWN, Color: core.BLACK}}
+				b[core.E5] = core.NewSquare(core.Piece{Type: core.PAWN, Color: core.BLACK})
 			},
 			expectedTos: []core.Position{core.E6},
 		},
@@ -762,7 +762,7 @@ func TestPawnPseudoLegalMoves(t *testing.T) {
 			from:       core.E7,
 			sideToMove: core.BLACK,
 			setupBoard: func(b *core.Board) {
-				b[core.E5] = core.Square{Occupied: true, Piece: core.Piece{Type: core.PAWN, Color: core.WHITE}}
+				b[core.E5] = core.NewSquare(core.Piece{Type: core.PAWN, Color: core.WHITE})
 			},
 			expectedTos: []core.Position{core.E6},
 		},
@@ -774,8 +774,8 @@ func TestPawnPseudoLegalMoves(t *testing.T) {
 			from:       core.E4,
 			sideToMove: core.WHITE,
 			setupBoard: func(b *core.Board) {
-				b[core.D5] = core.Square{Occupied: true, Piece: core.Piece{Type: core.PAWN, Color: core.BLACK}}
-				b[core.F5] = core.Square{Occupied: true, Piece: core.Piece{Type: core.PAWN, Color: core.BLACK}}
+				b[core.D5] = core.NewSquare(core.Piece{Type: core.PAWN, Color: core.BLACK})
+				b[core.F5] = core.NewSquare(core.Piece{Type: core.PAWN, Color: core.BLACK})
 			},
 			expectedTos: []core.Position{core.E5, core.D5, core.F5},
 		},
@@ -784,8 +784,8 @@ func TestPawnPseudoLegalMoves(t *testing.T) {
 			from:       core.E4,
 			sideToMove: core.WHITE,
 			setupBoard: func(b *core.Board) {
-				b[core.D5] = core.Square{Occupied: true, Piece: core.Piece{Type: core.PAWN, Color: core.WHITE}}
-				b[core.F5] = core.Square{Occupied: true, Piece: core.Piece{Type: core.PAWN, Color: core.WHITE}}
+				b[core.D5] = core.NewSquare(core.Piece{Type: core.PAWN, Color: core.WHITE})
+				b[core.F5] = core.NewSquare(core.Piece{Type: core.PAWN, Color: core.WHITE})
 			},
 			expectedTos: []core.Position{core.E5},
 		},
@@ -801,8 +801,8 @@ func TestPawnPseudoLegalMoves(t *testing.T) {
 			from:       core.E5,
 			sideToMove: core.BLACK,
 			setupBoard: func(b *core.Board) {
-				b[core.D4] = core.Square{Occupied: true, Piece: core.Piece{Type: core.PAWN, Color: core.WHITE}}
-				b[core.F4] = core.Square{Occupied: true, Piece: core.Piece{Type: core.PAWN, Color: core.WHITE}}
+				b[core.D4] = core.NewSquare(core.Piece{Type: core.PAWN, Color: core.WHITE})
+				b[core.F4] = core.NewSquare(core.Piece{Type: core.PAWN, Color: core.WHITE})
 			},
 			expectedTos: []core.Position{core.E4, core.D4, core.F4},
 		},
@@ -811,8 +811,8 @@ func TestPawnPseudoLegalMoves(t *testing.T) {
 			from:       core.E5,
 			sideToMove: core.BLACK,
 			setupBoard: func(b *core.Board) {
-				b[core.D4] = core.Square{Occupied: true, Piece: core.Piece{Type: core.PAWN, Color: core.BLACK}}
-				b[core.F4] = core.Square{Occupied: true, Piece: core.Piece{Type: core.PAWN, Color: core.BLACK}}
+				b[core.D4] = core.NewSquare(core.Piece{Type: core.PAWN, Color: core.BLACK})
+				b[core.F4] = core.NewSquare(core.Piece{Type: core.PAWN, Color: core.BLACK})
 			},
 			expectedTos: []core.Position{core.E4},
 		},
@@ -831,7 +831,7 @@ func TestPawnPseudoLegalMoves(t *testing.T) {
 			from:       core.A4,
 			sideToMove: core.WHITE,
 			setupBoard: func(b *core.Board) {
-				b[core.B5] = core.Square{Occupied: true, Piece: core.Piece{Type: core.PAWN, Color: core.BLACK}}
+				b[core.B5] = core.NewSquare(core.Piece{Type: core.PAWN, Color: core.BLACK})
 			},
 			expectedTos: []core.Position{core.A5, core.B5},
 		},
@@ -840,7 +840,7 @@ func TestPawnPseudoLegalMoves(t *testing.T) {
 			from:       core.H4,
 			sideToMove: core.WHITE,
 			setupBoard: func(b *core.Board) {
-				b[core.G5] = core.Square{Occupied: true, Piece: core.Piece{Type: core.PAWN, Color: core.BLACK}}
+				b[core.G5] = core.NewSquare(core.Piece{Type: core.PAWN, Color: core.BLACK})
 			},
 			expectedTos: []core.Position{core.H5, core.G5},
 		},
@@ -849,7 +849,7 @@ func TestPawnPseudoLegalMoves(t *testing.T) {
 			from:       core.A5,
 			sideToMove: core.BLACK,
 			setupBoard: func(b *core.Board) {
-				b[core.B4] = core.Square{Occupied: true, Piece: core.Piece{Type: core.PAWN, Color: core.WHITE}}
+				b[core.B4] = core.NewSquare(core.Piece{Type: core.PAWN, Color: core.WHITE})
 			},
 			expectedTos: []core.Position{core.A4, core.B4},
 		},
@@ -858,7 +858,7 @@ func TestPawnPseudoLegalMoves(t *testing.T) {
 			from:       core.H5,
 			sideToMove: core.BLACK,
 			setupBoard: func(b *core.Board) {
-				b[core.G4] = core.Square{Occupied: true, Piece: core.Piece{Type: core.PAWN, Color: core.WHITE}}
+				b[core.G4] = core.NewSquare(core.Piece{Type: core.PAWN, Color: core.WHITE})
 			},
 			expectedTos: []core.Position{core.H4, core.G4},
 		},
@@ -928,7 +928,7 @@ func TestPawnPseudoLegalMoves(t *testing.T) {
 			from:       core.E5,
 			sideToMove: core.WHITE,
 			setupBoard: func(b *core.Board) {
-				b[core.D6] = core.Square{Occupied: true, Piece: core.Piece{Type: core.PAWN, Color: core.BLACK}}
+				b[core.D6] = core.NewSquare(core.Piece{Type: core.PAWN, Color: core.BLACK})
 			},
 			enPassantTarget: core.F6,
 			expectedTos:     []core.Position{core.E6, core.D6, core.F6},
@@ -939,7 +939,7 @@ func TestPawnPseudoLegalMoves(t *testing.T) {
 			from:       core.E4,
 			sideToMove: core.BLACK,
 			setupBoard: func(b *core.Board) {
-				b[core.D3] = core.Square{Occupied: true, Piece: core.Piece{Type: core.PAWN, Color: core.WHITE}}
+				b[core.D3] = core.NewSquare(core.Piece{Type: core.PAWN, Color: core.WHITE})
 			},
 			enPassantTarget: core.F3,
 			expectedTos:     []core.Position{core.E3, core.D3, core.F3},
@@ -1001,8 +1001,8 @@ func TestPawnPseudoLegalMoves(t *testing.T) {
 			from:       core.E7,
 			sideToMove: core.WHITE,
 			setupBoard: func(b *core.Board) {
-				b[core.D8] = core.Square{Occupied: true, Piece: core.Piece{Type: core.ROOK, Color: core.BLACK}}
-				b[core.F8] = core.Square{Occupied: true, Piece: core.Piece{Type: core.ROOK, Color: core.BLACK}}
+				b[core.D8] = core.NewSquare(core.Piece{Type: core.ROOK, Color: core.BLACK})
+				b[core.F8] = core.NewSquare(core.Piece{Type: core.ROOK, Color: core.BLACK})
 			},
 			promotionTos: []core.Position{core.E8, core.D8, core.F8},
 			expectedTos:  []core.Position{core.E8, core.D8, core.F8},
@@ -1012,8 +1012,8 @@ func TestPawnPseudoLegalMoves(t *testing.T) {
 			from:       core.E7,
 			sideToMove: core.WHITE,
 			setupBoard: func(b *core.Board) {
-				b[core.E8] = core.Square{Occupied: true, Piece: core.Piece{Type: core.ROOK, Color: core.BLACK}}
-				b[core.F8] = core.Square{Occupied: true, Piece: core.Piece{Type: core.ROOK, Color: core.BLACK}}
+				b[core.E8] = core.NewSquare(core.Piece{Type: core.ROOK, Color: core.BLACK})
+				b[core.F8] = core.NewSquare(core.Piece{Type: core.ROOK, Color: core.BLACK})
 			},
 			promotionTos: []core.Position{core.F8},
 			expectedTos:  []core.Position{core.F8},
@@ -1024,8 +1024,8 @@ func TestPawnPseudoLegalMoves(t *testing.T) {
 			from:       core.E7,
 			sideToMove: core.WHITE,
 			setupBoard: func(b *core.Board) {
-				b[core.D8] = core.Square{Occupied: true, Piece: core.Piece{Type: core.ROOK, Color: core.WHITE}}
-				b[core.F8] = core.Square{Occupied: true, Piece: core.Piece{Type: core.ROOK, Color: core.WHITE}}
+				b[core.D8] = core.NewSquare(core.Piece{Type: core.ROOK, Color: core.WHITE})
+				b[core.F8] = core.NewSquare(core.Piece{Type: core.ROOK, Color: core.WHITE})
 			},
 			promotionTos: []core.Position{core.E8},
 			expectedTos:  []core.Position{core.E8},
@@ -1043,8 +1043,8 @@ func TestPawnPseudoLegalMoves(t *testing.T) {
 			from:       core.E2,
 			sideToMove: core.BLACK,
 			setupBoard: func(b *core.Board) {
-				b[core.D1] = core.Square{Occupied: true, Piece: core.Piece{Type: core.ROOK, Color: core.WHITE}}
-				b[core.F1] = core.Square{Occupied: true, Piece: core.Piece{Type: core.ROOK, Color: core.WHITE}}
+				b[core.D1] = core.NewSquare(core.Piece{Type: core.ROOK, Color: core.WHITE})
+				b[core.F1] = core.NewSquare(core.Piece{Type: core.ROOK, Color: core.WHITE})
 			},
 			promotionTos: []core.Position{core.E1, core.D1, core.F1},
 			expectedTos:  []core.Position{core.E1, core.D1, core.F1},
@@ -1054,8 +1054,8 @@ func TestPawnPseudoLegalMoves(t *testing.T) {
 			from:       core.E2,
 			sideToMove: core.BLACK,
 			setupBoard: func(b *core.Board) {
-				b[core.E1] = core.Square{Occupied: true, Piece: core.Piece{Type: core.ROOK, Color: core.WHITE}}
-				b[core.F1] = core.Square{Occupied: true, Piece: core.Piece{Type: core.ROOK, Color: core.WHITE}}
+				b[core.E1] = core.NewSquare(core.Piece{Type: core.ROOK, Color: core.WHITE})
+				b[core.F1] = core.NewSquare(core.Piece{Type: core.ROOK, Color: core.WHITE})
 			},
 			promotionTos: []core.Position{core.F1},
 			expectedTos:  []core.Position{core.F1},
@@ -1065,8 +1065,8 @@ func TestPawnPseudoLegalMoves(t *testing.T) {
 			from:       core.E2,
 			sideToMove: core.BLACK,
 			setupBoard: func(b *core.Board) {
-				b[core.D1] = core.Square{Occupied: true, Piece: core.Piece{Type: core.ROOK, Color: core.BLACK}}
-				b[core.F1] = core.Square{Occupied: true, Piece: core.Piece{Type: core.ROOK, Color: core.BLACK}}
+				b[core.D1] = core.NewSquare(core.Piece{Type: core.ROOK, Color: core.BLACK})
+				b[core.F1] = core.NewSquare(core.Piece{Type: core.ROOK, Color: core.BLACK})
 			},
 			promotionTos: []core.Position{core.E1},
 			expectedTos:  []core.Position{core.E1},
@@ -1077,7 +1077,7 @@ func TestPawnPseudoLegalMoves(t *testing.T) {
 			from:       core.A7,
 			sideToMove: core.WHITE,
 			setupBoard: func(b *core.Board) {
-				b[core.B8] = core.Square{Occupied: true, Piece: core.Piece{Type: core.ROOK, Color: core.BLACK}}
+				b[core.B8] = core.NewSquare(core.Piece{Type: core.ROOK, Color: core.BLACK})
 			},
 			promotionTos: []core.Position{core.A8, core.B8},
 			expectedTos:  []core.Position{core.A8, core.B8},
@@ -1088,7 +1088,7 @@ func TestPawnPseudoLegalMoves(t *testing.T) {
 			from:       core.H7,
 			sideToMove: core.WHITE,
 			setupBoard: func(b *core.Board) {
-				b[core.G8] = core.Square{Occupied: true, Piece: core.Piece{Type: core.ROOK, Color: core.BLACK}}
+				b[core.G8] = core.NewSquare(core.Piece{Type: core.ROOK, Color: core.BLACK})
 			},
 			promotionTos: []core.Position{core.H8, core.G8},
 			expectedTos:  []core.Position{core.H8, core.G8},
@@ -1098,7 +1098,7 @@ func TestPawnPseudoLegalMoves(t *testing.T) {
 			from:       core.A2,
 			sideToMove: core.BLACK,
 			setupBoard: func(b *core.Board) {
-				b[core.B1] = core.Square{Occupied: true, Piece: core.Piece{Type: core.ROOK, Color: core.WHITE}}
+				b[core.B1] = core.NewSquare(core.Piece{Type: core.ROOK, Color: core.WHITE})
 			},
 			promotionTos: []core.Position{core.A1, core.B1},
 			expectedTos:  []core.Position{core.A1, core.B1},
@@ -1108,7 +1108,7 @@ func TestPawnPseudoLegalMoves(t *testing.T) {
 			from:       core.H2,
 			sideToMove: core.BLACK,
 			setupBoard: func(b *core.Board) {
-				b[core.G1] = core.Square{Occupied: true, Piece: core.Piece{Type: core.ROOK, Color: core.WHITE}}
+				b[core.G1] = core.NewSquare(core.Piece{Type: core.ROOK, Color: core.WHITE})
 			},
 			promotionTos: []core.Position{core.H1, core.G1},
 			expectedTos:  []core.Position{core.H1, core.G1},
@@ -1120,9 +1120,9 @@ func TestPawnPseudoLegalMoves(t *testing.T) {
 			from:       core.E7,
 			sideToMove: core.WHITE,
 			setupBoard: func(b *core.Board) {
-				b[core.E8] = core.Square{Occupied: true, Piece: core.Piece{Type: core.ROOK, Color: core.WHITE}}
-				b[core.D8] = core.Square{Occupied: true, Piece: core.Piece{Type: core.PAWN, Color: core.WHITE}}
-				b[core.F8] = core.Square{Occupied: true, Piece: core.Piece{Type: core.PAWN, Color: core.WHITE}}
+				b[core.E8] = core.NewSquare(core.Piece{Type: core.ROOK, Color: core.WHITE})
+				b[core.D8] = core.NewSquare(core.Piece{Type: core.PAWN, Color: core.WHITE})
+				b[core.F8] = core.NewSquare(core.Piece{Type: core.PAWN, Color: core.WHITE})
 			},
 			expectedTos: []core.Position{},
 		},
@@ -1131,9 +1131,9 @@ func TestPawnPseudoLegalMoves(t *testing.T) {
 			from:       core.E2,
 			sideToMove: core.BLACK,
 			setupBoard: func(b *core.Board) {
-				b[core.E1] = core.Square{Occupied: true, Piece: core.Piece{Type: core.ROOK, Color: core.BLACK}}
-				b[core.D1] = core.Square{Occupied: true, Piece: core.Piece{Type: core.PAWN, Color: core.BLACK}}
-				b[core.F1] = core.Square{Occupied: true, Piece: core.Piece{Type: core.PAWN, Color: core.BLACK}}
+				b[core.E1] = core.NewSquare(core.Piece{Type: core.ROOK, Color: core.BLACK})
+				b[core.D1] = core.NewSquare(core.Piece{Type: core.PAWN, Color: core.BLACK})
+				b[core.F1] = core.NewSquare(core.Piece{Type: core.PAWN, Color: core.BLACK})
 			},
 			expectedTos: []core.Position{},
 		},
@@ -1145,8 +1145,8 @@ func TestPawnPseudoLegalMoves(t *testing.T) {
 			from:       core.E2,
 			sideToMove: core.WHITE,
 			setupBoard: func(b *core.Board) {
-				b[core.D3] = core.Square{Occupied: true, Piece: core.Piece{Type: core.PAWN, Color: core.BLACK}}
-				b[core.F3] = core.Square{Occupied: true, Piece: core.Piece{Type: core.PAWN, Color: core.BLACK}}
+				b[core.D3] = core.NewSquare(core.Piece{Type: core.PAWN, Color: core.BLACK})
+				b[core.F3] = core.NewSquare(core.Piece{Type: core.PAWN, Color: core.BLACK})
 			},
 			expectedTos: []core.Position{core.E3, core.E4, core.D3, core.F3},
 		},
@@ -1164,7 +1164,7 @@ func TestPawnPseudoLegalMoves(t *testing.T) {
 			from:       core.E4,
 			sideToMove: core.WHITE,
 			setupBoard: func(b *core.Board) {
-				b[core.E5] = core.Square{Occupied: true, Piece: core.Piece{Type: core.PAWN, Color: core.WHITE}}
+				b[core.E5] = core.NewSquare(core.Piece{Type: core.PAWN, Color: core.WHITE})
 			},
 			expectedTos: []core.Position{},
 		},
@@ -1254,8 +1254,8 @@ func TestPawnPseudoLegalMoves(t *testing.T) {
 			expectedCaptures := map[core.Position]core.Piece{}
 			for _, pos := range tt.expectedTos {
 				sq := board[pos]
-				if sq.Occupied && sq.Piece.Color == enemy {
-					expectedCaptures[pos] = sq.Piece
+				if sq.IsOccupied() && sq.Color() == enemy {
+					expectedCaptures[pos] = sq.Piece()
 				}
 			}
 			for _, pos := range tt.enPassantTos {

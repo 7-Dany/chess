@@ -19,7 +19,7 @@ func TestKnightIsAttacking(t *testing.T) {
 		{
 			name: "knight attacks from C3 (down-left L1)",
 			setupBoard: func(b *core.Board) {
-				b[core.C3] = core.Square{Piece: core.Piece{Type: core.KNIGHT, Color: core.WHITE}, Occupied: true}
+				b[core.C3] = core.NewSquare(core.Piece{Type: core.KNIGHT, Color: core.WHITE})
 			},
 			color:  core.WHITE,
 			target: core.E4,
@@ -28,7 +28,7 @@ func TestKnightIsAttacking(t *testing.T) {
 		{
 			name: "knight attacks from C5 (up-left L2)",
 			setupBoard: func(b *core.Board) {
-				b[core.C5] = core.Square{Piece: core.Piece{Type: core.KNIGHT, Color: core.WHITE}, Occupied: true}
+				b[core.C5] = core.NewSquare(core.Piece{Type: core.KNIGHT, Color: core.WHITE})
 			},
 			color:  core.WHITE,
 			target: core.E4,
@@ -37,7 +37,7 @@ func TestKnightIsAttacking(t *testing.T) {
 		{
 			name: "knight attacks from D2 (down-near L3)",
 			setupBoard: func(b *core.Board) {
-				b[core.D2] = core.Square{Piece: core.Piece{Type: core.KNIGHT, Color: core.WHITE}, Occupied: true}
+				b[core.D2] = core.NewSquare(core.Piece{Type: core.KNIGHT, Color: core.WHITE})
 			},
 			color:  core.WHITE,
 			target: core.E4,
@@ -46,7 +46,7 @@ func TestKnightIsAttacking(t *testing.T) {
 		{
 			name: "knight attacks from D6 (up-near L4)",
 			setupBoard: func(b *core.Board) {
-				b[core.D6] = core.Square{Piece: core.Piece{Type: core.KNIGHT, Color: core.WHITE}, Occupied: true}
+				b[core.D6] = core.NewSquare(core.Piece{Type: core.KNIGHT, Color: core.WHITE})
 			},
 			color:  core.WHITE,
 			target: core.E4,
@@ -55,7 +55,7 @@ func TestKnightIsAttacking(t *testing.T) {
 		{
 			name: "knight attacks from F2 (down-near L5)",
 			setupBoard: func(b *core.Board) {
-				b[core.F2] = core.Square{Piece: core.Piece{Type: core.KNIGHT, Color: core.WHITE}, Occupied: true}
+				b[core.F2] = core.NewSquare(core.Piece{Type: core.KNIGHT, Color: core.WHITE})
 			},
 			color:  core.WHITE,
 			target: core.E4,
@@ -64,7 +64,7 @@ func TestKnightIsAttacking(t *testing.T) {
 		{
 			name: "knight attacks from F6 (up-near L6)",
 			setupBoard: func(b *core.Board) {
-				b[core.F6] = core.Square{Piece: core.Piece{Type: core.KNIGHT, Color: core.WHITE}, Occupied: true}
+				b[core.F6] = core.NewSquare(core.Piece{Type: core.KNIGHT, Color: core.WHITE})
 			},
 			color:  core.WHITE,
 			target: core.E4,
@@ -73,7 +73,7 @@ func TestKnightIsAttacking(t *testing.T) {
 		{
 			name: "knight attacks from G3 (down-right L7)",
 			setupBoard: func(b *core.Board) {
-				b[core.G3] = core.Square{Piece: core.Piece{Type: core.KNIGHT, Color: core.WHITE}, Occupied: true}
+				b[core.G3] = core.NewSquare(core.Piece{Type: core.KNIGHT, Color: core.WHITE})
 			},
 			color:  core.WHITE,
 			target: core.E4,
@@ -82,7 +82,7 @@ func TestKnightIsAttacking(t *testing.T) {
 		{
 			name: "knight attacks from G5 (up-right L8)",
 			setupBoard: func(b *core.Board) {
-				b[core.G5] = core.Square{Piece: core.Piece{Type: core.KNIGHT, Color: core.WHITE}, Occupied: true}
+				b[core.G5] = core.NewSquare(core.Piece{Type: core.KNIGHT, Color: core.WHITE})
 			},
 			color:  core.WHITE,
 			target: core.E4,
@@ -93,7 +93,7 @@ func TestKnightIsAttacking(t *testing.T) {
 		{
 			name: "knight adjacent (not L-shape) does not attack",
 			setupBoard: func(b *core.Board) {
-				b[core.D3] = core.Square{Piece: core.Piece{Type: core.KNIGHT, Color: core.WHITE}, Occupied: true}
+				b[core.D3] = core.NewSquare(core.Piece{Type: core.KNIGHT, Color: core.WHITE})
 			},
 			color:  core.WHITE,
 			target: core.E4,
@@ -102,7 +102,7 @@ func TestKnightIsAttacking(t *testing.T) {
 		{
 			name: "knight on same file does not attack",
 			setupBoard: func(b *core.Board) {
-				b[core.E6] = core.Square{Piece: core.Piece{Type: core.KNIGHT, Color: core.WHITE}, Occupied: true}
+				b[core.E6] = core.NewSquare(core.Piece{Type: core.KNIGHT, Color: core.WHITE})
 			},
 			color:  core.WHITE,
 			target: core.E4,
@@ -111,7 +111,7 @@ func TestKnightIsAttacking(t *testing.T) {
 		{
 			name: "knight on same rank does not attack",
 			setupBoard: func(b *core.Board) {
-				b[core.H4] = core.Square{Piece: core.Piece{Type: core.KNIGHT, Color: core.WHITE}, Occupied: true}
+				b[core.H4] = core.NewSquare(core.Piece{Type: core.KNIGHT, Color: core.WHITE})
 			},
 			color:  core.WHITE,
 			target: core.E4,
@@ -120,7 +120,7 @@ func TestKnightIsAttacking(t *testing.T) {
 		{
 			name: "knight on diagonal does not attack",
 			setupBoard: func(b *core.Board) {
-				b[core.G6] = core.Square{Piece: core.Piece{Type: core.KNIGHT, Color: core.WHITE}, Occupied: true}
+				b[core.G6] = core.NewSquare(core.Piece{Type: core.KNIGHT, Color: core.WHITE})
 			},
 			color:  core.WHITE,
 			target: core.E4,
@@ -129,7 +129,7 @@ func TestKnightIsAttacking(t *testing.T) {
 		{
 			name: "knight on long diagonal does not attack",
 			setupBoard: func(b *core.Board) {
-				b[core.H7] = core.Square{Piece: core.Piece{Type: core.KNIGHT, Color: core.WHITE}, Occupied: true}
+				b[core.H7] = core.NewSquare(core.Piece{Type: core.KNIGHT, Color: core.WHITE})
 			},
 			color:  core.WHITE,
 			target: core.E4,
@@ -140,7 +140,7 @@ func TestKnightIsAttacking(t *testing.T) {
 		{
 			name: "black knight on L-shape, asking for white",
 			setupBoard: func(b *core.Board) {
-				b[core.D6] = core.Square{Piece: core.Piece{Type: core.KNIGHT, Color: core.BLACK}, Occupied: true}
+				b[core.D6] = core.NewSquare(core.Piece{Type: core.KNIGHT, Color: core.BLACK})
 			},
 			color:  core.WHITE,
 			target: core.E4,
@@ -149,7 +149,7 @@ func TestKnightIsAttacking(t *testing.T) {
 		{
 			name: "black knight on L-shape, asking for black",
 			setupBoard: func(b *core.Board) {
-				b[core.D6] = core.Square{Piece: core.Piece{Type: core.KNIGHT, Color: core.BLACK}, Occupied: true}
+				b[core.D6] = core.NewSquare(core.Piece{Type: core.KNIGHT, Color: core.BLACK})
 			},
 			color:  core.BLACK,
 			target: core.E4,
@@ -160,7 +160,7 @@ func TestKnightIsAttacking(t *testing.T) {
 		{
 			name: "queen on L-shape does NOT trigger knight attack",
 			setupBoard: func(b *core.Board) {
-				b[core.D6] = core.Square{Piece: core.Piece{Type: core.QUEEN, Color: core.WHITE}, Occupied: true}
+				b[core.D6] = core.NewSquare(core.Piece{Type: core.QUEEN, Color: core.WHITE})
 			},
 			color:  core.WHITE,
 			target: core.E4,
@@ -169,7 +169,7 @@ func TestKnightIsAttacking(t *testing.T) {
 		{
 			name: "rook on L-shape does not trigger knight attack",
 			setupBoard: func(b *core.Board) {
-				b[core.D6] = core.Square{Piece: core.Piece{Type: core.ROOK, Color: core.WHITE}, Occupied: true}
+				b[core.D6] = core.NewSquare(core.Piece{Type: core.ROOK, Color: core.WHITE})
 			},
 			color:  core.WHITE,
 			target: core.E4,
@@ -178,7 +178,7 @@ func TestKnightIsAttacking(t *testing.T) {
 		{
 			name: "bishop on L-shape does not trigger knight attack",
 			setupBoard: func(b *core.Board) {
-				b[core.D6] = core.Square{Piece: core.Piece{Type: core.BISHOP, Color: core.WHITE}, Occupied: true}
+				b[core.D6] = core.NewSquare(core.Piece{Type: core.BISHOP, Color: core.WHITE})
 			},
 			color:  core.WHITE,
 			target: core.E4,
@@ -187,7 +187,7 @@ func TestKnightIsAttacking(t *testing.T) {
 		{
 			name: "king on L-shape does not trigger knight attack",
 			setupBoard: func(b *core.Board) {
-				b[core.D6] = core.Square{Piece: core.Piece{Type: core.KING, Color: core.WHITE}, Occupied: true}
+				b[core.D6] = core.NewSquare(core.Piece{Type: core.KING, Color: core.WHITE})
 			},
 			color:  core.WHITE,
 			target: core.E4,
@@ -196,7 +196,7 @@ func TestKnightIsAttacking(t *testing.T) {
 		{
 			name: "pawn on L-shape does not trigger knight attack",
 			setupBoard: func(b *core.Board) {
-				b[core.D6] = core.Square{Piece: core.Piece{Type: core.PAWN, Color: core.WHITE}, Occupied: true}
+				b[core.D6] = core.NewSquare(core.Piece{Type: core.PAWN, Color: core.WHITE})
 			},
 			color:  core.WHITE,
 			target: core.E4,
@@ -214,7 +214,7 @@ func TestKnightIsAttacking(t *testing.T) {
 		{
 			name: "knight on target square itself does not attack",
 			setupBoard: func(b *core.Board) {
-				b[core.E4] = core.Square{Piece: core.Piece{Type: core.KNIGHT, Color: core.WHITE}, Occupied: true}
+				b[core.E4] = core.NewSquare(core.Piece{Type: core.KNIGHT, Color: core.WHITE})
 			},
 			color:  core.WHITE,
 			target: core.E4,
@@ -226,7 +226,7 @@ func TestKnightIsAttacking(t *testing.T) {
 		{
 			name: "target on A1, knight attacks from B3",
 			setupBoard: func(b *core.Board) {
-				b[core.B3] = core.Square{Piece: core.Piece{Type: core.KNIGHT, Color: core.WHITE}, Occupied: true}
+				b[core.B3] = core.NewSquare(core.Piece{Type: core.KNIGHT, Color: core.WHITE})
 			},
 			color:  core.WHITE,
 			target: core.A1,
@@ -235,7 +235,7 @@ func TestKnightIsAttacking(t *testing.T) {
 		{
 			name: "target on A1, knight attacks from C2",
 			setupBoard: func(b *core.Board) {
-				b[core.C2] = core.Square{Piece: core.Piece{Type: core.KNIGHT, Color: core.WHITE}, Occupied: true}
+				b[core.C2] = core.NewSquare(core.Piece{Type: core.KNIGHT, Color: core.WHITE})
 			},
 			color:  core.WHITE,
 			target: core.A1,
@@ -244,7 +244,7 @@ func TestKnightIsAttacking(t *testing.T) {
 		{
 			name: "target on A1, knight on H8 does not attack",
 			setupBoard: func(b *core.Board) {
-				b[core.H8] = core.Square{Piece: core.Piece{Type: core.KNIGHT, Color: core.WHITE}, Occupied: true}
+				b[core.H8] = core.NewSquare(core.Piece{Type: core.KNIGHT, Color: core.WHITE})
 			},
 			color:  core.WHITE,
 			target: core.A1,
@@ -253,7 +253,7 @@ func TestKnightIsAttacking(t *testing.T) {
 		{
 			name: "target on H8, knight attacks from F7",
 			setupBoard: func(b *core.Board) {
-				b[core.F7] = core.Square{Piece: core.Piece{Type: core.KNIGHT, Color: core.WHITE}, Occupied: true}
+				b[core.F7] = core.NewSquare(core.Piece{Type: core.KNIGHT, Color: core.WHITE})
 			},
 			color:  core.WHITE,
 			target: core.H8,
@@ -262,7 +262,7 @@ func TestKnightIsAttacking(t *testing.T) {
 		{
 			name: "target on H8, knight attacks from G6",
 			setupBoard: func(b *core.Board) {
-				b[core.G6] = core.Square{Piece: core.Piece{Type: core.KNIGHT, Color: core.WHITE}, Occupied: true}
+				b[core.G6] = core.NewSquare(core.Piece{Type: core.KNIGHT, Color: core.WHITE})
 			},
 			color:  core.WHITE,
 			target: core.H8,
@@ -271,7 +271,7 @@ func TestKnightIsAttacking(t *testing.T) {
 		{
 			name: "target on A8, knight attacks from B6",
 			setupBoard: func(b *core.Board) {
-				b[core.B6] = core.Square{Piece: core.Piece{Type: core.KNIGHT, Color: core.WHITE}, Occupied: true}
+				b[core.B6] = core.NewSquare(core.Piece{Type: core.KNIGHT, Color: core.WHITE})
 			},
 			color:  core.WHITE,
 			target: core.A8,
@@ -280,7 +280,7 @@ func TestKnightIsAttacking(t *testing.T) {
 		{
 			name: "target on H1, knight attacks from F2",
 			setupBoard: func(b *core.Board) {
-				b[core.F2] = core.Square{Piece: core.Piece{Type: core.KNIGHT, Color: core.WHITE}, Occupied: true}
+				b[core.F2] = core.NewSquare(core.Piece{Type: core.KNIGHT, Color: core.WHITE})
 			},
 			color:  core.WHITE,
 			target: core.H1,
@@ -291,7 +291,7 @@ func TestKnightIsAttacking(t *testing.T) {
 		{
 			name: "target on A4, knight attacks from B6 (only 4 valid L-shapes on edge)",
 			setupBoard: func(b *core.Board) {
-				b[core.B6] = core.Square{Piece: core.Piece{Type: core.KNIGHT, Color: core.WHITE}, Occupied: true}
+				b[core.B6] = core.NewSquare(core.Piece{Type: core.KNIGHT, Color: core.WHITE})
 			},
 			color:  core.WHITE,
 			target: core.A4,
@@ -300,7 +300,7 @@ func TestKnightIsAttacking(t *testing.T) {
 		{
 			name: "target on A4, knight attacks from C5",
 			setupBoard: func(b *core.Board) {
-				b[core.C5] = core.Square{Piece: core.Piece{Type: core.KNIGHT, Color: core.WHITE}, Occupied: true}
+				b[core.C5] = core.NewSquare(core.Piece{Type: core.KNIGHT, Color: core.WHITE})
 			},
 			color:  core.WHITE,
 			target: core.A4,
@@ -309,7 +309,7 @@ func TestKnightIsAttacking(t *testing.T) {
 		{
 			name: "target on A4, knight attacks from B2",
 			setupBoard: func(b *core.Board) {
-				b[core.B2] = core.Square{Piece: core.Piece{Type: core.KNIGHT, Color: core.WHITE}, Occupied: true}
+				b[core.B2] = core.NewSquare(core.Piece{Type: core.KNIGHT, Color: core.WHITE})
 			},
 			color:  core.WHITE,
 			target: core.A4,
@@ -318,7 +318,7 @@ func TestKnightIsAttacking(t *testing.T) {
 		{
 			name: "target on A4, knight attacks from C3",
 			setupBoard: func(b *core.Board) {
-				b[core.C3] = core.Square{Piece: core.Piece{Type: core.KNIGHT, Color: core.WHITE}, Occupied: true}
+				b[core.C3] = core.NewSquare(core.Piece{Type: core.KNIGHT, Color: core.WHITE})
 			},
 			color:  core.WHITE,
 			target: core.A4,
@@ -329,9 +329,9 @@ func TestKnightIsAttacking(t *testing.T) {
 		{
 			name: "multiple knights, one on L-shape attacks",
 			setupBoard: func(b *core.Board) {
-				b[core.A1] = core.Square{Piece: core.Piece{Type: core.KNIGHT, Color: core.WHITE}, Occupied: true}
-				b[core.D6] = core.Square{Piece: core.Piece{Type: core.KNIGHT, Color: core.WHITE}, Occupied: true}
-				b[core.H8] = core.Square{Piece: core.Piece{Type: core.KNIGHT, Color: core.WHITE}, Occupied: true}
+				b[core.A1] = core.NewSquare(core.Piece{Type: core.KNIGHT, Color: core.WHITE})
+				b[core.D6] = core.NewSquare(core.Piece{Type: core.KNIGHT, Color: core.WHITE})
+				b[core.H8] = core.NewSquare(core.Piece{Type: core.KNIGHT, Color: core.WHITE})
 			},
 			color:  core.WHITE,
 			target: core.E4,
@@ -340,8 +340,8 @@ func TestKnightIsAttacking(t *testing.T) {
 		{
 			name: "multiple enemy knights, none matching color",
 			setupBoard: func(b *core.Board) {
-				b[core.D6] = core.Square{Piece: core.Piece{Type: core.KNIGHT, Color: core.BLACK}, Occupied: true}
-				b[core.F6] = core.Square{Piece: core.Piece{Type: core.KNIGHT, Color: core.BLACK}, Occupied: true}
+				b[core.D6] = core.NewSquare(core.Piece{Type: core.KNIGHT, Color: core.BLACK})
+				b[core.F6] = core.NewSquare(core.Piece{Type: core.KNIGHT, Color: core.BLACK})
 			},
 			color:  core.WHITE,
 			target: core.E4,
@@ -350,8 +350,8 @@ func TestKnightIsAttacking(t *testing.T) {
 		{
 			name: "mixed-color knights, only matching color counts",
 			setupBoard: func(b *core.Board) {
-				b[core.D6] = core.Square{Piece: core.Piece{Type: core.KNIGHT, Color: core.BLACK}, Occupied: true}
-				b[core.F6] = core.Square{Piece: core.Piece{Type: core.KNIGHT, Color: core.WHITE}, Occupied: true}
+				b[core.D6] = core.NewSquare(core.Piece{Type: core.KNIGHT, Color: core.BLACK})
+				b[core.F6] = core.NewSquare(core.Piece{Type: core.KNIGHT, Color: core.WHITE})
 			},
 			color:  core.WHITE,
 			target: core.E4,
@@ -535,7 +535,7 @@ func TestKnightPseudoLegalMoves(t *testing.T) {
 			from:       core.D4,
 			sideToMove: core.WHITE,
 			setupBoard: func(b *core.Board) {
-				b[core.E6] = core.Square{Occupied: true, Piece: core.Piece{Type: core.KNIGHT, Color: core.WHITE}}
+				b[core.E6] = core.NewSquare(core.Piece{Type: core.KNIGHT, Color: core.WHITE})
 			},
 			expectedTos: []core.Position{
 				core.E2,
@@ -549,7 +549,7 @@ func TestKnightPseudoLegalMoves(t *testing.T) {
 			from:       core.D4,
 			sideToMove: core.WHITE,
 			setupBoard: func(b *core.Board) {
-				b[core.E6] = core.Square{Occupied: true, Piece: core.Piece{Type: core.KNIGHT, Color: core.BLACK}}
+				b[core.E6] = core.NewSquare(core.Piece{Type: core.KNIGHT, Color: core.BLACK})
 			},
 			expectedTos: []core.Position{
 				core.E6, core.E2,
@@ -563,9 +563,9 @@ func TestKnightPseudoLegalMoves(t *testing.T) {
 			from:       core.D4,
 			sideToMove: core.WHITE,
 			setupBoard: func(b *core.Board) {
-				b[core.E6] = core.Square{Occupied: true, Piece: core.Piece{Type: core.QUEEN, Color: core.BLACK}}
-				b[core.F5] = core.Square{Occupied: true, Piece: core.Piece{Type: core.ROOK, Color: core.BLACK}}
-				b[core.C2] = core.Square{Occupied: true, Piece: core.Piece{Type: core.BISHOP, Color: core.BLACK}}
+				b[core.E6] = core.NewSquare(core.Piece{Type: core.QUEEN, Color: core.BLACK})
+				b[core.F5] = core.NewSquare(core.Piece{Type: core.ROOK, Color: core.BLACK})
+				b[core.C2] = core.NewSquare(core.Piece{Type: core.BISHOP, Color: core.BLACK})
 			},
 			expectedTos: []core.Position{
 				core.E6, core.E2,
@@ -579,9 +579,9 @@ func TestKnightPseudoLegalMoves(t *testing.T) {
 			from:       core.D4,
 			sideToMove: core.WHITE,
 			setupBoard: func(b *core.Board) {
-				b[core.E6] = core.Square{Occupied: true, Piece: core.Piece{Type: core.KNIGHT, Color: core.WHITE}}
-				b[core.C6] = core.Square{Occupied: true, Piece: core.Piece{Type: core.KNIGHT, Color: core.WHITE}}
-				b[core.F5] = core.Square{Occupied: true, Piece: core.Piece{Type: core.KNIGHT, Color: core.BLACK}}
+				b[core.E6] = core.NewSquare(core.Piece{Type: core.KNIGHT, Color: core.WHITE})
+				b[core.C6] = core.NewSquare(core.Piece{Type: core.KNIGHT, Color: core.WHITE})
+				b[core.F5] = core.NewSquare(core.Piece{Type: core.KNIGHT, Color: core.BLACK})
 			},
 			expectedTos: []core.Position{
 				core.E2,
@@ -597,7 +597,7 @@ func TestKnightPseudoLegalMoves(t *testing.T) {
 			sideToMove: core.WHITE,
 			setupBoard: func(b *core.Board) {
 				for _, pos := range []core.Position{core.E6, core.E2, core.C6, core.C2, core.F5, core.F3, core.B5, core.B3} {
-					b[pos] = core.Square{Occupied: true, Piece: core.Piece{Type: core.KNIGHT, Color: core.WHITE}}
+					b[pos] = core.NewSquare(core.Piece{Type: core.KNIGHT, Color: core.WHITE})
 				}
 			},
 			expectedTos: []core.Position{},
@@ -607,7 +607,7 @@ func TestKnightPseudoLegalMoves(t *testing.T) {
 			from:       core.D4,
 			sideToMove: core.BLACK,
 			setupBoard: func(b *core.Board) {
-				b[core.E6] = core.Square{Occupied: true, Piece: core.Piece{Type: core.KNIGHT, Color: core.WHITE}}
+				b[core.E6] = core.NewSquare(core.Piece{Type: core.KNIGHT, Color: core.WHITE})
 			},
 			expectedTos: []core.Position{
 				core.E6, core.E2,
@@ -621,7 +621,7 @@ func TestKnightPseudoLegalMoves(t *testing.T) {
 			from:       core.D4,
 			sideToMove: core.BLACK,
 			setupBoard: func(b *core.Board) {
-				b[core.E6] = core.Square{Occupied: true, Piece: core.Piece{Type: core.KNIGHT, Color: core.BLACK}}
+				b[core.E6] = core.NewSquare(core.Piece{Type: core.KNIGHT, Color: core.BLACK})
 			},
 			expectedTos: []core.Position{
 				core.E2,
@@ -655,8 +655,8 @@ func TestKnightPseudoLegalMoves(t *testing.T) {
 			expectedCaptures := map[core.Position]core.Piece{}
 			for _, pos := range tt.expectedTos {
 				sq := board[pos]
-				if sq.Occupied && sq.Piece.Color != tt.sideToMove {
-					expectedCaptures[pos] = sq.Piece
+				if sq.IsOccupied() && sq.Color() != tt.sideToMove {
+					expectedCaptures[pos] = sq.Piece()
 				}
 			}
 

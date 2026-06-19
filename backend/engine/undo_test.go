@@ -32,7 +32,7 @@ func TestUndo(t *testing.T) {
 		{
 			name: "normal knight move undone",
 			setupBoard: func(b *core.Board) {
-				b[core.C3] = core.Square{Piece: core.Piece{Type: core.KNIGHT, Color: core.WHITE}, Occupied: true}
+				b[core.C3] = core.NewSquare(core.Piece{Type: core.KNIGHT, Color: core.WHITE})
 			},
 			sideToMove: core.BLACK, // post-move side (Undo doesn't touch it)
 			inputEP:    core.NoPosition,
@@ -46,7 +46,7 @@ func TestUndo(t *testing.T) {
 				PreviousEnPassantTarget: core.NoPosition,
 			},
 			expectAt: map[core.Position]core.Square{
-				core.B1: {Piece: core.Piece{Type: core.KNIGHT, Color: core.WHITE}, Occupied: true},
+				core.B1: core.NewSquare(core.Piece{Type: core.KNIGHT, Color: core.WHITE}),
 			},
 			expectEmpty: []core.Position{core.C3},
 			expectEP:    core.NoPosition,
@@ -55,7 +55,7 @@ func TestUndo(t *testing.T) {
 		{
 			name: "normal king move undone restores rights",
 			setupBoard: func(b *core.Board) {
-				b[core.F1] = core.Square{Piece: core.Piece{Type: core.KING, Color: core.WHITE}, Occupied: true}
+				b[core.F1] = core.NewSquare(core.Piece{Type: core.KING, Color: core.WHITE})
 			},
 			sideToMove: core.BLACK,
 			inputEP:    core.NoPosition,
@@ -72,7 +72,7 @@ func TestUndo(t *testing.T) {
 				PreviousEnPassantTarget: core.NoPosition,
 			},
 			expectAt: map[core.Position]core.Square{
-				core.E1: {Piece: core.Piece{Type: core.KING, Color: core.WHITE}, Occupied: true},
+				core.E1: core.NewSquare(core.Piece{Type: core.KING, Color: core.WHITE}),
 			},
 			expectEmpty: []core.Position{core.F1},
 			expectEP:    core.NoPosition,
@@ -81,7 +81,7 @@ func TestUndo(t *testing.T) {
 		{
 			name: "rook move from A1 undone restores queen-side right",
 			setupBoard: func(b *core.Board) {
-				b[core.A3] = core.Square{Piece: core.Piece{Type: core.ROOK, Color: core.WHITE}, Occupied: true}
+				b[core.A3] = core.NewSquare(core.Piece{Type: core.ROOK, Color: core.WHITE})
 			},
 			sideToMove: core.BLACK,
 			inputEP:    core.NoPosition,
@@ -98,7 +98,7 @@ func TestUndo(t *testing.T) {
 				PreviousEnPassantTarget: core.NoPosition,
 			},
 			expectAt: map[core.Position]core.Square{
-				core.A1: {Piece: core.Piece{Type: core.ROOK, Color: core.WHITE}, Occupied: true},
+				core.A1: core.NewSquare(core.Piece{Type: core.ROOK, Color: core.WHITE}),
 			},
 			expectEmpty: []core.Position{core.A3},
 			expectEP:    core.NoPosition,
@@ -107,7 +107,7 @@ func TestUndo(t *testing.T) {
 		{
 			name: "black rook move from H8 undone restores king-side right",
 			setupBoard: func(b *core.Board) {
-				b[core.H6] = core.Square{Piece: core.Piece{Type: core.ROOK, Color: core.BLACK}, Occupied: true}
+				b[core.H6] = core.NewSquare(core.Piece{Type: core.ROOK, Color: core.BLACK})
 			},
 			sideToMove: core.WHITE,
 			inputEP:    core.NoPosition,
@@ -124,7 +124,7 @@ func TestUndo(t *testing.T) {
 				PreviousEnPassantTarget: core.NoPosition,
 			},
 			expectAt: map[core.Position]core.Square{
-				core.H8: {Piece: core.Piece{Type: core.ROOK, Color: core.BLACK}, Occupied: true},
+				core.H8: core.NewSquare(core.Piece{Type: core.ROOK, Color: core.BLACK}),
 			},
 			expectEmpty: []core.Position{core.H6},
 			expectEP:    core.NoPosition,
@@ -135,7 +135,7 @@ func TestUndo(t *testing.T) {
 		{
 			name: "capture undone restores both pieces",
 			setupBoard: func(b *core.Board) {
-				b[core.D5] = core.Square{Piece: core.Piece{Type: core.PAWN, Color: core.WHITE}, Occupied: true}
+				b[core.D5] = core.NewSquare(core.Piece{Type: core.PAWN, Color: core.WHITE})
 			},
 			sideToMove: core.BLACK,
 			inputEP:    core.NoPosition,
@@ -150,8 +150,8 @@ func TestUndo(t *testing.T) {
 				PreviousEnPassantTarget: core.NoPosition,
 			},
 			expectAt: map[core.Position]core.Square{
-				core.E4: {Piece: core.Piece{Type: core.PAWN, Color: core.WHITE}, Occupied: true},
-				core.D5: {Piece: core.Piece{Type: core.PAWN, Color: core.BLACK}, Occupied: true},
+				core.E4: core.NewSquare(core.Piece{Type: core.PAWN, Color: core.WHITE}),
+				core.D5: core.NewSquare(core.Piece{Type: core.PAWN, Color: core.BLACK}),
 			},
 			expectEP:    core.NoPosition,
 			expectSides: defaultSides,
@@ -159,7 +159,7 @@ func TestUndo(t *testing.T) {
 		{
 			name: "capturing rook on A8 undone restores rook and rights",
 			setupBoard: func(b *core.Board) {
-				b[core.A8] = core.Square{Piece: core.Piece{Type: core.BISHOP, Color: core.WHITE}, Occupied: true}
+				b[core.A8] = core.NewSquare(core.Piece{Type: core.BISHOP, Color: core.WHITE})
 			},
 			sideToMove: core.BLACK,
 			inputEP:    core.NoPosition,
@@ -177,8 +177,8 @@ func TestUndo(t *testing.T) {
 				PreviousEnPassantTarget: core.NoPosition,
 			},
 			expectAt: map[core.Position]core.Square{
-				core.A6: {Piece: core.Piece{Type: core.BISHOP, Color: core.WHITE}, Occupied: true},
-				core.A8: {Piece: core.Piece{Type: core.ROOK, Color: core.BLACK}, Occupied: true},
+				core.A6: core.NewSquare(core.Piece{Type: core.BISHOP, Color: core.WHITE}),
+				core.A8: core.NewSquare(core.Piece{Type: core.ROOK, Color: core.BLACK}),
 			},
 			expectEP:    core.NoPosition,
 			expectSides: defaultSides,
@@ -186,7 +186,7 @@ func TestUndo(t *testing.T) {
 		{
 			name: "capturing non-rook on A file undone restores pawn",
 			setupBoard: func(b *core.Board) {
-				b[core.A6] = core.Square{Piece: core.Piece{Type: core.KNIGHT, Color: core.WHITE}, Occupied: true}
+				b[core.A6] = core.NewSquare(core.Piece{Type: core.KNIGHT, Color: core.WHITE})
 			},
 			sideToMove: core.BLACK,
 			inputEP:    core.NoPosition,
@@ -201,8 +201,8 @@ func TestUndo(t *testing.T) {
 				PreviousEnPassantTarget: core.NoPosition,
 			},
 			expectAt: map[core.Position]core.Square{
-				core.B5: {Piece: core.Piece{Type: core.KNIGHT, Color: core.WHITE}, Occupied: true},
-				core.A6: {Piece: core.Piece{Type: core.PAWN, Color: core.BLACK}, Occupied: true},
+				core.B5: core.NewSquare(core.Piece{Type: core.KNIGHT, Color: core.WHITE}),
+				core.A6: core.NewSquare(core.Piece{Type: core.PAWN, Color: core.BLACK}),
 			},
 			expectEP:    core.NoPosition,
 			expectSides: defaultSides,
@@ -212,7 +212,7 @@ func TestUndo(t *testing.T) {
 		{
 			name: "white en passant undone",
 			setupBoard: func(b *core.Board) {
-				b[core.E6] = core.Square{Piece: core.Piece{Type: core.PAWN, Color: core.WHITE}, Occupied: true}
+				b[core.E6] = core.NewSquare(core.Piece{Type: core.PAWN, Color: core.WHITE})
 			},
 			sideToMove: core.BLACK,
 			inputEP:    core.NoPosition,
@@ -227,8 +227,8 @@ func TestUndo(t *testing.T) {
 				PreviousEnPassantTarget: core.E6,
 			},
 			expectAt: map[core.Position]core.Square{
-				core.D5: {Piece: core.Piece{Type: core.PAWN, Color: core.WHITE}, Occupied: true},
-				core.E5: {Piece: core.Piece{Type: core.PAWN, Color: core.BLACK}, Occupied: true},
+				core.D5: core.NewSquare(core.Piece{Type: core.PAWN, Color: core.WHITE}),
+				core.E5: core.NewSquare(core.Piece{Type: core.PAWN, Color: core.BLACK}),
 			},
 			expectEmpty: []core.Position{core.E6},
 			expectEP:    core.E6,
@@ -237,7 +237,7 @@ func TestUndo(t *testing.T) {
 		{
 			name: "black en passant undone",
 			setupBoard: func(b *core.Board) {
-				b[core.E3] = core.Square{Piece: core.Piece{Type: core.PAWN, Color: core.BLACK}, Occupied: true}
+				b[core.E3] = core.NewSquare(core.Piece{Type: core.PAWN, Color: core.BLACK})
 			},
 			sideToMove: core.WHITE,
 			inputEP:    core.NoPosition,
@@ -252,8 +252,8 @@ func TestUndo(t *testing.T) {
 				PreviousEnPassantTarget: core.E3,
 			},
 			expectAt: map[core.Position]core.Square{
-				core.D4: {Piece: core.Piece{Type: core.PAWN, Color: core.BLACK}, Occupied: true},
-				core.E4: {Piece: core.Piece{Type: core.PAWN, Color: core.WHITE}, Occupied: true},
+				core.D4: core.NewSquare(core.Piece{Type: core.PAWN, Color: core.BLACK}),
+				core.E4: core.NewSquare(core.Piece{Type: core.PAWN, Color: core.WHITE}),
 			},
 			expectEmpty: []core.Position{core.E3},
 			expectEP:    core.E3,
@@ -262,7 +262,7 @@ func TestUndo(t *testing.T) {
 		{
 			name: "en passant on A file undone restores pawn not rights",
 			setupBoard: func(b *core.Board) {
-				b[core.A6] = core.Square{Piece: core.Piece{Type: core.PAWN, Color: core.WHITE}, Occupied: true}
+				b[core.A6] = core.NewSquare(core.Piece{Type: core.PAWN, Color: core.WHITE})
 			},
 			sideToMove: core.BLACK,
 			inputEP:    core.NoPosition,
@@ -277,8 +277,8 @@ func TestUndo(t *testing.T) {
 				PreviousEnPassantTarget: core.A6,
 			},
 			expectAt: map[core.Position]core.Square{
-				core.B5: {Piece: core.Piece{Type: core.PAWN, Color: core.WHITE}, Occupied: true},
-				core.A5: {Piece: core.Piece{Type: core.PAWN, Color: core.BLACK}, Occupied: true},
+				core.B5: core.NewSquare(core.Piece{Type: core.PAWN, Color: core.WHITE}),
+				core.A5: core.NewSquare(core.Piece{Type: core.PAWN, Color: core.BLACK}),
 			},
 			expectEmpty: []core.Position{core.A6},
 			expectEP:    core.A6,
@@ -289,7 +289,7 @@ func TestUndo(t *testing.T) {
 		{
 			name: "promotion to queen undone restores pawn",
 			setupBoard: func(b *core.Board) {
-				b[core.E8] = core.Square{Piece: core.Piece{Type: core.QUEEN, Color: core.WHITE}, Occupied: true}
+				b[core.E8] = core.NewSquare(core.Piece{Type: core.QUEEN, Color: core.WHITE})
 			},
 			sideToMove: core.BLACK,
 			inputEP:    core.NoPosition,
@@ -304,7 +304,7 @@ func TestUndo(t *testing.T) {
 				PreviousEnPassantTarget: core.NoPosition,
 			},
 			expectAt: map[core.Position]core.Square{
-				core.E7: {Piece: core.Piece{Type: core.PAWN, Color: core.WHITE}, Occupied: true},
+				core.E7: core.NewSquare(core.Piece{Type: core.PAWN, Color: core.WHITE}),
 			},
 			expectEmpty: []core.Position{core.E8},
 			expectEP:    core.NoPosition,
@@ -313,7 +313,7 @@ func TestUndo(t *testing.T) {
 		{
 			name: "promotion to knight undone restores pawn",
 			setupBoard: func(b *core.Board) {
-				b[core.D1] = core.Square{Piece: core.Piece{Type: core.KNIGHT, Color: core.BLACK}, Occupied: true}
+				b[core.D1] = core.NewSquare(core.Piece{Type: core.KNIGHT, Color: core.BLACK})
 			},
 			sideToMove: core.WHITE,
 			inputEP:    core.NoPosition,
@@ -328,7 +328,7 @@ func TestUndo(t *testing.T) {
 				PreviousEnPassantTarget: core.NoPosition,
 			},
 			expectAt: map[core.Position]core.Square{
-				core.D2: {Piece: core.Piece{Type: core.PAWN, Color: core.BLACK}, Occupied: true},
+				core.D2: core.NewSquare(core.Piece{Type: core.PAWN, Color: core.BLACK}),
 			},
 			expectEmpty: []core.Position{core.D1},
 			expectEP:    core.NoPosition,
@@ -337,7 +337,7 @@ func TestUndo(t *testing.T) {
 		{
 			name: "promotion with capture undone restores pawn and captured",
 			setupBoard: func(b *core.Board) {
-				b[core.H8] = core.Square{Piece: core.Piece{Type: core.QUEEN, Color: core.WHITE}, Occupied: true}
+				b[core.H8] = core.NewSquare(core.Piece{Type: core.QUEEN, Color: core.WHITE})
 			},
 			sideToMove: core.BLACK,
 			inputEP:    core.NoPosition,
@@ -356,8 +356,8 @@ func TestUndo(t *testing.T) {
 				PreviousEnPassantTarget: core.NoPosition,
 			},
 			expectAt: map[core.Position]core.Square{
-				core.G7: {Piece: core.Piece{Type: core.PAWN, Color: core.WHITE}, Occupied: true},
-				core.H8: {Piece: core.Piece{Type: core.ROOK, Color: core.BLACK}, Occupied: true},
+				core.G7: core.NewSquare(core.Piece{Type: core.PAWN, Color: core.WHITE}),
+				core.H8: core.NewSquare(core.Piece{Type: core.ROOK, Color: core.BLACK}),
 			},
 			expectEP:    core.NoPosition,
 			expectSides: defaultSides,
@@ -367,8 +367,8 @@ func TestUndo(t *testing.T) {
 		{
 			name: "white king-side castling undone",
 			setupBoard: func(b *core.Board) {
-				b[core.G1] = core.Square{Piece: core.Piece{Type: core.KING, Color: core.WHITE}, Occupied: true}
-				b[core.F1] = core.Square{Piece: core.Piece{Type: core.ROOK, Color: core.WHITE}, Occupied: true}
+				b[core.G1] = core.NewSquare(core.Piece{Type: core.KING, Color: core.WHITE})
+				b[core.F1] = core.NewSquare(core.Piece{Type: core.ROOK, Color: core.WHITE})
 			},
 			sideToMove: core.BLACK,
 			inputEP:    core.NoPosition,
@@ -385,8 +385,8 @@ func TestUndo(t *testing.T) {
 				PreviousEnPassantTarget: core.NoPosition,
 			},
 			expectAt: map[core.Position]core.Square{
-				core.E1: {Piece: core.Piece{Type: core.KING, Color: core.WHITE}, Occupied: true},
-				core.H1: {Piece: core.Piece{Type: core.ROOK, Color: core.WHITE}, Occupied: true},
+				core.E1: core.NewSquare(core.Piece{Type: core.KING, Color: core.WHITE}),
+				core.H1: core.NewSquare(core.Piece{Type: core.ROOK, Color: core.WHITE}),
 			},
 			expectEmpty: []core.Position{core.G1, core.F1},
 			expectEP:    core.NoPosition,
@@ -395,8 +395,8 @@ func TestUndo(t *testing.T) {
 		{
 			name: "white queen-side castling undone",
 			setupBoard: func(b *core.Board) {
-				b[core.C1] = core.Square{Piece: core.Piece{Type: core.KING, Color: core.WHITE}, Occupied: true}
-				b[core.D1] = core.Square{Piece: core.Piece{Type: core.ROOK, Color: core.WHITE}, Occupied: true}
+				b[core.C1] = core.NewSquare(core.Piece{Type: core.KING, Color: core.WHITE})
+				b[core.D1] = core.NewSquare(core.Piece{Type: core.ROOK, Color: core.WHITE})
 			},
 			sideToMove: core.BLACK,
 			inputEP:    core.NoPosition,
@@ -413,8 +413,8 @@ func TestUndo(t *testing.T) {
 				PreviousEnPassantTarget: core.NoPosition,
 			},
 			expectAt: map[core.Position]core.Square{
-				core.E1: {Piece: core.Piece{Type: core.KING, Color: core.WHITE}, Occupied: true},
-				core.A1: {Piece: core.Piece{Type: core.ROOK, Color: core.WHITE}, Occupied: true},
+				core.E1: core.NewSquare(core.Piece{Type: core.KING, Color: core.WHITE}),
+				core.A1: core.NewSquare(core.Piece{Type: core.ROOK, Color: core.WHITE}),
 			},
 			expectEmpty: []core.Position{core.C1, core.D1},
 			expectEP:    core.NoPosition,
@@ -423,8 +423,8 @@ func TestUndo(t *testing.T) {
 		{
 			name: "black king-side castling undone",
 			setupBoard: func(b *core.Board) {
-				b[core.G8] = core.Square{Piece: core.Piece{Type: core.KING, Color: core.BLACK}, Occupied: true}
-				b[core.F8] = core.Square{Piece: core.Piece{Type: core.ROOK, Color: core.BLACK}, Occupied: true}
+				b[core.G8] = core.NewSquare(core.Piece{Type: core.KING, Color: core.BLACK})
+				b[core.F8] = core.NewSquare(core.Piece{Type: core.ROOK, Color: core.BLACK})
 			},
 			sideToMove: core.WHITE,
 			inputEP:    core.NoPosition,
@@ -441,8 +441,8 @@ func TestUndo(t *testing.T) {
 				PreviousEnPassantTarget: core.NoPosition,
 			},
 			expectAt: map[core.Position]core.Square{
-				core.E8: {Piece: core.Piece{Type: core.KING, Color: core.BLACK}, Occupied: true},
-				core.H8: {Piece: core.Piece{Type: core.ROOK, Color: core.BLACK}, Occupied: true},
+				core.E8: core.NewSquare(core.Piece{Type: core.KING, Color: core.BLACK}),
+				core.H8: core.NewSquare(core.Piece{Type: core.ROOK, Color: core.BLACK}),
 			},
 			expectEmpty: []core.Position{core.G8, core.F8},
 			expectEP:    core.NoPosition,
@@ -451,8 +451,8 @@ func TestUndo(t *testing.T) {
 		{
 			name: "black queen-side castling undone",
 			setupBoard: func(b *core.Board) {
-				b[core.C8] = core.Square{Piece: core.Piece{Type: core.KING, Color: core.BLACK}, Occupied: true}
-				b[core.D8] = core.Square{Piece: core.Piece{Type: core.ROOK, Color: core.BLACK}, Occupied: true}
+				b[core.C8] = core.NewSquare(core.Piece{Type: core.KING, Color: core.BLACK})
+				b[core.D8] = core.NewSquare(core.Piece{Type: core.ROOK, Color: core.BLACK})
 			},
 			sideToMove: core.WHITE,
 			inputEP:    core.NoPosition,
@@ -469,8 +469,8 @@ func TestUndo(t *testing.T) {
 				PreviousEnPassantTarget: core.NoPosition,
 			},
 			expectAt: map[core.Position]core.Square{
-				core.E8: {Piece: core.Piece{Type: core.KING, Color: core.BLACK}, Occupied: true},
-				core.A8: {Piece: core.Piece{Type: core.ROOK, Color: core.BLACK}, Occupied: true},
+				core.E8: core.NewSquare(core.Piece{Type: core.KING, Color: core.BLACK}),
+				core.A8: core.NewSquare(core.Piece{Type: core.ROOK, Color: core.BLACK}),
 			},
 			expectEmpty: []core.Position{core.C8, core.D8},
 			expectEP:    core.NoPosition,
@@ -481,7 +481,7 @@ func TestUndo(t *testing.T) {
 		{
 			name: "double pawn push undone restores no-EP state",
 			setupBoard: func(b *core.Board) {
-				b[core.E4] = core.Square{Piece: core.Piece{Type: core.PAWN, Color: core.WHITE}, Occupied: true}
+				b[core.E4] = core.NewSquare(core.Piece{Type: core.PAWN, Color: core.WHITE})
 			},
 			sideToMove: core.BLACK,
 			inputEP:    core.E3, // EP target set after the double push
@@ -495,7 +495,7 @@ func TestUndo(t *testing.T) {
 				PreviousEnPassantTarget: core.NoPosition, // EP was NoPosition before this move
 			},
 			expectAt: map[core.Position]core.Square{
-				core.E2: {Piece: core.Piece{Type: core.PAWN, Color: core.WHITE}, Occupied: true},
+				core.E2: core.NewSquare(core.Piece{Type: core.PAWN, Color: core.WHITE}),
 			},
 			expectEmpty: []core.Position{core.E4},
 			expectEP:    core.NoPosition,
@@ -504,7 +504,7 @@ func TestUndo(t *testing.T) {
 		{
 			name: "non-pawn move undone restores previous EP target",
 			setupBoard: func(b *core.Board) {
-				b[core.C3] = core.Square{Piece: core.Piece{Type: core.KNIGHT, Color: core.WHITE}, Occupied: true}
+				b[core.C3] = core.NewSquare(core.Piece{Type: core.KNIGHT, Color: core.WHITE})
 			},
 			sideToMove: core.BLACK,
 			inputEP:    core.NoPosition, // EP was cleared by this knight move
@@ -518,7 +518,7 @@ func TestUndo(t *testing.T) {
 				PreviousEnPassantTarget: core.E3, // EP existed before this knight move
 			},
 			expectAt: map[core.Position]core.Square{
-				core.B1: {Piece: core.Piece{Type: core.KNIGHT, Color: core.WHITE}, Occupied: true},
+				core.B1: core.NewSquare(core.Piece{Type: core.KNIGHT, Color: core.WHITE}),
 			},
 			expectEmpty: []core.Position{core.C3},
 			expectEP:    core.E3,
@@ -557,7 +557,7 @@ func TestUndo(t *testing.T) {
 			}
 
 			for _, pos := range tt.expectEmpty {
-				if ctx.Board[pos].Occupied {
+				if ctx.Board[pos].IsOccupied() {
 					t.Errorf("board[%v] should be empty, got %v", pos, ctx.Board[pos])
 				}
 			}
@@ -594,7 +594,7 @@ func TestApplyThenUndo(t *testing.T) {
 		{
 			name: "normal knight move round trip",
 			setupBoard: func(b *core.Board) {
-				b[core.B1] = core.Square{Piece: core.Piece{Type: core.KNIGHT, Color: core.WHITE}, Occupied: true}
+				b[core.B1] = core.NewSquare(core.Piece{Type: core.KNIGHT, Color: core.WHITE})
 			},
 			sideToMove: core.WHITE,
 			sides:      defaultSides,
@@ -606,7 +606,7 @@ func TestApplyThenUndo(t *testing.T) {
 		{
 			name: "normal king move round trip",
 			setupBoard: func(b *core.Board) {
-				b[core.E1] = core.Square{Piece: core.Piece{Type: core.KING, Color: core.WHITE}, Occupied: true}
+				b[core.E1] = core.NewSquare(core.Piece{Type: core.KING, Color: core.WHITE})
 			},
 			sideToMove: core.WHITE,
 			sides:      defaultSides,
@@ -618,7 +618,7 @@ func TestApplyThenUndo(t *testing.T) {
 		{
 			name: "rook move from A1 round trip",
 			setupBoard: func(b *core.Board) {
-				b[core.A1] = core.Square{Piece: core.Piece{Type: core.ROOK, Color: core.WHITE}, Occupied: true}
+				b[core.A1] = core.NewSquare(core.Piece{Type: core.ROOK, Color: core.WHITE})
 			},
 			sideToMove: core.WHITE,
 			sides:      defaultSides,
@@ -630,7 +630,7 @@ func TestApplyThenUndo(t *testing.T) {
 		{
 			name: "rook move from non-home file round trip",
 			setupBoard: func(b *core.Board) {
-				b[core.C3] = core.Square{Piece: core.Piece{Type: core.ROOK, Color: core.WHITE}, Occupied: true}
+				b[core.C3] = core.NewSquare(core.Piece{Type: core.ROOK, Color: core.WHITE})
 			},
 			sideToMove: core.WHITE,
 			sides:      defaultSides,
@@ -642,7 +642,7 @@ func TestApplyThenUndo(t *testing.T) {
 		{
 			name: "black rook move from H8 round trip",
 			setupBoard: func(b *core.Board) {
-				b[core.H8] = core.Square{Piece: core.Piece{Type: core.ROOK, Color: core.BLACK}, Occupied: true}
+				b[core.H8] = core.NewSquare(core.Piece{Type: core.ROOK, Color: core.BLACK})
 			},
 			sideToMove: core.BLACK,
 			sides:      defaultSides,
@@ -654,7 +654,7 @@ func TestApplyThenUndo(t *testing.T) {
 		{
 			name: "black rook move from A8 round trip",
 			setupBoard: func(b *core.Board) {
-				b[core.A8] = core.Square{Piece: core.Piece{Type: core.ROOK, Color: core.BLACK}, Occupied: true}
+				b[core.A8] = core.NewSquare(core.Piece{Type: core.ROOK, Color: core.BLACK})
 			},
 			sideToMove: core.BLACK,
 			sides:      defaultSides,
@@ -668,8 +668,8 @@ func TestApplyThenUndo(t *testing.T) {
 		{
 			name: "capture round trip",
 			setupBoard: func(b *core.Board) {
-				b[core.E4] = core.Square{Piece: core.Piece{Type: core.PAWN, Color: core.WHITE}, Occupied: true}
-				b[core.D5] = core.Square{Piece: core.Piece{Type: core.PAWN, Color: core.BLACK}, Occupied: true}
+				b[core.E4] = core.NewSquare(core.Piece{Type: core.PAWN, Color: core.WHITE})
+				b[core.D5] = core.NewSquare(core.Piece{Type: core.PAWN, Color: core.BLACK})
 			},
 			sideToMove: core.WHITE,
 			sides:      defaultSides,
@@ -682,8 +682,8 @@ func TestApplyThenUndo(t *testing.T) {
 		{
 			name: "capture rook on A8 round trip",
 			setupBoard: func(b *core.Board) {
-				b[core.A6] = core.Square{Piece: core.Piece{Type: core.BISHOP, Color: core.WHITE}, Occupied: true}
-				b[core.A8] = core.Square{Piece: core.Piece{Type: core.ROOK, Color: core.BLACK}, Occupied: true}
+				b[core.A6] = core.NewSquare(core.Piece{Type: core.BISHOP, Color: core.WHITE})
+				b[core.A8] = core.NewSquare(core.Piece{Type: core.ROOK, Color: core.BLACK})
 			},
 			sideToMove: core.WHITE,
 			sides:      defaultSides,
@@ -696,8 +696,8 @@ func TestApplyThenUndo(t *testing.T) {
 		{
 			name: "capture rook on H1 round trip",
 			setupBoard: func(b *core.Board) {
-				b[core.H3] = core.Square{Piece: core.Piece{Type: core.BISHOP, Color: core.BLACK}, Occupied: true}
-				b[core.H1] = core.Square{Piece: core.Piece{Type: core.ROOK, Color: core.WHITE}, Occupied: true}
+				b[core.H3] = core.NewSquare(core.Piece{Type: core.BISHOP, Color: core.BLACK})
+				b[core.H1] = core.NewSquare(core.Piece{Type: core.ROOK, Color: core.WHITE})
 			},
 			sideToMove: core.BLACK,
 			sides:      defaultSides,
@@ -710,8 +710,8 @@ func TestApplyThenUndo(t *testing.T) {
 		{
 			name: "capture non-rook on A file round trip",
 			setupBoard: func(b *core.Board) {
-				b[core.B5] = core.Square{Piece: core.Piece{Type: core.KNIGHT, Color: core.WHITE}, Occupied: true}
-				b[core.A6] = core.Square{Piece: core.Piece{Type: core.PAWN, Color: core.BLACK}, Occupied: true}
+				b[core.B5] = core.NewSquare(core.Piece{Type: core.KNIGHT, Color: core.WHITE})
+				b[core.A6] = core.NewSquare(core.Piece{Type: core.PAWN, Color: core.BLACK})
 			},
 			sideToMove: core.WHITE,
 			sides:      defaultSides,
@@ -726,8 +726,8 @@ func TestApplyThenUndo(t *testing.T) {
 		{
 			name: "white en passant round trip",
 			setupBoard: func(b *core.Board) {
-				b[core.D5] = core.Square{Piece: core.Piece{Type: core.PAWN, Color: core.WHITE}, Occupied: true}
-				b[core.E5] = core.Square{Piece: core.Piece{Type: core.PAWN, Color: core.BLACK}, Occupied: true}
+				b[core.D5] = core.NewSquare(core.Piece{Type: core.PAWN, Color: core.WHITE})
+				b[core.E5] = core.NewSquare(core.Piece{Type: core.PAWN, Color: core.BLACK})
 			},
 			sideToMove: core.WHITE,
 			inputEP:    core.E6,
@@ -741,8 +741,8 @@ func TestApplyThenUndo(t *testing.T) {
 		{
 			name: "black en passant round trip",
 			setupBoard: func(b *core.Board) {
-				b[core.E4] = core.Square{Piece: core.Piece{Type: core.PAWN, Color: core.WHITE}, Occupied: true}
-				b[core.D4] = core.Square{Piece: core.Piece{Type: core.PAWN, Color: core.BLACK}, Occupied: true}
+				b[core.E4] = core.NewSquare(core.Piece{Type: core.PAWN, Color: core.WHITE})
+				b[core.D4] = core.NewSquare(core.Piece{Type: core.PAWN, Color: core.BLACK})
 			},
 			sideToMove: core.BLACK,
 			inputEP:    core.E3,
@@ -756,8 +756,8 @@ func TestApplyThenUndo(t *testing.T) {
 		{
 			name: "en passant on A file round trip",
 			setupBoard: func(b *core.Board) {
-				b[core.B5] = core.Square{Piece: core.Piece{Type: core.PAWN, Color: core.WHITE}, Occupied: true}
-				b[core.A5] = core.Square{Piece: core.Piece{Type: core.PAWN, Color: core.BLACK}, Occupied: true}
+				b[core.B5] = core.NewSquare(core.Piece{Type: core.PAWN, Color: core.WHITE})
+				b[core.A5] = core.NewSquare(core.Piece{Type: core.PAWN, Color: core.BLACK})
 			},
 			sideToMove: core.WHITE,
 			inputEP:    core.A6,
@@ -773,7 +773,7 @@ func TestApplyThenUndo(t *testing.T) {
 		{
 			name: "promotion to queen round trip",
 			setupBoard: func(b *core.Board) {
-				b[core.E7] = core.Square{Piece: core.Piece{Type: core.PAWN, Color: core.WHITE}, Occupied: true}
+				b[core.E7] = core.NewSquare(core.Piece{Type: core.PAWN, Color: core.WHITE})
 			},
 			sideToMove: core.WHITE,
 			sides:      defaultSides,
@@ -786,7 +786,7 @@ func TestApplyThenUndo(t *testing.T) {
 		{
 			name: "promotion to knight round trip",
 			setupBoard: func(b *core.Board) {
-				b[core.D2] = core.Square{Piece: core.Piece{Type: core.PAWN, Color: core.BLACK}, Occupied: true}
+				b[core.D2] = core.NewSquare(core.Piece{Type: core.PAWN, Color: core.BLACK})
 			},
 			sideToMove: core.BLACK,
 			sides:      defaultSides,
@@ -799,8 +799,8 @@ func TestApplyThenUndo(t *testing.T) {
 		{
 			name: "promotion with capture round trip",
 			setupBoard: func(b *core.Board) {
-				b[core.G7] = core.Square{Piece: core.Piece{Type: core.PAWN, Color: core.WHITE}, Occupied: true}
-				b[core.H8] = core.Square{Piece: core.Piece{Type: core.ROOK, Color: core.BLACK}, Occupied: true}
+				b[core.G7] = core.NewSquare(core.Piece{Type: core.PAWN, Color: core.WHITE})
+				b[core.H8] = core.NewSquare(core.Piece{Type: core.ROOK, Color: core.BLACK})
 			},
 			sideToMove: core.WHITE,
 			sides:      defaultSides,
@@ -816,8 +816,8 @@ func TestApplyThenUndo(t *testing.T) {
 		{
 			name: "white king-side castling round trip",
 			setupBoard: func(b *core.Board) {
-				b[core.E1] = core.Square{Piece: core.Piece{Type: core.KING, Color: core.WHITE}, Occupied: true}
-				b[core.H1] = core.Square{Piece: core.Piece{Type: core.ROOK, Color: core.WHITE}, Occupied: true}
+				b[core.E1] = core.NewSquare(core.Piece{Type: core.KING, Color: core.WHITE})
+				b[core.H1] = core.NewSquare(core.Piece{Type: core.ROOK, Color: core.WHITE})
 			},
 			sideToMove: core.WHITE,
 			sides:      defaultSides,
@@ -829,8 +829,8 @@ func TestApplyThenUndo(t *testing.T) {
 		{
 			name: "white queen-side castling round trip",
 			setupBoard: func(b *core.Board) {
-				b[core.E1] = core.Square{Piece: core.Piece{Type: core.KING, Color: core.WHITE}, Occupied: true}
-				b[core.A1] = core.Square{Piece: core.Piece{Type: core.ROOK, Color: core.WHITE}, Occupied: true}
+				b[core.E1] = core.NewSquare(core.Piece{Type: core.KING, Color: core.WHITE})
+				b[core.A1] = core.NewSquare(core.Piece{Type: core.ROOK, Color: core.WHITE})
 			},
 			sideToMove: core.WHITE,
 			sides:      defaultSides,
@@ -842,8 +842,8 @@ func TestApplyThenUndo(t *testing.T) {
 		{
 			name: "black king-side castling round trip",
 			setupBoard: func(b *core.Board) {
-				b[core.E8] = core.Square{Piece: core.Piece{Type: core.KING, Color: core.BLACK}, Occupied: true}
-				b[core.H8] = core.Square{Piece: core.Piece{Type: core.ROOK, Color: core.BLACK}, Occupied: true}
+				b[core.E8] = core.NewSquare(core.Piece{Type: core.KING, Color: core.BLACK})
+				b[core.H8] = core.NewSquare(core.Piece{Type: core.ROOK, Color: core.BLACK})
 			},
 			sideToMove: core.BLACK,
 			sides:      defaultSides,
@@ -855,8 +855,8 @@ func TestApplyThenUndo(t *testing.T) {
 		{
 			name: "black queen-side castling round trip",
 			setupBoard: func(b *core.Board) {
-				b[core.E8] = core.Square{Piece: core.Piece{Type: core.KING, Color: core.BLACK}, Occupied: true}
-				b[core.A8] = core.Square{Piece: core.Piece{Type: core.ROOK, Color: core.BLACK}, Occupied: true}
+				b[core.E8] = core.NewSquare(core.Piece{Type: core.KING, Color: core.BLACK})
+				b[core.A8] = core.NewSquare(core.Piece{Type: core.ROOK, Color: core.BLACK})
 			},
 			sideToMove: core.BLACK,
 			sides:      defaultSides,
@@ -870,7 +870,7 @@ func TestApplyThenUndo(t *testing.T) {
 		{
 			name: "white double pawn push round trip",
 			setupBoard: func(b *core.Board) {
-				b[core.E2] = core.Square{Piece: core.Piece{Type: core.PAWN, Color: core.WHITE}, Occupied: true}
+				b[core.E2] = core.NewSquare(core.Piece{Type: core.PAWN, Color: core.WHITE})
 			},
 			sideToMove: core.WHITE,
 			sides:      defaultSides,
@@ -882,7 +882,7 @@ func TestApplyThenUndo(t *testing.T) {
 		{
 			name: "black double pawn push round trip",
 			setupBoard: func(b *core.Board) {
-				b[core.D7] = core.Square{Piece: core.Piece{Type: core.PAWN, Color: core.BLACK}, Occupied: true}
+				b[core.D7] = core.NewSquare(core.Piece{Type: core.PAWN, Color: core.BLACK})
 			},
 			sideToMove: core.BLACK,
 			sides:      defaultSides,
@@ -894,7 +894,7 @@ func TestApplyThenUndo(t *testing.T) {
 		{
 			name: "white double pawn push from A file round trip",
 			setupBoard: func(b *core.Board) {
-				b[core.A2] = core.Square{Piece: core.Piece{Type: core.PAWN, Color: core.WHITE}, Occupied: true}
+				b[core.A2] = core.NewSquare(core.Piece{Type: core.PAWN, Color: core.WHITE})
 			},
 			sideToMove: core.WHITE,
 			sides:      defaultSides,
@@ -906,7 +906,7 @@ func TestApplyThenUndo(t *testing.T) {
 		{
 			name: "non-pawn move with existing EP target round trip",
 			setupBoard: func(b *core.Board) {
-				b[core.B1] = core.Square{Piece: core.Piece{Type: core.KNIGHT, Color: core.WHITE}, Occupied: true}
+				b[core.B1] = core.NewSquare(core.Piece{Type: core.KNIGHT, Color: core.WHITE})
 			},
 			sideToMove: core.WHITE,
 			inputEP:    core.E3,

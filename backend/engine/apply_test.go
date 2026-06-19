@@ -30,7 +30,7 @@ func TestApply(t *testing.T) {
 		{
 			name: "normal knight move relocates piece",
 			setupBoard: func(b *core.Board) {
-				b[core.B1] = core.Square{Piece: core.Piece{Type: core.KNIGHT, Color: core.WHITE}, Occupied: true}
+				b[core.B1] = core.NewSquare(core.Piece{Type: core.KNIGHT, Color: core.WHITE})
 			},
 			sideToMove: core.WHITE,
 			sides:      defaultSides,
@@ -39,7 +39,7 @@ func TestApply(t *testing.T) {
 				From: core.B1, To: core.C3,
 			},
 			expectAt: map[core.Position]core.Square{
-				core.C3: {Piece: core.Piece{Type: core.KNIGHT, Color: core.WHITE}, Occupied: true},
+				core.C3: core.NewSquare(core.Piece{Type: core.KNIGHT, Color: core.WHITE}),
 			},
 			expectEmpty: []core.Position{core.B1},
 			expectEP:    core.NoPosition,
@@ -48,7 +48,7 @@ func TestApply(t *testing.T) {
 		{
 			name: "normal king move updates position and clears castling rights",
 			setupBoard: func(b *core.Board) {
-				b[core.E1] = core.Square{Piece: core.Piece{Type: core.KING, Color: core.WHITE}, Occupied: true}
+				b[core.E1] = core.NewSquare(core.Piece{Type: core.KING, Color: core.WHITE})
 			},
 			sideToMove: core.WHITE,
 			sides:      defaultSides,
@@ -57,7 +57,7 @@ func TestApply(t *testing.T) {
 				From: core.E1, To: core.F1,
 			},
 			expectAt: map[core.Position]core.Square{
-				core.F1: {Piece: core.Piece{Type: core.KING, Color: core.WHITE}, Occupied: true},
+				core.F1: core.NewSquare(core.Piece{Type: core.KING, Color: core.WHITE}),
 			},
 			expectEmpty: []core.Position{core.E1},
 			expectEP:    core.NoPosition,
@@ -69,7 +69,7 @@ func TestApply(t *testing.T) {
 		{
 			name: "rook move from A file clears queen-side right only",
 			setupBoard: func(b *core.Board) {
-				b[core.A1] = core.Square{Piece: core.Piece{Type: core.ROOK, Color: core.WHITE}, Occupied: true}
+				b[core.A1] = core.NewSquare(core.Piece{Type: core.ROOK, Color: core.WHITE})
 			},
 			sideToMove: core.WHITE,
 			sides:      defaultSides,
@@ -78,7 +78,7 @@ func TestApply(t *testing.T) {
 				From: core.A1, To: core.A3,
 			},
 			expectAt: map[core.Position]core.Square{
-				core.A3: {Piece: core.Piece{Type: core.ROOK, Color: core.WHITE}, Occupied: true},
+				core.A3: core.NewSquare(core.Piece{Type: core.ROOK, Color: core.WHITE}),
 			},
 			expectEmpty: []core.Position{core.A1},
 			expectEP:    core.NoPosition,
@@ -90,7 +90,7 @@ func TestApply(t *testing.T) {
 		{
 			name: "rook move from H file clears king-side right only",
 			setupBoard: func(b *core.Board) {
-				b[core.H1] = core.Square{Piece: core.Piece{Type: core.ROOK, Color: core.WHITE}, Occupied: true}
+				b[core.H1] = core.NewSquare(core.Piece{Type: core.ROOK, Color: core.WHITE})
 			},
 			sideToMove: core.WHITE,
 			sides:      defaultSides,
@@ -99,7 +99,7 @@ func TestApply(t *testing.T) {
 				From: core.H1, To: core.H3,
 			},
 			expectAt: map[core.Position]core.Square{
-				core.H3: {Piece: core.Piece{Type: core.ROOK, Color: core.WHITE}, Occupied: true},
+				core.H3: core.NewSquare(core.Piece{Type: core.ROOK, Color: core.WHITE}),
 			},
 			expectEmpty: []core.Position{core.H1},
 			expectEP:    core.NoPosition,
@@ -111,7 +111,7 @@ func TestApply(t *testing.T) {
 		{
 			name: "rook move from non-home file preserves all rights",
 			setupBoard: func(b *core.Board) {
-				b[core.C3] = core.Square{Piece: core.Piece{Type: core.ROOK, Color: core.WHITE}, Occupied: true}
+				b[core.C3] = core.NewSquare(core.Piece{Type: core.ROOK, Color: core.WHITE})
 			},
 			sideToMove: core.WHITE,
 			sides:      defaultSides,
@@ -120,7 +120,7 @@ func TestApply(t *testing.T) {
 				From: core.C3, To: core.C5,
 			},
 			expectAt: map[core.Position]core.Square{
-				core.C5: {Piece: core.Piece{Type: core.ROOK, Color: core.WHITE}, Occupied: true},
+				core.C5: core.NewSquare(core.Piece{Type: core.ROOK, Color: core.WHITE}),
 			},
 			expectEmpty: []core.Position{core.C3},
 			expectEP:    core.NoPosition,
@@ -129,7 +129,7 @@ func TestApply(t *testing.T) {
 		{
 			name: "black rook move from A8 clears queen-side right",
 			setupBoard: func(b *core.Board) {
-				b[core.A8] = core.Square{Piece: core.Piece{Type: core.ROOK, Color: core.BLACK}, Occupied: true}
+				b[core.A8] = core.NewSquare(core.Piece{Type: core.ROOK, Color: core.BLACK})
 			},
 			sideToMove: core.BLACK,
 			sides:      defaultSides,
@@ -138,7 +138,7 @@ func TestApply(t *testing.T) {
 				From: core.A8, To: core.A6,
 			},
 			expectAt: map[core.Position]core.Square{
-				core.A6: {Piece: core.Piece{Type: core.ROOK, Color: core.BLACK}, Occupied: true},
+				core.A6: core.NewSquare(core.Piece{Type: core.ROOK, Color: core.BLACK}),
 			},
 			expectEmpty: []core.Position{core.A8},
 			expectEP:    core.NoPosition,
@@ -150,7 +150,7 @@ func TestApply(t *testing.T) {
 		{
 			name: "black rook move from H8 clears king-side right",
 			setupBoard: func(b *core.Board) {
-				b[core.H8] = core.Square{Piece: core.Piece{Type: core.ROOK, Color: core.BLACK}, Occupied: true}
+				b[core.H8] = core.NewSquare(core.Piece{Type: core.ROOK, Color: core.BLACK})
 			},
 			sideToMove: core.BLACK,
 			sides:      defaultSides,
@@ -159,7 +159,7 @@ func TestApply(t *testing.T) {
 				From: core.H8, To: core.H6,
 			},
 			expectAt: map[core.Position]core.Square{
-				core.H6: {Piece: core.Piece{Type: core.ROOK, Color: core.BLACK}, Occupied: true},
+				core.H6: core.NewSquare(core.Piece{Type: core.ROOK, Color: core.BLACK}),
 			},
 			expectEmpty: []core.Position{core.H8},
 			expectEP:    core.NoPosition,
@@ -173,8 +173,8 @@ func TestApply(t *testing.T) {
 		{
 			name: "capture replaces piece on destination",
 			setupBoard: func(b *core.Board) {
-				b[core.E4] = core.Square{Piece: core.Piece{Type: core.PAWN, Color: core.WHITE}, Occupied: true}
-				b[core.D5] = core.Square{Piece: core.Piece{Type: core.PAWN, Color: core.BLACK}, Occupied: true}
+				b[core.E4] = core.NewSquare(core.Piece{Type: core.PAWN, Color: core.WHITE})
+				b[core.D5] = core.NewSquare(core.Piece{Type: core.PAWN, Color: core.BLACK})
 			},
 			sideToMove: core.WHITE,
 			sides:      defaultSides,
@@ -184,7 +184,7 @@ func TestApply(t *testing.T) {
 				HasCapture: true, Captured: core.Piece{Type: core.PAWN, Color: core.BLACK},
 			},
 			expectAt: map[core.Position]core.Square{
-				core.D5: {Piece: core.Piece{Type: core.PAWN, Color: core.WHITE}, Occupied: true},
+				core.D5: core.NewSquare(core.Piece{Type: core.PAWN, Color: core.WHITE}),
 			},
 			expectEmpty: []core.Position{core.E4},
 			expectEP:    core.NoPosition,
@@ -193,8 +193,8 @@ func TestApply(t *testing.T) {
 		{
 			name: "capturing rook on A8 clears opponent queen-side right",
 			setupBoard: func(b *core.Board) {
-				b[core.A6] = core.Square{Piece: core.Piece{Type: core.BISHOP, Color: core.WHITE}, Occupied: true}
-				b[core.A8] = core.Square{Piece: core.Piece{Type: core.ROOK, Color: core.BLACK}, Occupied: true}
+				b[core.A6] = core.NewSquare(core.Piece{Type: core.BISHOP, Color: core.WHITE})
+				b[core.A8] = core.NewSquare(core.Piece{Type: core.ROOK, Color: core.BLACK})
 			},
 			sideToMove: core.WHITE,
 			sides:      defaultSides,
@@ -204,7 +204,7 @@ func TestApply(t *testing.T) {
 				HasCapture: true, Captured: core.Piece{Type: core.ROOK, Color: core.BLACK},
 			},
 			expectAt: map[core.Position]core.Square{
-				core.A8: {Piece: core.Piece{Type: core.BISHOP, Color: core.WHITE}, Occupied: true},
+				core.A8: core.NewSquare(core.Piece{Type: core.BISHOP, Color: core.WHITE}),
 			},
 			expectEmpty: []core.Position{core.A6},
 			expectEP:    core.NoPosition,
@@ -216,8 +216,8 @@ func TestApply(t *testing.T) {
 		{
 			name: "capturing rook on H1 clears opponent king-side right",
 			setupBoard: func(b *core.Board) {
-				b[core.H3] = core.Square{Piece: core.Piece{Type: core.BISHOP, Color: core.BLACK}, Occupied: true}
-				b[core.H1] = core.Square{Piece: core.Piece{Type: core.ROOK, Color: core.WHITE}, Occupied: true}
+				b[core.H3] = core.NewSquare(core.Piece{Type: core.BISHOP, Color: core.BLACK})
+				b[core.H1] = core.NewSquare(core.Piece{Type: core.ROOK, Color: core.WHITE})
 			},
 			sideToMove: core.BLACK,
 			sides:      defaultSides,
@@ -227,7 +227,7 @@ func TestApply(t *testing.T) {
 				HasCapture: true, Captured: core.Piece{Type: core.ROOK, Color: core.WHITE},
 			},
 			expectAt: map[core.Position]core.Square{
-				core.H1: {Piece: core.Piece{Type: core.BISHOP, Color: core.BLACK}, Occupied: true},
+				core.H1: core.NewSquare(core.Piece{Type: core.BISHOP, Color: core.BLACK}),
 			},
 			expectEmpty: []core.Position{core.H3},
 			expectEP:    core.NoPosition,
@@ -239,8 +239,8 @@ func TestApply(t *testing.T) {
 		{
 			name: "capturing non-rook on A file does not clear rights",
 			setupBoard: func(b *core.Board) {
-				b[core.B5] = core.Square{Piece: core.Piece{Type: core.KNIGHT, Color: core.WHITE}, Occupied: true}
-				b[core.A6] = core.Square{Piece: core.Piece{Type: core.PAWN, Color: core.BLACK}, Occupied: true}
+				b[core.B5] = core.NewSquare(core.Piece{Type: core.KNIGHT, Color: core.WHITE})
+				b[core.A6] = core.NewSquare(core.Piece{Type: core.PAWN, Color: core.BLACK})
 			},
 			sideToMove: core.WHITE,
 			sides:      defaultSides,
@@ -250,7 +250,7 @@ func TestApply(t *testing.T) {
 				HasCapture: true, Captured: core.Piece{Type: core.PAWN, Color: core.BLACK},
 			},
 			expectAt: map[core.Position]core.Square{
-				core.A6: {Piece: core.Piece{Type: core.KNIGHT, Color: core.WHITE}, Occupied: true},
+				core.A6: core.NewSquare(core.Piece{Type: core.KNIGHT, Color: core.WHITE}),
 			},
 			expectEmpty: []core.Position{core.B5},
 			expectEP:    core.NoPosition,
@@ -261,8 +261,8 @@ func TestApply(t *testing.T) {
 		{
 			name: "white en passant capture removes captured pawn",
 			setupBoard: func(b *core.Board) {
-				b[core.D5] = core.Square{Piece: core.Piece{Type: core.PAWN, Color: core.WHITE}, Occupied: true}
-				b[core.E5] = core.Square{Piece: core.Piece{Type: core.PAWN, Color: core.BLACK}, Occupied: true}
+				b[core.D5] = core.NewSquare(core.Piece{Type: core.PAWN, Color: core.WHITE})
+				b[core.E5] = core.NewSquare(core.Piece{Type: core.PAWN, Color: core.BLACK})
 			},
 			sideToMove: core.WHITE,
 			inputEP:    core.E6,
@@ -273,7 +273,7 @@ func TestApply(t *testing.T) {
 				HasCapture: true, Captured: core.Piece{Type: core.PAWN, Color: core.BLACK},
 			},
 			expectAt: map[core.Position]core.Square{
-				core.E6: {Piece: core.Piece{Type: core.PAWN, Color: core.WHITE}, Occupied: true},
+				core.E6: core.NewSquare(core.Piece{Type: core.PAWN, Color: core.WHITE}),
 			},
 			expectEmpty: []core.Position{core.D5, core.E5},
 			expectEP:    core.NoPosition,
@@ -282,8 +282,8 @@ func TestApply(t *testing.T) {
 		{
 			name: "black en passant capture removes captured pawn",
 			setupBoard: func(b *core.Board) {
-				b[core.E4] = core.Square{Piece: core.Piece{Type: core.PAWN, Color: core.WHITE}, Occupied: true}
-				b[core.D4] = core.Square{Piece: core.Piece{Type: core.PAWN, Color: core.BLACK}, Occupied: true}
+				b[core.E4] = core.NewSquare(core.Piece{Type: core.PAWN, Color: core.WHITE})
+				b[core.D4] = core.NewSquare(core.Piece{Type: core.PAWN, Color: core.BLACK})
 			},
 			sideToMove: core.BLACK,
 			inputEP:    core.E3,
@@ -294,7 +294,7 @@ func TestApply(t *testing.T) {
 				HasCapture: true, Captured: core.Piece{Type: core.PAWN, Color: core.WHITE},
 			},
 			expectAt: map[core.Position]core.Square{
-				core.E3: {Piece: core.Piece{Type: core.PAWN, Color: core.BLACK}, Occupied: true},
+				core.E3: core.NewSquare(core.Piece{Type: core.PAWN, Color: core.BLACK}),
 			},
 			expectEmpty: []core.Position{core.D4, core.E4},
 			expectEP:    core.NoPosition,
@@ -303,8 +303,8 @@ func TestApply(t *testing.T) {
 		{
 			name: "en passant on A file does not clear queen-side right",
 			setupBoard: func(b *core.Board) {
-				b[core.B5] = core.Square{Piece: core.Piece{Type: core.PAWN, Color: core.WHITE}, Occupied: true}
-				b[core.A5] = core.Square{Piece: core.Piece{Type: core.PAWN, Color: core.BLACK}, Occupied: true}
+				b[core.B5] = core.NewSquare(core.Piece{Type: core.PAWN, Color: core.WHITE})
+				b[core.A5] = core.NewSquare(core.Piece{Type: core.PAWN, Color: core.BLACK})
 			},
 			sideToMove: core.WHITE,
 			inputEP:    core.A6,
@@ -315,7 +315,7 @@ func TestApply(t *testing.T) {
 				HasCapture: true, Captured: core.Piece{Type: core.PAWN, Color: core.BLACK},
 			},
 			expectAt: map[core.Position]core.Square{
-				core.A6: {Piece: core.Piece{Type: core.PAWN, Color: core.WHITE}, Occupied: true},
+				core.A6: core.NewSquare(core.Piece{Type: core.PAWN, Color: core.WHITE}),
 			},
 			expectEmpty: []core.Position{core.B5, core.A5},
 			expectEP:    core.NoPosition,
@@ -326,7 +326,7 @@ func TestApply(t *testing.T) {
 		{
 			name: "white pawn promotes to queen on rank 8",
 			setupBoard: func(b *core.Board) {
-				b[core.E7] = core.Square{Piece: core.Piece{Type: core.PAWN, Color: core.WHITE}, Occupied: true}
+				b[core.E7] = core.NewSquare(core.Piece{Type: core.PAWN, Color: core.WHITE})
 			},
 			sideToMove: core.WHITE,
 			sides:      defaultSides,
@@ -336,7 +336,7 @@ func TestApply(t *testing.T) {
 				PromoteTo: core.QUEEN,
 			},
 			expectAt: map[core.Position]core.Square{
-				core.E8: {Piece: core.Piece{Type: core.QUEEN, Color: core.WHITE}, Occupied: true},
+				core.E8: core.NewSquare(core.Piece{Type: core.QUEEN, Color: core.WHITE}),
 			},
 			expectEmpty: []core.Position{core.E7},
 			expectEP:    core.NoPosition,
@@ -345,7 +345,7 @@ func TestApply(t *testing.T) {
 		{
 			name: "black pawn promotes to knight on rank 1",
 			setupBoard: func(b *core.Board) {
-				b[core.D2] = core.Square{Piece: core.Piece{Type: core.PAWN, Color: core.BLACK}, Occupied: true}
+				b[core.D2] = core.NewSquare(core.Piece{Type: core.PAWN, Color: core.BLACK})
 			},
 			sideToMove: core.BLACK,
 			sides:      defaultSides,
@@ -355,7 +355,7 @@ func TestApply(t *testing.T) {
 				PromoteTo: core.KNIGHT,
 			},
 			expectAt: map[core.Position]core.Square{
-				core.D1: {Piece: core.Piece{Type: core.KNIGHT, Color: core.BLACK}, Occupied: true},
+				core.D1: core.NewSquare(core.Piece{Type: core.KNIGHT, Color: core.BLACK}),
 			},
 			expectEmpty: []core.Position{core.D2},
 			expectEP:    core.NoPosition,
@@ -364,8 +364,8 @@ func TestApply(t *testing.T) {
 		{
 			name: "promotion with capture on non-home file preserves rights",
 			setupBoard: func(b *core.Board) {
-				b[core.E7] = core.Square{Piece: core.Piece{Type: core.PAWN, Color: core.WHITE}, Occupied: true}
-				b[core.D8] = core.Square{Piece: core.Piece{Type: core.ROOK, Color: core.BLACK}, Occupied: true}
+				b[core.E7] = core.NewSquare(core.Piece{Type: core.PAWN, Color: core.WHITE})
+				b[core.D8] = core.NewSquare(core.Piece{Type: core.ROOK, Color: core.BLACK})
 			},
 			sideToMove: core.WHITE,
 			sides:      defaultSides,
@@ -376,7 +376,7 @@ func TestApply(t *testing.T) {
 				HasCapture: true, Captured: core.Piece{Type: core.ROOK, Color: core.BLACK},
 			},
 			expectAt: map[core.Position]core.Square{
-				core.D8: {Piece: core.Piece{Type: core.QUEEN, Color: core.WHITE}, Occupied: true},
+				core.D8: core.NewSquare(core.Piece{Type: core.QUEEN, Color: core.WHITE}),
 			},
 			expectEmpty: []core.Position{core.E7},
 			expectEP:    core.NoPosition,
@@ -385,8 +385,8 @@ func TestApply(t *testing.T) {
 		{
 			name: "promotion capture on H8 clears opponent king-side right",
 			setupBoard: func(b *core.Board) {
-				b[core.G7] = core.Square{Piece: core.Piece{Type: core.PAWN, Color: core.WHITE}, Occupied: true}
-				b[core.H8] = core.Square{Piece: core.Piece{Type: core.ROOK, Color: core.BLACK}, Occupied: true}
+				b[core.G7] = core.NewSquare(core.Piece{Type: core.PAWN, Color: core.WHITE})
+				b[core.H8] = core.NewSquare(core.Piece{Type: core.ROOK, Color: core.BLACK})
 			},
 			sideToMove: core.WHITE,
 			sides:      defaultSides,
@@ -397,7 +397,7 @@ func TestApply(t *testing.T) {
 				HasCapture: true, Captured: core.Piece{Type: core.ROOK, Color: core.BLACK},
 			},
 			expectAt: map[core.Position]core.Square{
-				core.H8: {Piece: core.Piece{Type: core.QUEEN, Color: core.WHITE}, Occupied: true},
+				core.H8: core.NewSquare(core.Piece{Type: core.QUEEN, Color: core.WHITE}),
 			},
 			expectEmpty: []core.Position{core.G7},
 			expectEP:    core.NoPosition,
@@ -411,8 +411,8 @@ func TestApply(t *testing.T) {
 		{
 			name: "white king-side castling",
 			setupBoard: func(b *core.Board) {
-				b[core.E1] = core.Square{Piece: core.Piece{Type: core.KING, Color: core.WHITE}, Occupied: true}
-				b[core.H1] = core.Square{Piece: core.Piece{Type: core.ROOK, Color: core.WHITE}, Occupied: true}
+				b[core.E1] = core.NewSquare(core.Piece{Type: core.KING, Color: core.WHITE})
+				b[core.H1] = core.NewSquare(core.Piece{Type: core.ROOK, Color: core.WHITE})
 			},
 			sideToMove: core.WHITE,
 			sides:      defaultSides,
@@ -421,8 +421,8 @@ func TestApply(t *testing.T) {
 				From: core.E1, To: core.G1,
 			},
 			expectAt: map[core.Position]core.Square{
-				core.G1: {Piece: core.Piece{Type: core.KING, Color: core.WHITE}, Occupied: true},
-				core.F1: {Piece: core.Piece{Type: core.ROOK, Color: core.WHITE}, Occupied: true},
+				core.G1: core.NewSquare(core.Piece{Type: core.KING, Color: core.WHITE}),
+				core.F1: core.NewSquare(core.Piece{Type: core.ROOK, Color: core.WHITE}),
 			},
 			expectEmpty: []core.Position{core.E1, core.H1},
 			expectEP:    core.NoPosition,
@@ -434,8 +434,8 @@ func TestApply(t *testing.T) {
 		{
 			name: "white queen-side castling",
 			setupBoard: func(b *core.Board) {
-				b[core.E1] = core.Square{Piece: core.Piece{Type: core.KING, Color: core.WHITE}, Occupied: true}
-				b[core.A1] = core.Square{Piece: core.Piece{Type: core.ROOK, Color: core.WHITE}, Occupied: true}
+				b[core.E1] = core.NewSquare(core.Piece{Type: core.KING, Color: core.WHITE})
+				b[core.A1] = core.NewSquare(core.Piece{Type: core.ROOK, Color: core.WHITE})
 			},
 			sideToMove: core.WHITE,
 			sides:      defaultSides,
@@ -444,8 +444,8 @@ func TestApply(t *testing.T) {
 				From: core.E1, To: core.C1,
 			},
 			expectAt: map[core.Position]core.Square{
-				core.C1: {Piece: core.Piece{Type: core.KING, Color: core.WHITE}, Occupied: true},
-				core.D1: {Piece: core.Piece{Type: core.ROOK, Color: core.WHITE}, Occupied: true},
+				core.C1: core.NewSquare(core.Piece{Type: core.KING, Color: core.WHITE}),
+				core.D1: core.NewSquare(core.Piece{Type: core.ROOK, Color: core.WHITE}),
 			},
 			expectEmpty: []core.Position{core.E1, core.A1},
 			expectEP:    core.NoPosition,
@@ -457,8 +457,8 @@ func TestApply(t *testing.T) {
 		{
 			name: "black king-side castling",
 			setupBoard: func(b *core.Board) {
-				b[core.E8] = core.Square{Piece: core.Piece{Type: core.KING, Color: core.BLACK}, Occupied: true}
-				b[core.H8] = core.Square{Piece: core.Piece{Type: core.ROOK, Color: core.BLACK}, Occupied: true}
+				b[core.E8] = core.NewSquare(core.Piece{Type: core.KING, Color: core.BLACK})
+				b[core.H8] = core.NewSquare(core.Piece{Type: core.ROOK, Color: core.BLACK})
 			},
 			sideToMove: core.BLACK,
 			sides:      defaultSides,
@@ -467,8 +467,8 @@ func TestApply(t *testing.T) {
 				From: core.E8, To: core.G8,
 			},
 			expectAt: map[core.Position]core.Square{
-				core.G8: {Piece: core.Piece{Type: core.KING, Color: core.BLACK}, Occupied: true},
-				core.F8: {Piece: core.Piece{Type: core.ROOK, Color: core.BLACK}, Occupied: true},
+				core.G8: core.NewSquare(core.Piece{Type: core.KING, Color: core.BLACK}),
+				core.F8: core.NewSquare(core.Piece{Type: core.ROOK, Color: core.BLACK}),
 			},
 			expectEmpty: []core.Position{core.E8, core.H8},
 			expectEP:    core.NoPosition,
@@ -480,8 +480,8 @@ func TestApply(t *testing.T) {
 		{
 			name: "black queen-side castling",
 			setupBoard: func(b *core.Board) {
-				b[core.E8] = core.Square{Piece: core.Piece{Type: core.KING, Color: core.BLACK}, Occupied: true}
-				b[core.A8] = core.Square{Piece: core.Piece{Type: core.ROOK, Color: core.BLACK}, Occupied: true}
+				b[core.E8] = core.NewSquare(core.Piece{Type: core.KING, Color: core.BLACK})
+				b[core.A8] = core.NewSquare(core.Piece{Type: core.ROOK, Color: core.BLACK})
 			},
 			sideToMove: core.BLACK,
 			sides:      defaultSides,
@@ -490,8 +490,8 @@ func TestApply(t *testing.T) {
 				From: core.E8, To: core.C8,
 			},
 			expectAt: map[core.Position]core.Square{
-				core.C8: {Piece: core.Piece{Type: core.KING, Color: core.BLACK}, Occupied: true},
-				core.D8: {Piece: core.Piece{Type: core.ROOK, Color: core.BLACK}, Occupied: true},
+				core.C8: core.NewSquare(core.Piece{Type: core.KING, Color: core.BLACK}),
+				core.D8: core.NewSquare(core.Piece{Type: core.ROOK, Color: core.BLACK}),
 			},
 			expectEmpty: []core.Position{core.E8, core.A8},
 			expectEP:    core.NoPosition,
@@ -505,7 +505,7 @@ func TestApply(t *testing.T) {
 		{
 			name: "white pawn double push sets en passant target",
 			setupBoard: func(b *core.Board) {
-				b[core.E2] = core.Square{Piece: core.Piece{Type: core.PAWN, Color: core.WHITE}, Occupied: true}
+				b[core.E2] = core.NewSquare(core.Piece{Type: core.PAWN, Color: core.WHITE})
 			},
 			sideToMove: core.WHITE,
 			sides:      defaultSides,
@@ -514,7 +514,7 @@ func TestApply(t *testing.T) {
 				From: core.E2, To: core.E4,
 			},
 			expectAt: map[core.Position]core.Square{
-				core.E4: {Piece: core.Piece{Type: core.PAWN, Color: core.WHITE}, Occupied: true},
+				core.E4: core.NewSquare(core.Piece{Type: core.PAWN, Color: core.WHITE}),
 			},
 			expectEmpty: []core.Position{core.E2},
 			expectEP:    core.E3,
@@ -523,7 +523,7 @@ func TestApply(t *testing.T) {
 		{
 			name: "black pawn double push sets en passant target",
 			setupBoard: func(b *core.Board) {
-				b[core.D7] = core.Square{Piece: core.Piece{Type: core.PAWN, Color: core.BLACK}, Occupied: true}
+				b[core.D7] = core.NewSquare(core.Piece{Type: core.PAWN, Color: core.BLACK})
 			},
 			sideToMove: core.BLACK,
 			sides:      defaultSides,
@@ -532,7 +532,7 @@ func TestApply(t *testing.T) {
 				From: core.D7, To: core.D5,
 			},
 			expectAt: map[core.Position]core.Square{
-				core.D5: {Piece: core.Piece{Type: core.PAWN, Color: core.BLACK}, Occupied: true},
+				core.D5: core.NewSquare(core.Piece{Type: core.PAWN, Color: core.BLACK}),
 			},
 			expectEmpty: []core.Position{core.D7},
 			expectEP:    core.D6,
@@ -541,7 +541,7 @@ func TestApply(t *testing.T) {
 		{
 			name: "white pawn double push from A file sets en passant on A3",
 			setupBoard: func(b *core.Board) {
-				b[core.A2] = core.Square{Piece: core.Piece{Type: core.PAWN, Color: core.WHITE}, Occupied: true}
+				b[core.A2] = core.NewSquare(core.Piece{Type: core.PAWN, Color: core.WHITE})
 			},
 			sideToMove: core.WHITE,
 			sides:      defaultSides,
@@ -550,7 +550,7 @@ func TestApply(t *testing.T) {
 				From: core.A2, To: core.A4,
 			},
 			expectAt: map[core.Position]core.Square{
-				core.A4: {Piece: core.Piece{Type: core.PAWN, Color: core.WHITE}, Occupied: true},
+				core.A4: core.NewSquare(core.Piece{Type: core.PAWN, Color: core.WHITE}),
 			},
 			expectEmpty: []core.Position{core.A2},
 			expectEP:    core.A3,
@@ -559,7 +559,7 @@ func TestApply(t *testing.T) {
 		{
 			name: "single pawn push clears en passant target",
 			setupBoard: func(b *core.Board) {
-				b[core.E2] = core.Square{Piece: core.Piece{Type: core.PAWN, Color: core.WHITE}, Occupied: true}
+				b[core.E2] = core.NewSquare(core.Piece{Type: core.PAWN, Color: core.WHITE})
 			},
 			sideToMove: core.WHITE,
 			sides:      defaultSides,
@@ -568,7 +568,7 @@ func TestApply(t *testing.T) {
 				From: core.E2, To: core.E3,
 			},
 			expectAt: map[core.Position]core.Square{
-				core.E3: {Piece: core.Piece{Type: core.PAWN, Color: core.WHITE}, Occupied: true},
+				core.E3: core.NewSquare(core.Piece{Type: core.PAWN, Color: core.WHITE}),
 			},
 			expectEmpty: []core.Position{core.E2},
 			expectEP:    core.NoPosition,
@@ -577,7 +577,7 @@ func TestApply(t *testing.T) {
 		{
 			name: "non-pawn move clears previous en passant target",
 			setupBoard: func(b *core.Board) {
-				b[core.B1] = core.Square{Piece: core.Piece{Type: core.KNIGHT, Color: core.WHITE}, Occupied: true}
+				b[core.B1] = core.NewSquare(core.Piece{Type: core.KNIGHT, Color: core.WHITE})
 			},
 			sideToMove: core.WHITE,
 			inputEP:    core.E3,
@@ -587,7 +587,7 @@ func TestApply(t *testing.T) {
 				From: core.B1, To: core.C3,
 			},
 			expectAt: map[core.Position]core.Square{
-				core.C3: {Piece: core.Piece{Type: core.KNIGHT, Color: core.WHITE}, Occupied: true},
+				core.C3: core.NewSquare(core.Piece{Type: core.KNIGHT, Color: core.WHITE}),
 			},
 			expectEmpty: []core.Position{core.B1},
 			expectEP:    core.NoPosition,
@@ -598,7 +598,7 @@ func TestApply(t *testing.T) {
 		{
 			name: "snapshot captures previous sides and en passant target",
 			setupBoard: func(b *core.Board) {
-				b[core.B1] = core.Square{Piece: core.Piece{Type: core.KNIGHT, Color: core.WHITE}, Occupied: true}
+				b[core.B1] = core.NewSquare(core.Piece{Type: core.KNIGHT, Color: core.WHITE})
 			},
 			sideToMove: core.WHITE,
 			inputEP:    core.E3,
@@ -608,7 +608,7 @@ func TestApply(t *testing.T) {
 				From: core.B1, To: core.C3,
 			},
 			expectAt: map[core.Position]core.Square{
-				core.C3: {Piece: core.Piece{Type: core.KNIGHT, Color: core.WHITE}, Occupied: true},
+				core.C3: core.NewSquare(core.Piece{Type: core.KNIGHT, Color: core.WHITE}),
 			},
 			expectEmpty: []core.Position{core.B1},
 			expectEP:    core.NoPosition,
@@ -652,7 +652,7 @@ func TestApply(t *testing.T) {
 			}
 
 			for _, pos := range tt.expectEmpty {
-				if ctx.Board[pos].Occupied {
+				if ctx.Board[pos].IsOccupied() {
 					t.Errorf("board[%v] should be empty, got %v", pos, ctx.Board[pos])
 				}
 			}

@@ -10,53 +10,53 @@ go test ./... -bench=. -benchmem
 
 | Category | Benchmark | ns/op | B/op | allocs/op |
 |---|---|---|---|---|
-| Pseudo-legal moves | Pawn | 215.5 | 98 | 4 |
-| Pseudo-legal moves | Knight | 162.1 | 40 | 2 |
-| Pseudo-legal moves | Bishop | 120.0 | 128 | 1 |
-| Pseudo-legal moves | Rook | 124.8 | 128 | 1 |
-| Pseudo-legal moves | Queen | 209.9 | 256 | 1 |
-| Pseudo-legal moves | King | 372.0 | 112 | 3 |
-| Pseudo-legal moves | Kiwipete Knight | 210.7 | 88 | 2 |
-| Pseudo-legal moves | Kiwipete Queen | 296.8 | 256 | 1 |
-| Legal moves | Pawn | 600.0 | 122 | 5 |
-| Legal moves | Knight | 537.0 | 64 | 3 |
-| Legal moves | Bishop | 136.7 | 128 | 1 |
-| Legal moves | Rook | 134.5 | 128 | 1 |
-| Legal moves | Queen | 230.0 | 256 | 1 |
-| Legal moves | King | 387.0 | 112 | 3 |
-| Legal moves | Kiwipete Knight | 1597 | 152 | 3 |
-| Legal moves | Kiwipete Queen | 2093 | 352 | 2 |
-| Legal moves | Kiwipete King | 1837 | 208 | 5 |
-| Has any legal moves | Start position | 592.9 | 226 | 5 |
-| Has any legal moves | Fool's Mate | 7149 | 1728 | 43 |
-| Has any legal moves | Stalemate | 759.9 | 88 | 2 |
-| Has any legal moves | Kiwipete | 383.3 | 128 | 1 |
-| Has any legal moves | Endgame | 530.4 | 128 | 1 |
-| Square attacked | Empty board | 209.5 | 0 | 0 |
-| Square attacked | Start position | 121.3 | 0 | 0 |
-| Square attacked | Kiwipete | 140.6 | 0 | 0 |
-| Square attacked | Attacked square | 163.9 | 0 | 0 |
-| Square attacked | Corner square | 125.1 | 0 | 0 |
-| Apply | Normal pawn push | 36.84 | 0 | 0 |
-| Apply | Normal knight move | 35.73 | 0 | 0 |
-| Apply | Capture | 34.38 | 0 | 0 |
-| Apply | En passant | 36.74 | 0 | 0 |
-| Apply | Castling (king side) | 42.03 | 0 | 0 |
-| Apply | Castling (queen side) | 41.53 | 0 | 0 |
-| Apply | Promotion | 35.55 | 0 | 0 |
-| Apply | Double pawn push | 38.26 | 0 | 0 |
-| Undo | Normal pawn push | 50.60 | 0 | 0 |
-| Undo | Normal knight move | 47.97 | 0 | 0 |
-| Undo | Capture | 46.69 | 0 | 0 |
-| Undo | En passant | 50.87 | 0 | 0 |
-| Undo | Castling (king side) | 60.95 | 0 | 0 |
-| Undo | Promotion | 47.34 | 0 | 0 |
-| Apply + Undo round-trip | Pawn push | 50.21 | 0 | 0 |
-| Apply + Undo round-trip | Knight move | 48.55 | 0 | 0 |
-| Apply + Undo round-trip | Castling | 62.48 | 0 | 0 |
+| Pseudo-legal moves | Pawn | 63.21 | 48 | 1 |
+| Pseudo-legal moves | Knight | 83.21 | 80 | 1 |
+| Pseudo-legal moves | Bishop | 74.88 | 128 | 1 |
+| Pseudo-legal moves | Rook | 75.62 | 128 | 1 |
+| Pseudo-legal moves | Queen | 112.5 | 256 | 1 |
+| Pseudo-legal moves | King | 182.0 | 96 | 1 |
+| Pseudo-legal moves | Kiwipete Knight | 117.1 | 80 | 1 |
+| Pseudo-legal moves | Kiwipete Queen | 183.9 | 256 | 1 |
+| Legal moves | Pawn | 305.1 | 48 | 1 |
+| Legal moves | Knight | 318.9 | 80 | 1 |
+| Legal moves | Bishop | 78.03 | 128 | 1 |
+| Legal moves | Rook | 78.06 | 128 | 1 |
+| Legal moves | Queen | 122.2 | 256 | 1 |
+| Legal moves | King | 191.5 | 96 | 1 |
+| Legal moves | Kiwipete Knight | 1004 | 80 | 1 |
+| Legal moves | Kiwipete Queen | 1281 | 256 | 1 |
+| Legal moves | Kiwipete King | 1067 | 96 | 1 |
+| Has any legal moves | Start position | 269.6 | 176 | 2 |
+| Has any legal moves | Fool's Mate | 3494 | 1408 | 16 |
+| Has any legal moves | Stalemate | 462.3 | 96 | 1 |
+| Has any legal moves | Kiwipete | 228.8 | 128 | 1 |
+| Has any legal moves | Endgame | 321.0 | 128 | 1 |
+| Square attacked | Empty board | 119.7 | 0 | 0 |
+| Square attacked | Start position | 78.70 | 0 | 0 |
+| Square attacked | Kiwipete | 91.53 | 0 | 0 |
+| Square attacked | Attacked square | 97.17 | 0 | 0 |
+| Square attacked | Corner square | 83.28 | 0 | 0 |
+| Apply | Normal pawn push | 41.41 | 0 | 0 |
+| Apply | Normal knight move | 38.37 | 0 | 0 |
+| Apply | Capture | 40.74 | 0 | 0 |
+| Apply | En passant | 41.87 | 0 | 0 |
+| Apply | Castling (king side) | 27.33 | 0 | 0 |
+| Apply | Castling (queen side) | 27.58 | 0 | 0 |
+| Apply | Promotion | 23.87 | 0 | 0 |
+| Apply | Double pawn push | 42.01 | 0 | 0 |
+| Undo | Normal pawn push | 42.50 | 0 | 0 |
+| Undo | Normal knight move | 43.60 | 0 | 0 |
+| Undo | Capture | 43.74 | 0 | 0 |
+| Undo | En passant | 42.11 | 0 | 0 |
+| Undo | Castling (king side) | 48.42 | 0 | 0 |
+| Undo | Promotion | 42.63 | 0 | 0 |
+| Apply + Undo round-trip | Pawn push | 42.17 | 0 | 0 |
+| Apply + Undo round-trip | Knight move | 42.90 | 0 | 0 |
+| Apply + Undo round-trip | Castling | 47.11 | 0 | 0 |
 
 ## Takeaway
 
-`Apply`, `Undo`, and `IsSquareAttacked` are fully allocation-free (0 B/op, 0 allocs/op) — the path that matters most for high-throughput use like perft or search, since it runs millions of times per second.
+Move generation (`GetPseudoLegalMoves` / `GetLegalMoves`) now allocates a single slice per call across the board (previously 1-5 allocs depending on piece type), and is 35-71% faster. `HasAnyLegalMoves` and `IsSquareAttacked` improved similarly across all positions tested.
 
-Move generation (`GetPseudoLegalMoves` / `GetLegalMoves`) still allocates a slice per call; this is the next obvious optimization target, likely via a reusable move buffer instead of fresh slice allocation on every query.
+`Apply`, `Undo`, and `IsSquareAttacked` remain fully allocation-free (0 B/op, 0 allocs/op). `Undo` and castling/promotion `Apply` cases got faster, but plain `Apply` move types (pawn push, knight move, capture, en passant, double pawn push) regressed 7-19% in ns/op despite no new allocations — worth investigating if `Apply` throughput matters for the search path.

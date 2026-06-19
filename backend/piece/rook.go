@@ -36,7 +36,7 @@ func (Rook) IsAttacking(color core.PieceColor, target core.Position, ctx core.Bo
 				return true
 			}
 
-			if square.Occupied {
+			if square.IsOccupied() {
 				break
 			}
 		}
@@ -62,7 +62,7 @@ func (Rook) Attacks(from core.Position, ctx core.BoardContext) []core.Position {
 			file, rank = nextFile, nextRank
 			position := core.NewPosition(file, rank)
 			attacks = append(attacks, position)
-			if ctx.Board[position].Occupied {
+			if ctx.Board[position].IsOccupied() {
 				break
 			}
 		}
@@ -100,9 +100,9 @@ func (r Rook) PseudoLegalMoves(from core.Position, ctx core.MoveContext) []core.
 				From:  from,
 				To:    position,
 			}
-			if square.Occupied {
+			if square.IsOccupied() {
 				move.HasCapture = true
-				move.Captured = square.Piece
+				move.Captured = square.Piece()
 				moves = append(moves, move)
 				break
 			}

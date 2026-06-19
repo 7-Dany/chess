@@ -18,7 +18,7 @@ func TestBishopIsAttacking(t *testing.T) {
 		{
 			name: "bishop on up-right diagonal attacks target",
 			setupBoard: func(b *core.Board) {
-				b[core.H7] = core.Square{Piece: core.Piece{Type: core.BISHOP, Color: core.WHITE}, Occupied: true}
+				b[core.H7] = core.NewSquare(core.Piece{Type: core.BISHOP, Color: core.WHITE})
 			},
 			color:  core.WHITE,
 			target: core.E4,
@@ -27,7 +27,7 @@ func TestBishopIsAttacking(t *testing.T) {
 		{
 			name: "bishop on up-left diagonal attacks target",
 			setupBoard: func(b *core.Board) {
-				b[core.A8] = core.Square{Piece: core.Piece{Type: core.BISHOP, Color: core.WHITE}, Occupied: true}
+				b[core.A8] = core.NewSquare(core.Piece{Type: core.BISHOP, Color: core.WHITE})
 			},
 			color:  core.WHITE,
 			target: core.E4,
@@ -36,7 +36,7 @@ func TestBishopIsAttacking(t *testing.T) {
 		{
 			name: "bishop on down-right diagonal attacks target",
 			setupBoard: func(b *core.Board) {
-				b[core.H1] = core.Square{Piece: core.Piece{Type: core.BISHOP, Color: core.WHITE}, Occupied: true}
+				b[core.H1] = core.NewSquare(core.Piece{Type: core.BISHOP, Color: core.WHITE})
 			},
 			color:  core.WHITE,
 			target: core.E4,
@@ -45,7 +45,7 @@ func TestBishopIsAttacking(t *testing.T) {
 		{
 			name: "bishop on down-left diagonal attacks target",
 			setupBoard: func(b *core.Board) {
-				b[core.B1] = core.Square{Piece: core.Piece{Type: core.BISHOP, Color: core.WHITE}, Occupied: true}
+				b[core.B1] = core.NewSquare(core.Piece{Type: core.BISHOP, Color: core.WHITE})
 			},
 			color:  core.WHITE,
 			target: core.E4,
@@ -54,7 +54,7 @@ func TestBishopIsAttacking(t *testing.T) {
 		{
 			name: "bishop adjacent to target attacks (distance 1)",
 			setupBoard: func(b *core.Board) {
-				b[core.D3] = core.Square{Piece: core.Piece{Type: core.BISHOP, Color: core.WHITE}, Occupied: true}
+				b[core.D3] = core.NewSquare(core.Piece{Type: core.BISHOP, Color: core.WHITE})
 			},
 			color:  core.WHITE,
 			target: core.E4,
@@ -63,7 +63,7 @@ func TestBishopIsAttacking(t *testing.T) {
 		{
 			name: "bishop at maximum diagonal distance attacks (distance 7)",
 			setupBoard: func(b *core.Board) {
-				b[core.H8] = core.Square{Piece: core.Piece{Type: core.BISHOP, Color: core.WHITE}, Occupied: true}
+				b[core.H8] = core.NewSquare(core.Piece{Type: core.BISHOP, Color: core.WHITE})
 			},
 			color:  core.WHITE,
 			target: core.A1,
@@ -74,7 +74,7 @@ func TestBishopIsAttacking(t *testing.T) {
 		{
 			name: "bishop on same file does not attack",
 			setupBoard: func(b *core.Board) {
-				b[core.E7] = core.Square{Piece: core.Piece{Type: core.BISHOP, Color: core.WHITE}, Occupied: true}
+				b[core.E7] = core.NewSquare(core.Piece{Type: core.BISHOP, Color: core.WHITE})
 			},
 			color:  core.WHITE,
 			target: core.E4,
@@ -83,7 +83,7 @@ func TestBishopIsAttacking(t *testing.T) {
 		{
 			name: "bishop on same rank does not attack",
 			setupBoard: func(b *core.Board) {
-				b[core.H4] = core.Square{Piece: core.Piece{Type: core.BISHOP, Color: core.WHITE}, Occupied: true}
+				b[core.H4] = core.NewSquare(core.Piece{Type: core.BISHOP, Color: core.WHITE})
 			},
 			color:  core.WHITE,
 			target: core.E4,
@@ -92,7 +92,7 @@ func TestBishopIsAttacking(t *testing.T) {
 		{
 			name: "bishop on non-diagonal square does not attack",
 			setupBoard: func(b *core.Board) {
-				b[core.F4] = core.Square{Piece: core.Piece{Type: core.BISHOP, Color: core.WHITE}, Occupied: true}
+				b[core.F4] = core.NewSquare(core.Piece{Type: core.BISHOP, Color: core.WHITE})
 			},
 			color:  core.WHITE,
 			target: core.E4,
@@ -103,8 +103,8 @@ func TestBishopIsAttacking(t *testing.T) {
 		{
 			name: "friendly piece between bishop and target blocks attack",
 			setupBoard: func(b *core.Board) {
-				b[core.H7] = core.Square{Piece: core.Piece{Type: core.BISHOP, Color: core.WHITE}, Occupied: true}
-				b[core.F5] = core.Square{Piece: core.Piece{Type: core.PAWN, Color: core.WHITE}, Occupied: true}
+				b[core.H7] = core.NewSquare(core.Piece{Type: core.BISHOP, Color: core.WHITE})
+				b[core.F5] = core.NewSquare(core.Piece{Type: core.PAWN, Color: core.WHITE})
 			},
 			color:  core.WHITE,
 			target: core.E4,
@@ -113,8 +113,8 @@ func TestBishopIsAttacking(t *testing.T) {
 		{
 			name: "enemy piece between bishop and target blocks attack",
 			setupBoard: func(b *core.Board) {
-				b[core.H7] = core.Square{Piece: core.Piece{Type: core.BISHOP, Color: core.WHITE}, Occupied: true}
-				b[core.F5] = core.Square{Piece: core.Piece{Type: core.PAWN, Color: core.BLACK}, Occupied: true}
+				b[core.H7] = core.NewSquare(core.Piece{Type: core.BISHOP, Color: core.WHITE})
+				b[core.F5] = core.NewSquare(core.Piece{Type: core.PAWN, Color: core.BLACK})
 			},
 			color:  core.WHITE,
 			target: core.E4,
@@ -123,8 +123,8 @@ func TestBishopIsAttacking(t *testing.T) {
 		{
 			name: "piece behind target does not block (target between bishop and piece)",
 			setupBoard: func(b *core.Board) {
-				b[core.H7] = core.Square{Piece: core.Piece{Type: core.BISHOP, Color: core.WHITE}, Occupied: true}
-				b[core.C2] = core.Square{Piece: core.Piece{Type: core.PAWN, Color: core.WHITE}, Occupied: true}
+				b[core.H7] = core.NewSquare(core.Piece{Type: core.BISHOP, Color: core.WHITE})
+				b[core.C2] = core.NewSquare(core.Piece{Type: core.PAWN, Color: core.WHITE})
 			},
 			color:  core.WHITE,
 			target: core.E4,
@@ -133,8 +133,8 @@ func TestBishopIsAttacking(t *testing.T) {
 		{
 			name: "two bishops on same diagonal, closer one blocks farther one",
 			setupBoard: func(b *core.Board) {
-				b[core.H7] = core.Square{Piece: core.Piece{Type: core.BISHOP, Color: core.WHITE}, Occupied: true}
-				b[core.F5] = core.Square{Piece: core.Piece{Type: core.BISHOP, Color: core.WHITE}, Occupied: true}
+				b[core.H7] = core.NewSquare(core.Piece{Type: core.BISHOP, Color: core.WHITE})
+				b[core.F5] = core.NewSquare(core.Piece{Type: core.BISHOP, Color: core.WHITE})
 			},
 			color:  core.WHITE,
 			target: core.E4,
@@ -145,7 +145,7 @@ func TestBishopIsAttacking(t *testing.T) {
 		{
 			name: "black bishop, asking for white attackers",
 			setupBoard: func(b *core.Board) {
-				b[core.H7] = core.Square{Piece: core.Piece{Type: core.BISHOP, Color: core.BLACK}, Occupied: true}
+				b[core.H7] = core.NewSquare(core.Piece{Type: core.BISHOP, Color: core.BLACK})
 			},
 			color:  core.WHITE,
 			target: core.E4,
@@ -154,7 +154,7 @@ func TestBishopIsAttacking(t *testing.T) {
 		{
 			name: "black bishop, asking for black attackers",
 			setupBoard: func(b *core.Board) {
-				b[core.H7] = core.Square{Piece: core.Piece{Type: core.BISHOP, Color: core.BLACK}, Occupied: true}
+				b[core.H7] = core.NewSquare(core.Piece{Type: core.BISHOP, Color: core.BLACK})
 			},
 			color:  core.BLACK,
 			target: core.E4,
@@ -165,7 +165,7 @@ func TestBishopIsAttacking(t *testing.T) {
 		{
 			name: "queen on diagonal does NOT trigger bishop attack (clean separation)",
 			setupBoard: func(b *core.Board) {
-				b[core.H7] = core.Square{Piece: core.Piece{Type: core.QUEEN, Color: core.WHITE}, Occupied: true}
+				b[core.H7] = core.NewSquare(core.Piece{Type: core.QUEEN, Color: core.WHITE})
 			},
 			color:  core.WHITE,
 			target: core.E4,
@@ -174,7 +174,7 @@ func TestBishopIsAttacking(t *testing.T) {
 		{
 			name: "rook on diagonal does not trigger bishop attack",
 			setupBoard: func(b *core.Board) {
-				b[core.H7] = core.Square{Piece: core.Piece{Type: core.ROOK, Color: core.WHITE}, Occupied: true}
+				b[core.H7] = core.NewSquare(core.Piece{Type: core.ROOK, Color: core.WHITE})
 			},
 			color:  core.WHITE,
 			target: core.E4,
@@ -183,7 +183,7 @@ func TestBishopIsAttacking(t *testing.T) {
 		{
 			name: "pawn on diagonal does not trigger bishop attack",
 			setupBoard: func(b *core.Board) {
-				b[core.D5] = core.Square{Piece: core.Piece{Type: core.PAWN, Color: core.WHITE}, Occupied: true}
+				b[core.D5] = core.NewSquare(core.Piece{Type: core.PAWN, Color: core.WHITE})
 			},
 			color:  core.WHITE,
 			target: core.E4,
@@ -192,7 +192,7 @@ func TestBishopIsAttacking(t *testing.T) {
 		{
 			name: "king on diagonal does not trigger bishop attack",
 			setupBoard: func(b *core.Board) {
-				b[core.F5] = core.Square{Piece: core.Piece{Type: core.KING, Color: core.WHITE}, Occupied: true}
+				b[core.F5] = core.NewSquare(core.Piece{Type: core.KING, Color: core.WHITE})
 			},
 			color:  core.WHITE,
 			target: core.E4,
@@ -201,7 +201,7 @@ func TestBishopIsAttacking(t *testing.T) {
 		{
 			name: "knight on diagonal does not trigger bishop attack",
 			setupBoard: func(b *core.Board) {
-				b[core.G6] = core.Square{Piece: core.Piece{Type: core.KNIGHT, Color: core.WHITE}, Occupied: true}
+				b[core.G6] = core.NewSquare(core.Piece{Type: core.KNIGHT, Color: core.WHITE})
 			},
 			color:  core.WHITE,
 			target: core.E4,
@@ -219,7 +219,7 @@ func TestBishopIsAttacking(t *testing.T) {
 		{
 			name: "target on corner A1, bishop on H8 attacks",
 			setupBoard: func(b *core.Board) {
-				b[core.H8] = core.Square{Piece: core.Piece{Type: core.BISHOP, Color: core.WHITE}, Occupied: true}
+				b[core.H8] = core.NewSquare(core.Piece{Type: core.BISHOP, Color: core.WHITE})
 			},
 			color:  core.WHITE,
 			target: core.A1,
@@ -228,7 +228,7 @@ func TestBishopIsAttacking(t *testing.T) {
 		{
 			name: "target on corner H8, bishop on A1 attacks",
 			setupBoard: func(b *core.Board) {
-				b[core.A1] = core.Square{Piece: core.Piece{Type: core.BISHOP, Color: core.WHITE}, Occupied: true}
+				b[core.A1] = core.NewSquare(core.Piece{Type: core.BISHOP, Color: core.WHITE})
 			},
 			color:  core.WHITE,
 			target: core.H8,
@@ -237,7 +237,7 @@ func TestBishopIsAttacking(t *testing.T) {
 		{
 			name: "target on corner A8, bishop on H1 attacks",
 			setupBoard: func(b *core.Board) {
-				b[core.H1] = core.Square{Piece: core.Piece{Type: core.BISHOP, Color: core.WHITE}, Occupied: true}
+				b[core.H1] = core.NewSquare(core.Piece{Type: core.BISHOP, Color: core.WHITE})
 			},
 			color:  core.WHITE,
 			target: core.A8,
@@ -246,7 +246,7 @@ func TestBishopIsAttacking(t *testing.T) {
 		{
 			name: "target on corner H1, bishop on A8 attacks",
 			setupBoard: func(b *core.Board) {
-				b[core.A8] = core.Square{Piece: core.Piece{Type: core.BISHOP, Color: core.WHITE}, Occupied: true}
+				b[core.A8] = core.NewSquare(core.Piece{Type: core.BISHOP, Color: core.WHITE})
 			},
 			color:  core.WHITE,
 			target: core.H1,
@@ -255,7 +255,7 @@ func TestBishopIsAttacking(t *testing.T) {
 		{
 			name: "bishop on target square itself does not attack",
 			setupBoard: func(b *core.Board) {
-				b[core.E4] = core.Square{Piece: core.Piece{Type: core.BISHOP, Color: core.WHITE}, Occupied: true}
+				b[core.E4] = core.NewSquare(core.Piece{Type: core.BISHOP, Color: core.WHITE})
 			},
 			color:  core.WHITE,
 			target: core.E4,
@@ -266,9 +266,9 @@ func TestBishopIsAttacking(t *testing.T) {
 		{
 			name: "multiple bishops, one attacks along open diagonal",
 			setupBoard: func(b *core.Board) {
-				b[core.A1] = core.Square{Piece: core.Piece{Type: core.BISHOP, Color: core.WHITE}, Occupied: true}
-				b[core.H1] = core.Square{Piece: core.Piece{Type: core.BISHOP, Color: core.WHITE}, Occupied: true}
-				b[core.A8] = core.Square{Piece: core.Piece{Type: core.BISHOP, Color: core.WHITE}, Occupied: true}
+				b[core.A1] = core.NewSquare(core.Piece{Type: core.BISHOP, Color: core.WHITE})
+				b[core.H1] = core.NewSquare(core.Piece{Type: core.BISHOP, Color: core.WHITE})
+				b[core.A8] = core.NewSquare(core.Piece{Type: core.BISHOP, Color: core.WHITE})
 			},
 			color:  core.WHITE,
 			target: core.E4,
@@ -277,15 +277,15 @@ func TestBishopIsAttacking(t *testing.T) {
 		{
 			name: "multiple enemy bishops, none attack (all blocked)",
 			setupBoard: func(b *core.Board) {
-				b[core.H7] = core.Square{Piece: core.Piece{Type: core.BISHOP, Color: core.WHITE}, Occupied: true}
-				b[core.A7] = core.Square{Piece: core.Piece{Type: core.BISHOP, Color: core.WHITE}, Occupied: true}
-				b[core.H1] = core.Square{Piece: core.Piece{Type: core.BISHOP, Color: core.WHITE}, Occupied: true}
-				b[core.B1] = core.Square{Piece: core.Piece{Type: core.BISHOP, Color: core.WHITE}, Occupied: true}
+				b[core.H7] = core.NewSquare(core.Piece{Type: core.BISHOP, Color: core.WHITE})
+				b[core.A7] = core.NewSquare(core.Piece{Type: core.BISHOP, Color: core.WHITE})
+				b[core.H1] = core.NewSquare(core.Piece{Type: core.BISHOP, Color: core.WHITE})
+				b[core.B1] = core.NewSquare(core.Piece{Type: core.BISHOP, Color: core.WHITE})
 				// Blockers on all four diagonals
-				b[core.F5] = core.Square{Piece: core.Piece{Type: core.PAWN, Color: core.BLACK}, Occupied: true}
-				b[core.D5] = core.Square{Piece: core.Piece{Type: core.PAWN, Color: core.BLACK}, Occupied: true}
-				b[core.F3] = core.Square{Piece: core.Piece{Type: core.PAWN, Color: core.BLACK}, Occupied: true}
-				b[core.D3] = core.Square{Piece: core.Piece{Type: core.PAWN, Color: core.BLACK}, Occupied: true}
+				b[core.F5] = core.NewSquare(core.Piece{Type: core.PAWN, Color: core.BLACK})
+				b[core.D5] = core.NewSquare(core.Piece{Type: core.PAWN, Color: core.BLACK})
+				b[core.F3] = core.NewSquare(core.Piece{Type: core.PAWN, Color: core.BLACK})
+				b[core.D3] = core.NewSquare(core.Piece{Type: core.PAWN, Color: core.BLACK})
 			},
 			color:  core.WHITE,
 			target: core.E4,
@@ -294,8 +294,8 @@ func TestBishopIsAttacking(t *testing.T) {
 		{
 			name: "mixed-color bishops, only matching color counts",
 			setupBoard: func(b *core.Board) {
-				b[core.H7] = core.Square{Piece: core.Piece{Type: core.BISHOP, Color: core.BLACK}, Occupied: true}
-				b[core.A8] = core.Square{Piece: core.Piece{Type: core.BISHOP, Color: core.WHITE}, Occupied: true}
+				b[core.H7] = core.NewSquare(core.Piece{Type: core.BISHOP, Color: core.BLACK})
+				b[core.A8] = core.NewSquare(core.Piece{Type: core.BISHOP, Color: core.WHITE})
 			},
 			color:  core.WHITE,
 			target: core.E4,
@@ -306,8 +306,8 @@ func TestBishopIsAttacking(t *testing.T) {
 		{
 			name: "blocker immediately adjacent to target blocks attack",
 			setupBoard: func(b *core.Board) {
-				b[core.H7] = core.Square{Piece: core.Piece{Type: core.BISHOP, Color: core.WHITE}, Occupied: true}
-				b[core.F5] = core.Square{Piece: core.Piece{Type: core.ROOK, Color: core.WHITE}, Occupied: true}
+				b[core.H7] = core.NewSquare(core.Piece{Type: core.BISHOP, Color: core.WHITE})
+				b[core.F5] = core.NewSquare(core.Piece{Type: core.ROOK, Color: core.WHITE})
 			},
 			color:  core.WHITE,
 			target: core.E4,
@@ -316,8 +316,8 @@ func TestBishopIsAttacking(t *testing.T) {
 		{
 			name: "blocker immediately adjacent to bishop blocks attack",
 			setupBoard: func(b *core.Board) {
-				b[core.H7] = core.Square{Piece: core.Piece{Type: core.BISHOP, Color: core.WHITE}, Occupied: true}
-				b[core.G6] = core.Square{Piece: core.Piece{Type: core.ROOK, Color: core.WHITE}, Occupied: true}
+				b[core.H7] = core.NewSquare(core.Piece{Type: core.BISHOP, Color: core.WHITE})
+				b[core.G6] = core.NewSquare(core.Piece{Type: core.ROOK, Color: core.WHITE})
 			},
 			color:  core.WHITE,
 			target: core.E4,
@@ -405,7 +405,7 @@ func TestBishopAttacks(t *testing.T) {
 			name: "center D4 blocked on NE at F6",
 			from: core.D4,
 			setupBoard: func(b *core.Board) {
-				b[core.F6] = core.Square{Occupied: true}
+				b[core.F6] = core.NewSquare(core.Piece{Type: core.PAWN, Color: core.WHITE})
 			},
 			expected: []core.Position{
 				core.E5, core.F6, // NE stops
@@ -418,10 +418,10 @@ func TestBishopAttacks(t *testing.T) {
 			name: "center D4 trapped all diagonals blocked",
 			from: core.D4,
 			setupBoard: func(b *core.Board) {
-				b[core.E5] = core.Square{Occupied: true}
-				b[core.E3] = core.Square{Occupied: true}
-				b[core.C5] = core.Square{Occupied: true}
-				b[core.C3] = core.Square{Occupied: true}
+				b[core.E5] = core.NewSquare(core.Piece{Type: core.PAWN, Color: core.WHITE})
+				b[core.E3] = core.NewSquare(core.Piece{Type: core.PAWN, Color: core.WHITE})
+				b[core.C5] = core.NewSquare(core.Piece{Type: core.PAWN, Color: core.WHITE})
+				b[core.C3] = core.NewSquare(core.Piece{Type: core.PAWN, Color: core.WHITE})
 			},
 			expected: []core.Position{core.E5, core.E3, core.C5, core.C3},
 		},
@@ -429,7 +429,7 @@ func TestBishopAttacks(t *testing.T) {
 			name: "corner A1 blocked at C3",
 			from: core.A1,
 			setupBoard: func(b *core.Board) {
-				b[core.C3] = core.Square{Occupied: true}
+				b[core.C3] = core.NewSquare(core.Piece{Type: core.PAWN, Color: core.WHITE})
 			},
 			expected: []core.Position{core.B2, core.C3},
 		},
@@ -488,7 +488,7 @@ func TestBishopPseudoLegalMoves(t *testing.T) {
 			from:       core.D4,
 			sideToMove: core.WHITE,
 			setupBoard: func(b *core.Board) {
-				b[core.F6] = core.Square{Occupied: true, Piece: core.Piece{Type: core.PAWN, Color: core.BLACK}}
+				b[core.F6] = core.NewSquare(core.Piece{Type: core.PAWN, Color: core.BLACK})
 			},
 			expectedTos: []core.Position{
 				core.E5, core.F6,
@@ -502,7 +502,7 @@ func TestBishopPseudoLegalMoves(t *testing.T) {
 			from:       core.D4,
 			sideToMove: core.WHITE,
 			setupBoard: func(b *core.Board) {
-				b[core.F6] = core.Square{Occupied: true, Piece: core.Piece{Type: core.PAWN, Color: core.WHITE}}
+				b[core.F6] = core.NewSquare(core.Piece{Type: core.PAWN, Color: core.WHITE})
 			},
 			expectedTos: []core.Position{
 				core.E5,
@@ -516,8 +516,8 @@ func TestBishopPseudoLegalMoves(t *testing.T) {
 			from:       core.D4,
 			sideToMove: core.WHITE,
 			setupBoard: func(b *core.Board) {
-				b[core.E5] = core.Square{Occupied: true, Piece: core.Piece{Type: core.PAWN, Color: core.WHITE}}
-				b[core.F6] = core.Square{Occupied: true, Piece: core.Piece{Type: core.PAWN, Color: core.BLACK}}
+				b[core.E5] = core.NewSquare(core.Piece{Type: core.PAWN, Color: core.WHITE})
+				b[core.F6] = core.NewSquare(core.Piece{Type: core.PAWN, Color: core.BLACK})
 			},
 			expectedTos: []core.Position{
 				core.E3, core.F2, core.G1,
@@ -530,8 +530,8 @@ func TestBishopPseudoLegalMoves(t *testing.T) {
 			from:       core.D4,
 			sideToMove: core.WHITE,
 			setupBoard: func(b *core.Board) {
-				b[core.F6] = core.Square{Occupied: true, Piece: core.Piece{Type: core.PAWN, Color: core.BLACK}}
-				b[core.H8] = core.Square{Occupied: true, Piece: core.Piece{Type: core.ROOK, Color: core.BLACK}}
+				b[core.F6] = core.NewSquare(core.Piece{Type: core.PAWN, Color: core.BLACK})
+				b[core.H8] = core.NewSquare(core.Piece{Type: core.ROOK, Color: core.BLACK})
 			},
 			expectedTos: []core.Position{
 				core.E5, core.F6,
@@ -545,8 +545,8 @@ func TestBishopPseudoLegalMoves(t *testing.T) {
 			from:       core.D4,
 			sideToMove: core.WHITE,
 			setupBoard: func(b *core.Board) {
-				b[core.F6] = core.Square{Occupied: true, Piece: core.Piece{Type: core.PAWN, Color: core.BLACK}}
-				b[core.H8] = core.Square{Occupied: true, Piece: core.Piece{Type: core.ROOK, Color: core.WHITE}}
+				b[core.F6] = core.NewSquare(core.Piece{Type: core.PAWN, Color: core.BLACK})
+				b[core.H8] = core.NewSquare(core.Piece{Type: core.ROOK, Color: core.WHITE})
 			},
 			expectedTos: []core.Position{
 				core.E5, core.F6,
@@ -560,10 +560,10 @@ func TestBishopPseudoLegalMoves(t *testing.T) {
 			from:       core.D4,
 			sideToMove: core.WHITE,
 			setupBoard: func(b *core.Board) {
-				b[core.E5] = core.Square{Occupied: true, Piece: core.Piece{Type: core.PAWN, Color: core.BLACK}}
-				b[core.E3] = core.Square{Occupied: true, Piece: core.Piece{Type: core.PAWN, Color: core.WHITE}}
-				b[core.C5] = core.Square{Occupied: true, Piece: core.Piece{Type: core.PAWN, Color: core.BLACK}}
-				b[core.C3] = core.Square{Occupied: true, Piece: core.Piece{Type: core.PAWN, Color: core.WHITE}}
+				b[core.E5] = core.NewSquare(core.Piece{Type: core.PAWN, Color: core.BLACK})
+				b[core.E3] = core.NewSquare(core.Piece{Type: core.PAWN, Color: core.WHITE})
+				b[core.C5] = core.NewSquare(core.Piece{Type: core.PAWN, Color: core.BLACK})
+				b[core.C3] = core.NewSquare(core.Piece{Type: core.PAWN, Color: core.WHITE})
 			},
 			expectedTos: []core.Position{core.E5, core.C5},
 		},
@@ -572,10 +572,10 @@ func TestBishopPseudoLegalMoves(t *testing.T) {
 			from:       core.D4,
 			sideToMove: core.WHITE,
 			setupBoard: func(b *core.Board) {
-				b[core.E5] = core.Square{Occupied: true, Piece: core.Piece{Type: core.PAWN, Color: core.WHITE}}
-				b[core.E3] = core.Square{Occupied: true, Piece: core.Piece{Type: core.PAWN, Color: core.WHITE}}
-				b[core.C5] = core.Square{Occupied: true, Piece: core.Piece{Type: core.PAWN, Color: core.WHITE}}
-				b[core.C3] = core.Square{Occupied: true, Piece: core.Piece{Type: core.PAWN, Color: core.WHITE}}
+				b[core.E5] = core.NewSquare(core.Piece{Type: core.PAWN, Color: core.WHITE})
+				b[core.E3] = core.NewSquare(core.Piece{Type: core.PAWN, Color: core.WHITE})
+				b[core.C5] = core.NewSquare(core.Piece{Type: core.PAWN, Color: core.WHITE})
+				b[core.C3] = core.NewSquare(core.Piece{Type: core.PAWN, Color: core.WHITE})
 			},
 			expectedTos: []core.Position{},
 		},
@@ -584,7 +584,7 @@ func TestBishopPseudoLegalMoves(t *testing.T) {
 			from:       core.D4,
 			sideToMove: core.BLACK,
 			setupBoard: func(b *core.Board) {
-				b[core.F6] = core.Square{Occupied: true, Piece: core.Piece{Type: core.PAWN, Color: core.WHITE}}
+				b[core.F6] = core.NewSquare(core.Piece{Type: core.PAWN, Color: core.WHITE})
 			},
 			expectedTos: []core.Position{
 				core.E5, core.F6,
@@ -598,7 +598,7 @@ func TestBishopPseudoLegalMoves(t *testing.T) {
 			from:       core.D4,
 			sideToMove: core.BLACK,
 			setupBoard: func(b *core.Board) {
-				b[core.F6] = core.Square{Occupied: true, Piece: core.Piece{Type: core.PAWN, Color: core.BLACK}}
+				b[core.F6] = core.NewSquare(core.Piece{Type: core.PAWN, Color: core.BLACK})
 			},
 			expectedTos: []core.Position{
 				core.E5,
@@ -632,8 +632,8 @@ func TestBishopPseudoLegalMoves(t *testing.T) {
 			expectedCaptures := map[core.Position]core.Piece{}
 			for _, pos := range tt.expectedTos {
 				sq := board[pos]
-				if sq.Occupied && sq.Piece.Color != tt.sideToMove {
-					expectedCaptures[pos] = sq.Piece
+				if sq.IsOccupied() && sq.Color() != tt.sideToMove {
+					expectedCaptures[pos] = sq.Piece()
 				}
 			}
 
