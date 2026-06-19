@@ -26,7 +26,7 @@ func (e *DefaultEngine) Apply(ctx *core.TurnContext, move core.Move) core.Snapsh
 
 	// Capturing a rook on its home file removes the opponent's right.
 	if move.HasCapture && move.Captured.Type == core.ROOK {
-		clearCastlingRightByFile(ctx, move.Captured.Color, move.To.File())
+		ctx.Sides[move.Captured.Color].ClearCastlingRight(move.To.File())
 	}
 
 	// En passant target: set on double pawn push, cleared otherwise.
@@ -43,9 +43,9 @@ func (e *DefaultEngine) applyNormal(ctx *core.TurnContext, move core.Move) {
 	switch move.Piece.Type {
 	case core.KING:
 		ctx.Sides[move.Piece.Color].KingPosition = move.To
-		ctx.Sides[move.Piece.Color].CastlingRights = core.CastlingRights{}
+		ctx.Sides[move.Piece.Color].ClearCastlingRights()
 	case core.ROOK:
-		clearCastlingRightByFile(ctx, move.Piece.Color, move.From.File())
+		ctx.Sides[move.Piece.Color].ClearCastlingRight(move.From.File())
 	}
 }
 
@@ -58,7 +58,7 @@ func (e *DefaultEngine) applyCastling(ctx *core.TurnContext, move core.Move) {
 		moveRook(ctx, move.From.Rank(), core.FILE_A, core.FILE_D)
 	}
 	ctx.Sides[move.Piece.Color].KingPosition = move.To
-	ctx.Sides[move.Piece.Color].CastlingRights = core.CastlingRights{}
+	ctx.Sides[move.Piece.Color].ClearCastlingRights()
 }
 
 func (e *DefaultEngine) applyEnPassant(ctx *core.TurnContext, move core.Move) {

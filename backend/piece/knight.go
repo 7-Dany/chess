@@ -50,7 +50,7 @@ func (Knight) Attacks(from core.Position, _ core.BoardContext) []core.Position {
 		}
 	}
 
-	return attacks
+	return slices.Clip(attacks)
 }
 
 func (k Knight) PseudoLegalMoves(from core.Position, ctx core.MoveContext) []core.Move {

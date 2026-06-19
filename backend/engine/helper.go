@@ -33,13 +33,3 @@ func moveRook(ctx *core.TurnContext, rank core.Rank, from, to core.File) {
 	ctx.Board.Clear(fromPos)
 }
 
-// clearCastlingRightByFile clears the castling right associated with a home file.
-// Used when a rook moves from, or is captured on, FILE_A or FILE_H.
-func clearCastlingRightByFile(ctx *core.TurnContext, color core.PieceColor, file core.File) {
-	switch file {
-	case core.FILE_A:
-		ctx.Sides[color].CastlingRights.QueenSide = false
-	case core.FILE_H:
-		ctx.Sides[color].CastlingRights.KingSide = false
-	}
-}

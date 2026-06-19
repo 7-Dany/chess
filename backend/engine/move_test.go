@@ -8,12 +8,12 @@ import (
 
 func TestGetLegalMoves(t *testing.T) {
 	defaultSides := [2]core.SideState{
-		{KingPosition: core.E1, CastlingRights: core.CastlingRights{KingSide: true, QueenSide: true}},
-		{KingPosition: core.E8, CastlingRights: core.CastlingRights{KingSide: true, QueenSide: true}},
+		{KingPosition: core.E1, CanCastleKingSide: true, CanCastleQueenSide: true},
+		{KingPosition: core.E8, CanCastleKingSide: true, CanCastleQueenSide: true},
 	}
 	noRights := [2]core.SideState{
-		{KingPosition: core.E1, CastlingRights: core.CastlingRights{}},
-		{KingPosition: core.E8, CastlingRights: core.CastlingRights{KingSide: true, QueenSide: true}},
+		{KingPosition: core.E1},
+		{KingPosition: core.E8, CanCastleKingSide: true, CanCastleQueenSide: true},
 	}
 
 	type moveCheck struct {
@@ -84,8 +84,8 @@ func TestGetLegalMoves(t *testing.T) {
 			},
 			sideToMove: core.WHITE,
 			sides: [2]core.SideState{
-				{KingPosition: core.E1, CastlingRights: core.CastlingRights{}},
-				{KingPosition: core.H8, CastlingRights: core.CastlingRights{}},
+				{KingPosition: core.E1},
+				{KingPosition: core.H8},
 			},
 			position:  core.E2,
 			wantCount: 0,
@@ -136,8 +136,8 @@ func TestGetLegalMoves(t *testing.T) {
 			},
 			sideToMove: core.WHITE,
 			sides: [2]core.SideState{
-				{KingPosition: core.E4, CastlingRights: core.CastlingRights{}},
-				{KingPosition: core.E8, CastlingRights: core.CastlingRights{}},
+				{KingPosition: core.E4},
+				{KingPosition: core.E8},
 			},
 			position:  core.E4,
 			wantCount: 5,
@@ -162,8 +162,8 @@ func TestGetLegalMoves(t *testing.T) {
 			},
 			sideToMove: core.WHITE,
 			sides: [2]core.SideState{
-				{KingPosition: core.E4, CastlingRights: core.CastlingRights{}},
-				{KingPosition: core.E8, CastlingRights: core.CastlingRights{}},
+				{KingPosition: core.E4},
+				{KingPosition: core.E8},
 			},
 			position:  core.E4,
 			wantCount: 4,
@@ -188,8 +188,8 @@ func TestGetLegalMoves(t *testing.T) {
 			},
 			sideToMove: core.WHITE,
 			sides: [2]core.SideState{
-				{KingPosition: core.E1, CastlingRights: core.CastlingRights{}},
-				{KingPosition: core.E8, CastlingRights: core.CastlingRights{}},
+				{KingPosition: core.E1},
+				{KingPosition: core.E8},
 			},
 			position:  core.E1,
 			wantCount: 3,
@@ -209,8 +209,8 @@ func TestGetLegalMoves(t *testing.T) {
 			},
 			sideToMove: core.WHITE,
 			sides: [2]core.SideState{
-				{KingPosition: core.E4, CastlingRights: core.CastlingRights{}},
-				{KingPosition: core.E6, CastlingRights: core.CastlingRights{}},
+				{KingPosition: core.E4},
+				{KingPosition: core.E6},
 			},
 			position:  core.E4,
 			wantCount: 5,
@@ -235,8 +235,8 @@ func TestGetLegalMoves(t *testing.T) {
 			},
 			sideToMove: core.WHITE,
 			sides: [2]core.SideState{
-				{KingPosition: core.E1, CastlingRights: core.CastlingRights{}},
-				{KingPosition: core.H8, CastlingRights: core.CastlingRights{}},
+				{KingPosition: core.E1},
+				{KingPosition: core.H8},
 			},
 			position:  core.D6,
 			wantCount: 2,
@@ -258,8 +258,8 @@ func TestGetLegalMoves(t *testing.T) {
 			},
 			sideToMove: core.WHITE,
 			sides: [2]core.SideState{
-				{KingPosition: core.E1, CastlingRights: core.CastlingRights{}},
-				{KingPosition: core.H8, CastlingRights: core.CastlingRights{}},
+				{KingPosition: core.E1},
+				{KingPosition: core.H8},
 			},
 			position:  core.C7,
 			wantCount: 2,
@@ -281,8 +281,8 @@ func TestGetLegalMoves(t *testing.T) {
 			},
 			sideToMove: core.WHITE,
 			sides: [2]core.SideState{
-				{KingPosition: core.H5, CastlingRights: core.CastlingRights{}},
-				{KingPosition: core.E8, CastlingRights: core.CastlingRights{}},
+				{KingPosition: core.H5},
+				{KingPosition: core.E8},
 			},
 			inputEP:   core.E6,
 			position:  core.F5,
@@ -302,8 +302,8 @@ func TestGetLegalMoves(t *testing.T) {
 			},
 			sideToMove: core.WHITE,
 			sides: [2]core.SideState{
-				{KingPosition: core.E1, CastlingRights: core.CastlingRights{}},
-				{KingPosition: core.H8, CastlingRights: core.CastlingRights{}},
+				{KingPosition: core.E1},
+				{KingPosition: core.H8},
 			},
 			position:  core.D7,
 			wantCount: 4,
@@ -451,8 +451,8 @@ func TestGetLegalMoves(t *testing.T) {
 
 func TestHasAnyLegalMoves(t *testing.T) {
 	defaultSides := [2]core.SideState{
-		{KingPosition: core.E1, CastlingRights: core.CastlingRights{KingSide: true, QueenSide: true}},
-		{KingPosition: core.E8, CastlingRights: core.CastlingRights{KingSide: true, QueenSide: true}},
+		{KingPosition: core.E1, CanCastleKingSide: true, CanCastleQueenSide: true},
+		{KingPosition: core.E8, CanCastleKingSide: true, CanCastleQueenSide: true},
 	}
 
 	tests := []struct {
@@ -482,8 +482,8 @@ func TestHasAnyLegalMoves(t *testing.T) {
 			},
 			sideToMove: core.BLACK,
 			sides: [2]core.SideState{
-				{KingPosition: core.F6, CastlingRights: core.CastlingRights{}},
-				{KingPosition: core.H8, CastlingRights: core.CastlingRights{}},
+				{KingPosition: core.F6},
+				{KingPosition: core.H8},
 			},
 			want: false,
 		},
@@ -496,8 +496,8 @@ func TestHasAnyLegalMoves(t *testing.T) {
 			},
 			sideToMove: core.BLACK,
 			sides: [2]core.SideState{
-				{KingPosition: core.C2, CastlingRights: core.CastlingRights{}},
-				{KingPosition: core.A1, CastlingRights: core.CastlingRights{}},
+				{KingPosition: core.C2},
+				{KingPosition: core.A1},
 			},
 			want: false,
 		},
@@ -510,8 +510,8 @@ func TestHasAnyLegalMoves(t *testing.T) {
 			},
 			sideToMove: core.WHITE,
 			sides: [2]core.SideState{
-				{KingPosition: core.A1, CastlingRights: core.CastlingRights{}},
-				{KingPosition: core.C2, CastlingRights: core.CastlingRights{}},
+				{KingPosition: core.A1},
+				{KingPosition: core.C2},
 			},
 			want: false,
 		},
@@ -524,8 +524,8 @@ func TestHasAnyLegalMoves(t *testing.T) {
 			},
 			sideToMove: core.BLACK,
 			sides: [2]core.SideState{
-				{KingPosition: core.A1, CastlingRights: core.CastlingRights{}},
-				{KingPosition: core.C2, CastlingRights: core.CastlingRights{}},
+				{KingPosition: core.A1},
+				{KingPosition: core.C2},
 			},
 			want: true,
 		},
@@ -536,8 +536,8 @@ func TestHasAnyLegalMoves(t *testing.T) {
 			},
 			sideToMove: core.WHITE,
 			sides: [2]core.SideState{
-				{KingPosition: core.NoPosition, CastlingRights: core.CastlingRights{}},
-				{KingPosition: core.E8, CastlingRights: core.CastlingRights{}},
+				{KingPosition: core.NoPosition},
+				{KingPosition: core.E8},
 			},
 			want: false,
 		},
@@ -565,8 +565,8 @@ func TestHasAnyLegalMoves(t *testing.T) {
 			},
 			sideToMove: core.WHITE,
 			sides: [2]core.SideState{
-				{KingPosition: core.E1, CastlingRights: core.CastlingRights{}},
-				{KingPosition: core.H8, CastlingRights: core.CastlingRights{}},
+				{KingPosition: core.E1},
+				{KingPosition: core.H8},
 			},
 			want: true,
 		},

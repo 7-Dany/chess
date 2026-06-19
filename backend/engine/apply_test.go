@@ -8,8 +8,8 @@ import (
 
 func TestApply(t *testing.T) {
 	defaultSides := [2]core.SideState{
-		{KingPosition: core.E1, CastlingRights: core.CastlingRights{KingSide: true, QueenSide: true}},
-		{KingPosition: core.E8, CastlingRights: core.CastlingRights{KingSide: true, QueenSide: true}},
+		{KingPosition: core.E1, CanCastleKingSide: true, CanCastleQueenSide: true},
+		{KingPosition: core.E8, CanCastleKingSide: true, CanCastleQueenSide: true},
 	}
 
 	tests := []struct {
@@ -62,7 +62,7 @@ func TestApply(t *testing.T) {
 			expectEmpty: []core.Position{core.E1},
 			expectEP:    core.NoPosition,
 			expectSides: [2]core.SideState{
-				{KingPosition: core.F1, CastlingRights: core.CastlingRights{}},
+				{KingPosition: core.F1},
 				defaultSides[1],
 			},
 		},
@@ -83,7 +83,7 @@ func TestApply(t *testing.T) {
 			expectEmpty: []core.Position{core.A1},
 			expectEP:    core.NoPosition,
 			expectSides: [2]core.SideState{
-				{KingPosition: core.E1, CastlingRights: core.CastlingRights{KingSide: true}},
+				{KingPosition: core.E1, CanCastleKingSide: true},
 				defaultSides[1],
 			},
 		},
@@ -104,7 +104,7 @@ func TestApply(t *testing.T) {
 			expectEmpty: []core.Position{core.H1},
 			expectEP:    core.NoPosition,
 			expectSides: [2]core.SideState{
-				{KingPosition: core.E1, CastlingRights: core.CastlingRights{QueenSide: true}},
+				{KingPosition: core.E1, CanCastleQueenSide: true},
 				defaultSides[1],
 			},
 		},
@@ -144,7 +144,7 @@ func TestApply(t *testing.T) {
 			expectEP:    core.NoPosition,
 			expectSides: [2]core.SideState{
 				defaultSides[0],
-				{KingPosition: core.E8, CastlingRights: core.CastlingRights{KingSide: true}},
+				{KingPosition: core.E8, CanCastleKingSide: true},
 			},
 		},
 		{
@@ -165,7 +165,7 @@ func TestApply(t *testing.T) {
 			expectEP:    core.NoPosition,
 			expectSides: [2]core.SideState{
 				defaultSides[0],
-				{KingPosition: core.E8, CastlingRights: core.CastlingRights{QueenSide: true}},
+				{KingPosition: core.E8, CanCastleQueenSide: true},
 			},
 		},
 
@@ -210,7 +210,7 @@ func TestApply(t *testing.T) {
 			expectEP:    core.NoPosition,
 			expectSides: [2]core.SideState{
 				defaultSides[0],
-				{KingPosition: core.E8, CastlingRights: core.CastlingRights{KingSide: true}},
+				{KingPosition: core.E8, CanCastleKingSide: true},
 			},
 		},
 		{
@@ -232,7 +232,7 @@ func TestApply(t *testing.T) {
 			expectEmpty: []core.Position{core.H3},
 			expectEP:    core.NoPosition,
 			expectSides: [2]core.SideState{
-				{KingPosition: core.E1, CastlingRights: core.CastlingRights{QueenSide: true}},
+				{KingPosition: core.E1, CanCastleQueenSide: true},
 				defaultSides[1],
 			},
 		},
@@ -403,7 +403,7 @@ func TestApply(t *testing.T) {
 			expectEP:    core.NoPosition,
 			expectSides: [2]core.SideState{
 				defaultSides[0],
-				{KingPosition: core.E8, CastlingRights: core.CastlingRights{QueenSide: true}},
+				{KingPosition: core.E8, CanCastleQueenSide: true},
 			},
 		},
 
@@ -427,7 +427,7 @@ func TestApply(t *testing.T) {
 			expectEmpty: []core.Position{core.E1, core.H1},
 			expectEP:    core.NoPosition,
 			expectSides: [2]core.SideState{
-				{KingPosition: core.G1, CastlingRights: core.CastlingRights{}},
+				{KingPosition: core.G1},
 				defaultSides[1],
 			},
 		},
@@ -450,7 +450,7 @@ func TestApply(t *testing.T) {
 			expectEmpty: []core.Position{core.E1, core.A1},
 			expectEP:    core.NoPosition,
 			expectSides: [2]core.SideState{
-				{KingPosition: core.C1, CastlingRights: core.CastlingRights{}},
+				{KingPosition: core.C1},
 				defaultSides[1],
 			},
 		},
@@ -474,7 +474,7 @@ func TestApply(t *testing.T) {
 			expectEP:    core.NoPosition,
 			expectSides: [2]core.SideState{
 				defaultSides[0],
-				{KingPosition: core.G8, CastlingRights: core.CastlingRights{}},
+				{KingPosition: core.G8},
 			},
 		},
 		{
@@ -497,7 +497,7 @@ func TestApply(t *testing.T) {
 			expectEP:    core.NoPosition,
 			expectSides: [2]core.SideState{
 				defaultSides[0],
-				{KingPosition: core.C8, CastlingRights: core.CastlingRights{}},
+				{KingPosition: core.C8},
 			},
 		},
 

@@ -8,8 +8,8 @@ import (
 
 func TestGetPseudoLegalMoves(t *testing.T) {
 	defaultSides := [2]core.SideState{
-		{KingPosition: core.E1, CastlingRights: core.CastlingRights{KingSide: true, QueenSide: true}},
-		{KingPosition: core.E8, CastlingRights: core.CastlingRights{KingSide: true, QueenSide: true}},
+		{KingPosition: core.E1, CanCastleKingSide: true, CanCastleQueenSide: true},
+		{KingPosition: core.E8, CanCastleKingSide: true, CanCastleQueenSide: true},
 	}
 
 	tests := []struct {
@@ -74,16 +74,16 @@ func TestGetPseudoLegalMoves(t *testing.T) {
 
 func TestCastlingMoves(t *testing.T) {
 	defaultSides := [2]core.SideState{
-		{KingPosition: core.E1, CastlingRights: core.CastlingRights{KingSide: true, QueenSide: true}},
-		{KingPosition: core.E8, CastlingRights: core.CastlingRights{KingSide: true, QueenSide: true}},
+		{KingPosition: core.E1, CanCastleKingSide: true, CanCastleQueenSide: true},
+		{KingPosition: core.E8, CanCastleKingSide: true, CanCastleQueenSide: true},
 	}
 	kingSideOnly := [2]core.SideState{
-		{KingPosition: core.E1, CastlingRights: core.CastlingRights{KingSide: true}},
-		{KingPosition: core.E8, CastlingRights: core.CastlingRights{KingSide: true, QueenSide: true}},
+		{KingPosition: core.E1, CanCastleKingSide: true},
+		{KingPosition: core.E8, CanCastleKingSide: true, CanCastleQueenSide: true},
 	}
 	queenSideOnly := [2]core.SideState{
-		{KingPosition: core.E1, CastlingRights: core.CastlingRights{QueenSide: true}},
-		{KingPosition: core.E8, CastlingRights: core.CastlingRights{KingSide: true, QueenSide: true}},
+		{KingPosition: core.E1, CanCastleQueenSide: true},
+		{KingPosition: core.E8, CanCastleKingSide: true, CanCastleQueenSide: true},
 	}
 
 	type moveCheck struct {
@@ -133,7 +133,7 @@ func TestCastlingMoves(t *testing.T) {
 			},
 			sideToMove: core.WHITE,
 			sides: [2]core.SideState{
-				{KingPosition: core.D1, CastlingRights: core.CastlingRights{KingSide: true, QueenSide: true}},
+				{KingPosition: core.D1, CanCastleKingSide: true, CanCastleQueenSide: true},
 				defaultSides[1],
 			},
 			position:  core.D1,
@@ -294,12 +294,12 @@ func TestCastlingMoves(t *testing.T) {
 
 func TestCanCastleKingSide(t *testing.T) {
 	defaultSides := [2]core.SideState{
-		{KingPosition: core.E1, CastlingRights: core.CastlingRights{KingSide: true, QueenSide: true}},
-		{KingPosition: core.E8, CastlingRights: core.CastlingRights{KingSide: true, QueenSide: true}},
+		{KingPosition: core.E1, CanCastleKingSide: true, CanCastleQueenSide: true},
+		{KingPosition: core.E8, CanCastleKingSide: true, CanCastleQueenSide: true},
 	}
 	noKingSide := [2]core.SideState{
-		{KingPosition: core.E1, CastlingRights: core.CastlingRights{QueenSide: true}},
-		{KingPosition: core.E8, CastlingRights: core.CastlingRights{KingSide: true, QueenSide: true}},
+		{KingPosition: core.E1, CanCastleQueenSide: true},
+		{KingPosition: core.E8, CanCastleKingSide: true, CanCastleQueenSide: true},
 	}
 
 	tests := []struct {
@@ -438,12 +438,12 @@ func TestCanCastleKingSide(t *testing.T) {
 
 func TestCanCastleQueenSide(t *testing.T) {
 	defaultSides := [2]core.SideState{
-		{KingPosition: core.E1, CastlingRights: core.CastlingRights{KingSide: true, QueenSide: true}},
-		{KingPosition: core.E8, CastlingRights: core.CastlingRights{KingSide: true, QueenSide: true}},
+		{KingPosition: core.E1, CanCastleKingSide: true, CanCastleQueenSide: true},
+		{KingPosition: core.E8, CanCastleKingSide: true, CanCastleQueenSide: true},
 	}
 	noQueenSide := [2]core.SideState{
-		{KingPosition: core.E1, CastlingRights: core.CastlingRights{KingSide: true}},
-		{KingPosition: core.E8, CastlingRights: core.CastlingRights{KingSide: true, QueenSide: true}},
+		{KingPosition: core.E1, CanCastleKingSide: true},
+		{KingPosition: core.E8, CanCastleKingSide: true, CanCastleQueenSide: true},
 	}
 
 	tests := []struct {

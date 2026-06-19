@@ -1,0 +1,10 @@
+{
+  "languages": {
+    "CSS": {
+      "language_servers": [
+        "tailwindcss-language-server",
+        "!css-language-server",
+      ],
+    },
+  },
+}

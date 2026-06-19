@@ -63,7 +63,7 @@ func (e *DefaultEngine) castlingMoves(moves []core.Move, kingPosition core.Posit
 
 // canCastleKingSide return true, if rights allow the king to castle from king side
 func (e *DefaultEngine) canCastleKingSide(rank core.Rank, ctx core.TurnContext) bool {
-	if !ctx.Sides[ctx.SideToMove].CastlingRights.KingSide {
+	if !ctx.Sides[ctx.SideToMove].CanCastleKingSide {
 		return false
 	}
 
@@ -85,7 +85,7 @@ func (e *DefaultEngine) canCastleKingSide(rank core.Rank, ctx core.TurnContext) 
 
 // canCastleQueenSide return true, if rights allow the king to castle from queen side
 func (e *DefaultEngine) canCastleQueenSide(rank core.Rank, ctx core.TurnContext) bool {
-	if !ctx.Sides[ctx.SideToMove].CastlingRights.QueenSide {
+	if !ctx.Sides[ctx.SideToMove].CanCastleQueenSide {
 		return false
 	}
 

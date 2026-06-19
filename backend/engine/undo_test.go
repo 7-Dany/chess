@@ -12,8 +12,8 @@ import (
 // This isolates Undo bugs from Apply bugs.
 func TestUndo(t *testing.T) {
 	defaultSides := [2]core.SideState{
-		{KingPosition: core.E1, CastlingRights: core.CastlingRights{KingSide: true, QueenSide: true}},
-		{KingPosition: core.E8, CastlingRights: core.CastlingRights{KingSide: true, QueenSide: true}},
+		{KingPosition: core.E1, CanCastleKingSide: true, CanCastleQueenSide: true},
+		{KingPosition: core.E8, CanCastleKingSide: true, CanCastleQueenSide: true},
 	}
 
 	tests := []struct {
@@ -60,7 +60,7 @@ func TestUndo(t *testing.T) {
 			sideToMove: core.BLACK,
 			inputEP:    core.NoPosition,
 			sides: [2]core.SideState{
-				{KingPosition: core.F1, CastlingRights: core.CastlingRights{}},
+				{KingPosition: core.F1},
 				defaultSides[1],
 			},
 			snapshot: core.Snapshot{
@@ -86,7 +86,7 @@ func TestUndo(t *testing.T) {
 			sideToMove: core.BLACK,
 			inputEP:    core.NoPosition,
 			sides: [2]core.SideState{
-				{KingPosition: core.E1, CastlingRights: core.CastlingRights{KingSide: true}},
+				{KingPosition: core.E1, CanCastleKingSide: true},
 				defaultSides[1],
 			},
 			snapshot: core.Snapshot{
@@ -113,7 +113,7 @@ func TestUndo(t *testing.T) {
 			inputEP:    core.NoPosition,
 			sides: [2]core.SideState{
 				defaultSides[0],
-				{KingPosition: core.E8, CastlingRights: core.CastlingRights{QueenSide: true}},
+				{KingPosition: core.E8, CanCastleQueenSide: true},
 			},
 			snapshot: core.Snapshot{
 				Move: core.Move{
@@ -165,7 +165,7 @@ func TestUndo(t *testing.T) {
 			inputEP:    core.NoPosition,
 			sides: [2]core.SideState{
 				defaultSides[0],
-				{KingPosition: core.E8, CastlingRights: core.CastlingRights{KingSide: true}},
+				{KingPosition: core.E8, CanCastleKingSide: true},
 			},
 			snapshot: core.Snapshot{
 				Move: core.Move{
@@ -343,7 +343,7 @@ func TestUndo(t *testing.T) {
 			inputEP:    core.NoPosition,
 			sides: [2]core.SideState{
 				defaultSides[0],
-				{KingPosition: core.E8, CastlingRights: core.CastlingRights{QueenSide: true}},
+				{KingPosition: core.E8, CanCastleQueenSide: true},
 			},
 			snapshot: core.Snapshot{
 				Move: core.Move{
@@ -373,7 +373,7 @@ func TestUndo(t *testing.T) {
 			sideToMove: core.BLACK,
 			inputEP:    core.NoPosition,
 			sides: [2]core.SideState{
-				{KingPosition: core.G1, CastlingRights: core.CastlingRights{}},
+				{KingPosition: core.G1},
 				defaultSides[1],
 			},
 			snapshot: core.Snapshot{
@@ -401,7 +401,7 @@ func TestUndo(t *testing.T) {
 			sideToMove: core.BLACK,
 			inputEP:    core.NoPosition,
 			sides: [2]core.SideState{
-				{KingPosition: core.C1, CastlingRights: core.CastlingRights{}},
+				{KingPosition: core.C1},
 				defaultSides[1],
 			},
 			snapshot: core.Snapshot{
@@ -430,7 +430,7 @@ func TestUndo(t *testing.T) {
 			inputEP:    core.NoPosition,
 			sides: [2]core.SideState{
 				defaultSides[0],
-				{KingPosition: core.G8, CastlingRights: core.CastlingRights{}},
+				{KingPosition: core.G8},
 			},
 			snapshot: core.Snapshot{
 				Move: core.Move{
@@ -458,7 +458,7 @@ func TestUndo(t *testing.T) {
 			inputEP:    core.NoPosition,
 			sides: [2]core.SideState{
 				defaultSides[0],
-				{KingPosition: core.C8, CastlingRights: core.CastlingRights{}},
+				{KingPosition: core.C8},
 			},
 			snapshot: core.Snapshot{
 				Move: core.Move{
@@ -578,8 +578,8 @@ func TestUndo(t *testing.T) {
 // that the pure Undo test would miss.
 func TestApplyThenUndo(t *testing.T) {
 	defaultSides := [2]core.SideState{
-		{KingPosition: core.E1, CastlingRights: core.CastlingRights{KingSide: true, QueenSide: true}},
-		{KingPosition: core.E8, CastlingRights: core.CastlingRights{KingSide: true, QueenSide: true}},
+		{KingPosition: core.E1, CanCastleKingSide: true, CanCastleQueenSide: true},
+		{KingPosition: core.E8, CanCastleKingSide: true, CanCastleQueenSide: true},
 	}
 
 	tests := []struct {

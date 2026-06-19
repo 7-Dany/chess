@@ -27,8 +27,8 @@ func benchStartPos() core.TurnContext {
 			BoardContext: core.BoardContext{Board: &board},
 			SideToMove:   core.WHITE,
 			Sides: [2]core.SideState{
-				{KingPosition: core.E1, CastlingRights: core.CastlingRights{KingSide: true, QueenSide: true}},
-				{KingPosition: core.E8, CastlingRights: core.CastlingRights{KingSide: true, QueenSide: true}},
+				{KingPosition: core.E1, CanCastleKingSide: true, CanCastleQueenSide: true},
+				{KingPosition: core.E8, CanCastleKingSide: true, CanCastleQueenSide: true},
 			},
 		},
 	}
@@ -63,8 +63,8 @@ func benchFoolsMate() core.TurnContext {
 			BoardContext: core.BoardContext{Board: &board},
 			SideToMove:   core.WHITE,
 			Sides: [2]core.SideState{
-				{KingPosition: core.E1, CastlingRights: core.CastlingRights{}},
-				{KingPosition: core.E8, CastlingRights: core.CastlingRights{}},
+				{KingPosition: core.E1},
+				{KingPosition: core.E8},
 			},
 		},
 	}
@@ -81,8 +81,8 @@ func benchStalemate() core.TurnContext {
 			BoardContext: core.BoardContext{Board: &board},
 			SideToMove:   core.BLACK,
 			Sides: [2]core.SideState{
-				{KingPosition: core.C6, CastlingRights: core.CastlingRights{}},
-				{KingPosition: core.A8, CastlingRights: core.CastlingRights{}},
+				{KingPosition: core.C6},
+				{KingPosition: core.A8},
 			},
 		},
 	}
@@ -139,8 +139,8 @@ func benchKiwipete() core.TurnContext {
 			BoardContext: core.BoardContext{Board: &board},
 			SideToMove:   core.WHITE,
 			Sides: [2]core.SideState{
-				{KingPosition: core.E1, CastlingRights: core.CastlingRights{KingSide: true, QueenSide: true}},
-				{KingPosition: core.E8, CastlingRights: core.CastlingRights{KingSide: true, QueenSide: true}},
+				{KingPosition: core.E1, CanCastleKingSide: true, CanCastleQueenSide: true},
+				{KingPosition: core.E8, CanCastleKingSide: true, CanCastleQueenSide: true},
 			},
 		},
 	}
@@ -157,8 +157,8 @@ func benchEndgame() core.TurnContext {
 			BoardContext: core.BoardContext{Board: &board},
 			SideToMove:   core.WHITE,
 			Sides: [2]core.SideState{
-				{KingPosition: core.H1, CastlingRights: core.CastlingRights{}},
-				{KingPosition: core.H8, CastlingRights: core.CastlingRights{}},
+				{KingPosition: core.H1},
+				{KingPosition: core.H8},
 			},
 		},
 	}
@@ -561,7 +561,7 @@ func BenchmarkApply_CastlingKingSide(b *testing.B) {
 			BoardContext: core.BoardContext{Board: &board},
 			SideToMove:   core.WHITE,
 			Sides: [2]core.SideState{
-				{KingPosition: core.E1, CastlingRights: core.CastlingRights{KingSide: true, QueenSide: true}},
+				{KingPosition: core.E1, CanCastleKingSide: true, CanCastleQueenSide: true},
 				{KingPosition: core.E8},
 			},
 		},
@@ -589,7 +589,7 @@ func BenchmarkApply_CastlingQueenSide(b *testing.B) {
 			BoardContext: core.BoardContext{Board: &board},
 			SideToMove:   core.WHITE,
 			Sides: [2]core.SideState{
-				{KingPosition: core.E1, CastlingRights: core.CastlingRights{KingSide: true, QueenSide: true}},
+				{KingPosition: core.E1, CanCastleKingSide: true, CanCastleQueenSide: true},
 				{KingPosition: core.E8},
 			},
 		},
@@ -762,7 +762,7 @@ func BenchmarkUndo_CastlingKingSide(b *testing.B) {
 			BoardContext: core.BoardContext{Board: &board},
 			SideToMove:   core.WHITE,
 			Sides: [2]core.SideState{
-				{KingPosition: core.E1, CastlingRights: core.CastlingRights{KingSide: true, QueenSide: true}},
+				{KingPosition: core.E1, CanCastleKingSide: true, CanCastleQueenSide: true},
 				{KingPosition: core.E8},
 			},
 		},
@@ -858,7 +858,7 @@ func BenchmarkApplyUndo_Castling(b *testing.B) {
 			BoardContext: core.BoardContext{Board: &board},
 			SideToMove:   core.WHITE,
 			Sides: [2]core.SideState{
-				{KingPosition: core.E1, CastlingRights: core.CastlingRights{KingSide: true, QueenSide: true}},
+				{KingPosition: core.E1, CanCastleKingSide: true, CanCastleQueenSide: true},
 				{KingPosition: core.E8},
 			},
 		},

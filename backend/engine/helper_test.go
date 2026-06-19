@@ -300,12 +300,12 @@ func TestClearCastlingRightByFile(t *testing.T) {
 			color: core.WHITE,
 			file:  core.FILE_A,
 			inputSides: [2]core.SideState{
-				{KingPosition: core.E1, CastlingRights: core.CastlingRights{KingSide: true, QueenSide: true}},
-				{KingPosition: core.E8, CastlingRights: core.CastlingRights{KingSide: true, QueenSide: true}},
+				{KingPosition: core.E1, CanCastleKingSide: true, CanCastleQueenSide: true},
+				{KingPosition: core.E8, CanCastleKingSide: true, CanCastleQueenSide: true},
 			},
 			expectSides: [2]core.SideState{
-				{KingPosition: core.E1, CastlingRights: core.CastlingRights{KingSide: true}},
-				{KingPosition: core.E8, CastlingRights: core.CastlingRights{KingSide: true, QueenSide: true}},
+				{KingPosition: core.E1, CanCastleKingSide: true},
+				{KingPosition: core.E8, CanCastleKingSide: true, CanCastleQueenSide: true},
 			},
 		},
 		{
@@ -313,12 +313,12 @@ func TestClearCastlingRightByFile(t *testing.T) {
 			color: core.WHITE,
 			file:  core.FILE_H,
 			inputSides: [2]core.SideState{
-				{KingPosition: core.E1, CastlingRights: core.CastlingRights{KingSide: true, QueenSide: true}},
-				{KingPosition: core.E8, CastlingRights: core.CastlingRights{KingSide: true, QueenSide: true}},
+				{KingPosition: core.E1, CanCastleKingSide: true, CanCastleQueenSide: true},
+				{KingPosition: core.E8, CanCastleKingSide: true, CanCastleQueenSide: true},
 			},
 			expectSides: [2]core.SideState{
-				{KingPosition: core.E1, CastlingRights: core.CastlingRights{QueenSide: true}},
-				{KingPosition: core.E8, CastlingRights: core.CastlingRights{KingSide: true, QueenSide: true}},
+				{KingPosition: core.E1, CanCastleQueenSide: true},
+				{KingPosition: core.E8, CanCastleKingSide: true, CanCastleQueenSide: true},
 			},
 		},
 		{
@@ -326,12 +326,12 @@ func TestClearCastlingRightByFile(t *testing.T) {
 			color: core.BLACK,
 			file:  core.FILE_A,
 			inputSides: [2]core.SideState{
-				{KingPosition: core.E1, CastlingRights: core.CastlingRights{KingSide: true, QueenSide: true}},
-				{KingPosition: core.E8, CastlingRights: core.CastlingRights{KingSide: true, QueenSide: true}},
+				{KingPosition: core.E1, CanCastleKingSide: true, CanCastleQueenSide: true},
+				{KingPosition: core.E8, CanCastleKingSide: true, CanCastleQueenSide: true},
 			},
 			expectSides: [2]core.SideState{
-				{KingPosition: core.E1, CastlingRights: core.CastlingRights{KingSide: true, QueenSide: true}},
-				{KingPosition: core.E8, CastlingRights: core.CastlingRights{KingSide: true}},
+				{KingPosition: core.E1, CanCastleKingSide: true, CanCastleQueenSide: true},
+				{KingPosition: core.E8, CanCastleKingSide: true},
 			},
 		},
 		{
@@ -339,12 +339,12 @@ func TestClearCastlingRightByFile(t *testing.T) {
 			color: core.BLACK,
 			file:  core.FILE_H,
 			inputSides: [2]core.SideState{
-				{KingPosition: core.E1, CastlingRights: core.CastlingRights{KingSide: true, QueenSide: true}},
-				{KingPosition: core.E8, CastlingRights: core.CastlingRights{KingSide: true, QueenSide: true}},
+				{KingPosition: core.E1, CanCastleKingSide: true, CanCastleQueenSide: true},
+				{KingPosition: core.E8, CanCastleKingSide: true, CanCastleQueenSide: true},
 			},
 			expectSides: [2]core.SideState{
-				{KingPosition: core.E1, CastlingRights: core.CastlingRights{KingSide: true, QueenSide: true}},
-				{KingPosition: core.E8, CastlingRights: core.CastlingRights{QueenSide: true}},
+				{KingPosition: core.E1, CanCastleKingSide: true, CanCastleQueenSide: true},
+				{KingPosition: core.E8, CanCastleQueenSide: true},
 			},
 		},
 		{
@@ -352,12 +352,12 @@ func TestClearCastlingRightByFile(t *testing.T) {
 			color: core.WHITE,
 			file:  core.FILE_D,
 			inputSides: [2]core.SideState{
-				{KingPosition: core.E1, CastlingRights: core.CastlingRights{KingSide: true, QueenSide: true}},
-				{KingPosition: core.E8, CastlingRights: core.CastlingRights{KingSide: true, QueenSide: true}},
+				{KingPosition: core.E1, CanCastleKingSide: true, CanCastleQueenSide: true},
+				{KingPosition: core.E8, CanCastleKingSide: true, CanCastleQueenSide: true},
 			},
 			expectSides: [2]core.SideState{
-				{KingPosition: core.E1, CastlingRights: core.CastlingRights{KingSide: true, QueenSide: true}},
-				{KingPosition: core.E8, CastlingRights: core.CastlingRights{KingSide: true, QueenSide: true}},
+				{KingPosition: core.E1, CanCastleKingSide: true, CanCastleQueenSide: true},
+				{KingPosition: core.E8, CanCastleKingSide: true, CanCastleQueenSide: true},
 			},
 		},
 		{
@@ -365,12 +365,12 @@ func TestClearCastlingRightByFile(t *testing.T) {
 			color: core.WHITE,
 			file:  core.FILE_A,
 			inputSides: [2]core.SideState{
-				{KingPosition: core.E1, CastlingRights: core.CastlingRights{KingSide: true}},
-				{KingPosition: core.E8, CastlingRights: core.CastlingRights{KingSide: true, QueenSide: true}},
+				{KingPosition: core.E1, CanCastleKingSide: true},
+				{KingPosition: core.E8, CanCastleKingSide: true, CanCastleQueenSide: true},
 			},
 			expectSides: [2]core.SideState{
-				{KingPosition: core.E1, CastlingRights: core.CastlingRights{KingSide: true}},
-				{KingPosition: core.E8, CastlingRights: core.CastlingRights{KingSide: true, QueenSide: true}},
+				{KingPosition: core.E1, CanCastleKingSide: true},
+				{KingPosition: core.E8, CanCastleKingSide: true, CanCastleQueenSide: true},
 			},
 		},
 	}
@@ -392,4 +392,8 @@ func TestClearCastlingRightByFile(t *testing.T) {
 			}
 		})
 	}
+}
+
+func clearCastlingRightByFile(ctx *core.TurnContext, color core.PieceColor, file core.File) {
+	ctx.Sides[color].ClearCastlingRight(file)
 }

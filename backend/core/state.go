@@ -1,13 +1,26 @@
 package core
 
-type CastlingRights struct {
-	KingSide  bool
-	QueenSide bool
+type SideState struct {
+	KingPosition       Position
+	CanCastleKingSide  bool
+	CanCastleQueenSide bool
 }
 
-type SideState struct {
-	KingPosition   Position
-	CastlingRights CastlingRights
+// ClearCastlingRights revokes both rights — called when the king moves or castles.
+func (s *SideState) ClearCastlingRights() {
+	s.CanCastleKingSide = false
+	s.CanCastleQueenSide = false
+}
+
+// ClearCastlingRight revokes the single right tied to a rook's home file.
+// Used when that rook moves, or is captured on its home square.
+func (s *SideState) ClearCastlingRight(file File) {
+	switch file {
+	case FILE_A:
+		s.CanCastleQueenSide = false
+	case FILE_H:
+		s.CanCastleKingSide = false
+	}
 }
 
 type BoardContext struct {
