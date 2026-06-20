@@ -24,12 +24,12 @@ type Engine interface {
 
 	// IsSquareAttacked reports whether any piece of the given color
 	// attacks the specified position.
-	IsSquareAttacked(position core.Position, attackerColor core.PieceColor, ctx core.TurnContext) bool
+	IsSquareAttacked(position core.Position, attackerColor core.PieceColor, ctx core.BoardContext) bool
 
 	// Apply mutates the TurnContext in place, applying the move and
 	// returning a Snapshot for undo. Handles piece movement, captures,
 	// en passant, castling, promotion, king position, en passant target,
-	// castling rights, and side to move.
+	// castling rights.
 	Apply(ctx *core.TurnContext, move core.Move) core.Snapshot
 
 	// Undo reverses an Apply using the saved Snapshot.

@@ -26,14 +26,16 @@ func (e *DefaultEngine) Apply(ctx *core.TurnContext, move core.Move) core.Snapsh
 		e.applyEnPassant(ctx, move)
 	}
 
-	// Capturing a rook on its home file removes the opponent's right.
-	if move.HasCapture && move.Captured.Type == core.ROOK {
+	// Capturing a rook on its home rank forfeits the castling right for that file.
+	// Rank guard: a rook elsewhere is not the original then that right is already gone.
+	if move.HasCapture && move.Captured.Type == core.ROOK &&
+		move.To.Rank() == move.Captured.Color.KingStartRank() {
 		ctx.Sides[move.Captured.Color].ClearCastlingRight(move.To.File())
 	}
 
 	// En passant target: set on double pawn push, cleared otherwise.
-	if isDoublePawnPush(move) {
-		ctx.EnPassantTarget = enPassantTarget(move)
+	if move.IsDoublePawnPush() {
+		ctx.EnPassantTarget = move.EnPassantTarget()
 	} else {
 		ctx.EnPassantTarget = core.NoPosition
 	}
@@ -47,17 +49,22 @@ func (e *DefaultEngine) applyNormal(ctx *core.TurnContext, move core.Move) {
 		ctx.Sides[move.Piece.Color].KingPosition = move.To
 		ctx.Sides[move.Piece.Color].ClearCastlingRights()
 	case core.ROOK:
-		ctx.Sides[move.Piece.Color].ClearCastlingRight(move.From.File())
+		// A rook leaving its home rank forfeits the right for that file.
+		// Rank guard: a rook elsewhere is not the original then that right is already gone.
+		if move.From.Rank() == move.Piece.Color.KingStartRank() {
+			ctx.Sides[move.Piece.Color].ClearCastlingRight(move.From.File())
+		}
 	}
 }
 
 func (e *DefaultEngine) applyCastling(ctx *core.TurnContext, move core.Move) {
+	rank := move.From.Rank()
 	if move.To.File() > move.From.File() {
-		// King-side: rook H -> F
-		moveRook(ctx, move.From.Rank(), core.FILE_H, core.FILE_F)
+		// King-side: rook H -> F, Move Rook from H file to F file
+		ctx.Board.Move(core.NewPosition(core.FILE_H, rank), core.NewPosition(core.FILE_F, rank))
 	} else {
-		// Queen-side: rook A -> D
-		moveRook(ctx, move.From.Rank(), core.FILE_A, core.FILE_D)
+		// Queen-side: rook A -> D, Move Rook from A file to D file
+		ctx.Board.Move(core.NewPosition(core.FILE_A, rank), core.NewPosition(core.FILE_D, rank))
 	}
 	ctx.Sides[move.Piece.Color].KingPosition = move.To
 	ctx.Sides[move.Piece.Color].ClearCastlingRights()

@@ -411,7 +411,7 @@ func BenchmarkHasAnyLegalMoves_Endgame(b *testing.B) {
 
 func BenchmarkIsSquareAttacked_Empty(b *testing.B) {
 	engine := NewDefaultEngine()
-	ctx := benchEmptyBoard()
+	ctx := benchEmptyBoard().BoardContext
 	b.ResetTimer()
 	for i := 0; i < b.N; i++ {
 		_ = engine.IsSquareAttacked(core.E4, core.BLACK, ctx)
@@ -420,7 +420,7 @@ func BenchmarkIsSquareAttacked_Empty(b *testing.B) {
 
 func BenchmarkIsSquareAttacked_Start(b *testing.B) {
 	engine := NewDefaultEngine()
-	ctx := benchStartPos()
+	ctx := benchStartPos().BoardContext
 	b.ResetTimer()
 	for i := 0; i < b.N; i++ {
 		_ = engine.IsSquareAttacked(core.E1, core.BLACK, ctx)
@@ -429,7 +429,7 @@ func BenchmarkIsSquareAttacked_Start(b *testing.B) {
 
 func BenchmarkIsSquareAttacked_Kiwipete(b *testing.B) {
 	engine := NewDefaultEngine()
-	ctx := benchKiwipete()
+	ctx := benchKiwipete().BoardContext
 	b.ResetTimer()
 	for i := 0; i < b.N; i++ {
 		_ = engine.IsSquareAttacked(core.E1, core.BLACK, ctx)
@@ -438,7 +438,7 @@ func BenchmarkIsSquareAttacked_Kiwipete(b *testing.B) {
 
 func BenchmarkIsSquareAttacked_Attacked(b *testing.B) {
 	engine := NewDefaultEngine()
-	ctx := benchAttackedSquare()
+	ctx := benchAttackedSquare().BoardContext
 	b.ResetTimer()
 	for i := 0; i < b.N; i++ {
 		_ = engine.IsSquareAttacked(core.E4, core.BLACK, ctx)
@@ -447,7 +447,7 @@ func BenchmarkIsSquareAttacked_Attacked(b *testing.B) {
 
 func BenchmarkIsSquareAttacked_Corner(b *testing.B) {
 	engine := NewDefaultEngine()
-	ctx := benchStartPos()
+	ctx := benchStartPos().BoardContext
 	b.ResetTimer()
 	for i := 0; i < b.N; i++ {
 		_ = engine.IsSquareAttacked(core.A1, core.BLACK, ctx)

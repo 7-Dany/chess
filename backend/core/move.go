@@ -27,3 +27,28 @@ type Move struct {
 	Captured   Piece
 	HasCapture bool
 }
+
+// IsDoublePawnPush reports whether this move is a pawn advancing two squares
+// from its starting rank. Used to set the en passant target.
+func (m Move) IsDoublePawnPush() bool {
+	if m.Piece.Type != PAWN {
+		return false
+	}
+	rankDiff := int(m.To.Rank()) - int(m.From.Rank())
+	if m.Piece.Color == WHITE {
+		return rankDiff == 2
+	}
+	return rankDiff == -2
+}
+
+// EnPassantTarget returns the square that sits behind a just-pushed pawn —
+// the square an enemy pawn could capture into. Only meaningful when
+// IsDoublePawnPush() is true.
+func (m Move) EnPassantTarget() Position {
+	step := int8(1)
+	if m.Piece.Color == BLACK {
+		step = -1
+	}
+	rank, _ := m.From.Rank().Add(step)
+	return NewPosition(m.To.File(), rank)
+}

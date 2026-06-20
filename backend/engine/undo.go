@@ -34,12 +34,13 @@ func (e *DefaultEngine) restoreDestination(ctx *core.TurnContext, move core.Move
 
 func (e *DefaultEngine) restoreCastling(ctx *core.TurnContext, move core.Move) {
 	ctx.Board.Clear(move.To)
+	rank := move.From.Rank()
 	if move.To.File() > move.From.File() {
-		// King side from (F -> H)
-		moveRook(ctx, move.From.Rank(), core.FILE_F, core.FILE_H)
+		// King side from (F -> H), Move Rook from file F to file H
+		ctx.Board.Move(core.NewPosition(core.FILE_F, rank), core.NewPosition(core.FILE_H, rank))
 	} else {
-		// Queen side from (D -> A)
-		moveRook(ctx, move.From.Rank(), core.FILE_D, core.FILE_A)
+		// Queen side from (D -> A), Move Rook from file D to file A
+		ctx.Board.Move(core.NewPosition(core.FILE_D, rank), core.NewPosition(core.FILE_A, rank))
 	}
 }
 

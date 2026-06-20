@@ -528,12 +528,7 @@ func TestIsSquareAttacked(t *testing.T) {
 			var board core.Board
 			tt.setupBoard(&board)
 
-			ctx := core.TurnContext{
-				MoveContext: core.MoveContext{
-					BoardContext: core.BoardContext{Board: &board},
-					SideToMove:   tt.sideToMove,
-				},
-			}
+			ctx := core.BoardContext{Board: &board}
 
 			got := engine.IsSquareAttacked(tt.position, tt.attackerColor, ctx)
 			if got != tt.expected {

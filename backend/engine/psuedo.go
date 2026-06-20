@@ -33,7 +33,7 @@ func (e *DefaultEngine) castlingMoves(moves []core.Move, kingPosition core.Posit
 	}
 
 	// if the king is in check, return
-	if e.IsSquareAttacked(kingPosition, enemy, ctx) {
+	if e.IsSquareAttacked(kingPosition, enemy, ctx.BoardContext) {
 		return moves
 	}
 
@@ -76,7 +76,7 @@ func (e *DefaultEngine) canCastleKingSide(rank core.Rank, ctx core.TurnContext) 
 		return false
 	}
 
-	if e.IsSquareAttacked(path, enemy, ctx) || e.IsSquareAttacked(dest, enemy, ctx) {
+	if e.IsSquareAttacked(path, enemy, ctx.BoardContext) || e.IsSquareAttacked(dest, enemy, ctx.BoardContext) {
 		return false
 	}
 
@@ -99,7 +99,7 @@ func (e *DefaultEngine) canCastleQueenSide(rank core.Rank, ctx core.TurnContext)
 		return false
 	}
 
-	if e.IsSquareAttacked(path, enemy, ctx) || e.IsSquareAttacked(dest, enemy, ctx) {
+	if e.IsSquareAttacked(path, enemy, ctx.BoardContext) || e.IsSquareAttacked(dest, enemy, ctx.BoardContext) {
 		return false
 	}
 

@@ -5,14 +5,14 @@ import (
 	"github.com/7-Dany/chess/piece"
 )
 
-func (e *DefaultEngine) IsSquareAttacked(target core.Position, color core.PieceColor, ctx core.TurnContext) bool {
-	if e.GetPiece(core.KNIGHT).IsAttacking(color, target, ctx.BoardContext) {
+func (e *DefaultEngine) IsSquareAttacked(target core.Position, color core.PieceColor, ctx core.BoardContext) bool {
+	if e.GetPiece(core.KNIGHT).IsAttacking(color, target, ctx) {
 		return true
 	}
-	if e.GetPiece(core.KING).IsAttacking(color, target, ctx.BoardContext) {
+	if e.GetPiece(core.KING).IsAttacking(color, target, ctx) {
 		return true
 	}
-	if e.GetPiece(core.PAWN).IsAttacking(color, target, ctx.BoardContext) {
+	if e.GetPiece(core.PAWN).IsAttacking(color, target, ctx) {
 		return true
 	}
 
