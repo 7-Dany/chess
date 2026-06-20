@@ -7,45 +7,51 @@ func (e *DefaultEngine) Undo(ctx *core.TurnContext, snapshot core.Snapshot) {
 
 	switch move.Type {
 	case core.NORMAL, core.PROMOTION:
-		e.restoreDestination(ctx, move)
+		e.undoNormal(ctx, move)
 	case core.CASTLING:
-		ctx.Board.Place(move.From, move.Piece)
-		e.restoreCastling(ctx, move)
+		e.undoCastling(ctx, move)
 	case core.EN_PASSANT:
-		ctx.Board.Place(move.From, move.Piece)
-		e.restoreEnPassant(ctx, move)
+		e.undoEnPassant(ctx, move)
 	}
 
-	// restore state
+	// Restore state captured at the start of Apply.
 	ctx.Sides = snapshot.PreviousSides
 	ctx.EnPassantTarget = snapshot.PreviousEnPassantTarget
 }
 
-func (e *DefaultEngine) restoreDestination(ctx *core.TurnContext, move core.Move) {
-	// Move the piece back to its origin, empty the destination.
+func (e *DefaultEngine) undoNormal(ctx *core.TurnContext, move core.Move) {
+	// Move the piece back to its origin. Promotion: Place overwrites the
+	// promoted piece with the original pawn.
 	ctx.Board.Move(move.To, move.From)
 	if move.Type == core.PROMOTION {
-		ctx.Board.Place(move.From, move.Piece) // overwrite with original (un-promoted) piece
+		ctx.Board.Place(move.From, move.Piece)
 	}
+
+	// Restore captured piece, if any.
 	if move.HasCapture {
 		ctx.Board.Place(move.To, move.Captured)
 	}
 }
 
-func (e *DefaultEngine) restoreCastling(ctx *core.TurnContext, move core.Move) {
+func (e *DefaultEngine) undoCastling(ctx *core.TurnContext, move core.Move) {
+	// Restore king to origin, clear destination.
 	ctx.Board.Clear(move.To)
+	ctx.Board.Place(move.From, move.Piece)
+
+	// Restore rook. King-side: F -> H. Queen-side: D -> A.
 	rank := move.From.Rank()
 	if move.To.File() > move.From.File() {
-		// King side from (F -> H), Move Rook from file F to file H
 		ctx.Board.Move(core.NewPosition(core.FILE_F, rank), core.NewPosition(core.FILE_H, rank))
 	} else {
-		// Queen side from (D -> A), Move Rook from file D to file A
 		ctx.Board.Move(core.NewPosition(core.FILE_D, rank), core.NewPosition(core.FILE_A, rank))
 	}
 }
 
-func (e *DefaultEngine) restoreEnPassant(ctx *core.TurnContext, move core.Move) {
+func (e *DefaultEngine) undoEnPassant(ctx *core.TurnContext, move core.Move) {
+	// Restore pawn to origin, clear destination.
 	ctx.Board.Clear(move.To)
-	capturedPawnPos := core.NewPosition(move.To.File(), move.From.Rank())
-	ctx.Board.Place(capturedPawnPos, move.Captured)
+	ctx.Board.Place(move.From, move.Piece)
+
+	// Restore the captured pawn behind the destination.
+	ctx.Board.Place(core.NewPosition(move.To.File(), move.From.Rank()), move.Captured)
 }

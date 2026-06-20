@@ -34,6 +34,35 @@ type MoveContext struct {
 	EnPassantTarget Position
 }
 
+// ForfeitCastlingRight clears the single castling right — if any — forfeited
+// by this move. A rook moving from its back rank, or a rook captured on its
+// back rank, each forfeits one right. King moves and castling forfeit all
+// rights and are handled in applyNormal/applyCastling.
+//
+// The back-rank guard makes the chess invariant explicit: a rook on its
+// color's king-start rank at A/H is either the original or the right is
+// already cleared. ClearCastlingRight is a no-op for non-A/H files.
+func (ctx *MoveContext) ForfeitCastlingRight(move Move) {
+	if move.Piece.Type == ROOK && move.From.Rank() == move.Piece.Color.KingStartRank() {
+		ctx.Sides[move.Piece.Color].ClearCastlingRight(move.From.File())
+		return
+	}
+	if move.HasCapture && move.Captured.Type == ROOK &&
+		move.To.Rank() == move.Captured.Color.KingStartRank() {
+		ctx.Sides[move.Captured.Color].ClearCastlingRight(move.To.File())
+	}
+}
+
+// SetEnPassantTarget sets the en passant target square if this move is a
+// double pawn push, otherwise clears it. Called after every move.
+func (ctx *MoveContext) SetEnPassantTarget(move Move) {
+	if move.IsDoublePawnPush() {
+		ctx.EnPassantTarget = move.EnPassantTarget()
+	} else {
+		ctx.EnPassantTarget = NoPosition
+	}
+}
+
 type ClockContext struct {
 	HalfMoveClock  uint16
 	FullMoveNumber uint16
