@@ -36,17 +36,14 @@ type MoveContext struct {
 
 // ForfeitCastlingRight clears the single castling right — if any — forfeited
 // by this move. A rook moving from its back rank, or a rook captured on its
-// back rank, each forfeits one right. King moves and castling forfeit all
-// rights and are handled in applyNormal/applyCastling.
-//
-// The back-rank guard makes the chess invariant explicit: a rook on its
-// color's king-start rank at A/H is either the original or the right is
-// already cleared. ClearCastlingRight is a no-op for non-A/H files.
+// back rank, each forfeits one right. King moves and castling forfeit all rights
 func (ctx *MoveContext) ForfeitCastlingRight(move Move) {
+	// if the piece is rook and its position not from start forfeit the castle right for that file
 	if move.Piece.Type == ROOK && move.From.Rank() == move.Piece.Color.KingStartRank() {
 		ctx.Sides[move.Piece.Color].ClearCastlingRight(move.From.File())
 		return
 	}
+	// if there is a rook capture forfeit the other side castle rights
 	if move.HasCapture && move.Captured.Type == ROOK &&
 		move.To.Rank() == move.Captured.Color.KingStartRank() {
 		ctx.Sides[move.Captured.Color].ClearCastlingRight(move.To.File())
