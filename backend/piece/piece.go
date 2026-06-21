@@ -40,7 +40,7 @@ type Piece interface {
 	// Color dependency: geometry is color-independent for all pieces
 	// except pawn, which reads color from ctx.Board[from] — so `from`
 	// must be occupied when calling Attacks on a pawn.
-	Attacks(from core.Position, ctx core.BoardContext) []core.Position
+	Attacks(attacks []core.Position, from core.Position, ctx core.BoardContext) []core.Position
 
 	// PseudoLegalMoves returns all move options this piece has from the
 	// given position, respecting movement rules, board edges, blockers,
@@ -53,32 +53,39 @@ type Piece interface {
 	//   - Pawn moves include single push, double push, diagonal
 	//     captures, en passant, and promotions.
 	//   - Castling is NOT included — the Engine adds it.
-	PseudoLegalMoves(from core.Position, ctx core.MoveContext) []core.Move
+	PseudoLegalMoves(moves []core.Move, from core.Position, ctx core.MoveContext) []core.Move
 }
 
-// PieceProvider maps each PieceType to its stateless Piece implementation.
-// It is constructed once and shared across all queries.
-type PieceProvider struct {
-	pieces [6]Piece
+const MAX_MOVES uint8 = 32
+
+type Pieces struct {
+	pawn   Pawn
+	knight Knight
+	bishop Bishop
+	rook   Rook
+	queen  Queen
+	king   King
 }
 
-// NewPieceProvider creates a PieceProvider with the six standard piece
-// implementations. Each piece is a zero-size value type, so the map
-// holds only six pointers with no per-query allocation.
-func newPieceProvider() *PieceProvider {
-	return &PieceProvider{
-		pieces: [6]Piece{Pawn{}, Knight{}, Bishop{}, Rook{}, Queen{}, King{}},
-	}
-}
+var defaultPieces = Pieces{}
 
-// GetPiece returns the Piece implementation for the given PieceType.
-// Callers should not need to construct Piece values directly.
-func (p *PieceProvider) GetPiece(pt core.PieceType) Piece {
-	return p.pieces[pt]
-}
+func GetDefaultPieces() Pieces { return defaultPieces }
 
-var provider = newPieceProvider()
+// Pawn returns the concrete Pawn instance. The return type is Pawn (not Piece),
+// so callers get static method dispatch.
+func (p Pieces) Pawn() Pawn { return p.pawn }
 
-func DefaultProvider() *PieceProvider {
-	return provider
-}
+// Knight returns the concrete Knight instance.
+func (p Pieces) Knight() Knight { return p.knight }
+
+// Bishop returns the concrete Bishop instance.
+func (p Pieces) Bishop() Bishop { return p.bishop }
+
+// Rook returns the concrete Rook instance.
+func (p Pieces) Rook() Rook { return p.rook }
+
+// Queen returns the concrete Queen instance.
+func (p Pieces) Queen() Queen { return p.queen }
+
+// King returns the concrete King instance.
+func (p Pieces) King() King { return p.king }

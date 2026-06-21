@@ -6,13 +6,13 @@ import (
 )
 
 func (e *DefaultEngine) IsSquareAttacked(target core.Position, color core.PieceColor, ctx core.BoardContext) bool {
-	if e.GetPiece(core.KNIGHT).IsAttacking(color, target, ctx) {
+	if e.pieces.Knight().IsAttacking(color, target, ctx) {
 		return true
 	}
-	if e.GetPiece(core.KING).IsAttacking(color, target, ctx) {
+	if e.pieces.King().IsAttacking(color, target, ctx) {
 		return true
 	}
-	if e.GetPiece(core.PAWN).IsAttacking(color, target, ctx) {
+	if e.pieces.Pawn().IsAttacking(color, target, ctx) {
 		return true
 	}
 

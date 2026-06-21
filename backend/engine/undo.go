@@ -6,8 +6,10 @@ func (e *DefaultEngine) Undo(ctx *core.TurnContext, snapshot core.Snapshot) {
 	move := snapshot.Move
 
 	switch move.Type {
-	case core.NORMAL, core.PROMOTION:
+	case core.NORMAL:
 		e.undoNormal(ctx, move)
+	case core.PROMOTION:
+		e.undoPromotion(ctx, move)
 	case core.CASTLING:
 		e.undoCastling(ctx, move)
 	case core.EN_PASSANT:
@@ -20,12 +22,21 @@ func (e *DefaultEngine) Undo(ctx *core.TurnContext, snapshot core.Snapshot) {
 }
 
 func (e *DefaultEngine) undoNormal(ctx *core.TurnContext, move core.Move) {
-	// Move the piece back to its origin. Promotion: Place overwrites the
-	// promoted piece with the original pawn.
+	// Move the piece back to its origin.
 	ctx.Board.Move(move.To, move.From)
-	if move.Type == core.PROMOTION {
-		ctx.Board.Place(move.From, move.Piece)
+
+	// Restore captured piece, if any.
+	if move.HasCapture {
+		ctx.Board.Place(move.To, move.Captured)
 	}
+}
+
+func (e *DefaultEngine) undoPromotion(ctx *core.TurnContext, move core.Move) {
+	// Clear the prompoted pawn.
+	ctx.Board.Clear(move.To)
+
+	// Return the pawn back to its position.
+	ctx.Board.Place(move.From, move.Piece)
 
 	// Restore captured piece, if any.
 	if move.HasCapture {

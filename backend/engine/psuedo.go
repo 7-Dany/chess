@@ -4,14 +4,26 @@ import (
 	"github.com/7-Dany/chess/core"
 )
 
-func (e *DefaultEngine) GetPseudoLegalMoves(position core.Position, ctx core.TurnContext) []core.Move {
+func (e *DefaultEngine) GetPseudoLegalMoves(moves []core.Move, position core.Position, ctx core.TurnContext) []core.Move {
 	square := ctx.Board[position]
 	if !square.IsOccupiedBy(ctx.SideToMove) {
 		return nil
 	}
 
-	piece := e.pieces.GetPiece(square.Type())
-	moves := piece.PseudoLegalMoves(position, ctx.MoveContext)
+	switch square.Type() {
+	case core.PAWN:
+		moves = e.pieces.Pawn().PseudoLegalMoves(moves, position, ctx.MoveContext)
+	case core.KNIGHT:
+		moves = e.pieces.Knight().PseudoLegalMoves(moves, position, ctx.MoveContext)
+	case core.BISHOP:
+		moves = e.pieces.Bishop().PseudoLegalMoves(moves, position, ctx.MoveContext)
+	case core.ROOK:
+		moves = e.pieces.Rook().PseudoLegalMoves(moves, position, ctx.MoveContext)
+	case core.QUEEN:
+		moves = e.pieces.Queen().PseudoLegalMoves(moves, position, ctx.MoveContext)
+	case core.KING:
+		moves = e.pieces.King().PseudoLegalMoves(moves, position, ctx.MoveContext)
+	}
 
 	// add castling moves
 	if ctx.Sides[ctx.SideToMove].KingPosition == position {

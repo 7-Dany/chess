@@ -1,8 +1,6 @@
 package piece
 
 import (
-	"slices"
-
 	"github.com/7-Dany/chess/core"
 )
 
@@ -45,9 +43,7 @@ func (Rook) IsAttacking(color core.PieceColor, target core.Position, ctx core.Bo
 	return false
 }
 
-func (Rook) Attacks(from core.Position, ctx core.BoardContext) []core.Position {
-	attacks := make([]core.Position, 0, 14)
-
+func (Rook) Attacks(attacks []core.Position, from core.Position, ctx core.BoardContext) []core.Position {
 	for _, direction := range RookDirections {
 		file, rank := from.File(), from.Rank()
 
@@ -68,12 +64,11 @@ func (Rook) Attacks(from core.Position, ctx core.BoardContext) []core.Position {
 		}
 	}
 
-	return slices.Clip(attacks)
+	return attacks
 }
 
-func (r Rook) PseudoLegalMoves(from core.Position, ctx core.MoveContext) []core.Move {
+func (r Rook) PseudoLegalMoves(moves []core.Move, from core.Position, ctx core.MoveContext) []core.Move {
 	rook := core.Piece{Type: core.ROOK, Color: ctx.SideToMove}
-	moves := make([]core.Move, 0, 14)
 
 	for _, direction := range RookDirections {
 		file, rank := from.File(), from.Rank()
@@ -110,5 +105,5 @@ func (r Rook) PseudoLegalMoves(from core.Position, ctx core.MoveContext) []core.
 		}
 	}
 
-	return slices.Clip(moves)
+	return moves
 }

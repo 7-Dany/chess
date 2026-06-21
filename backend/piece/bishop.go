@@ -1,8 +1,6 @@
 package piece
 
 import (
-	"slices"
-
 	"github.com/7-Dany/chess/core"
 )
 
@@ -45,9 +43,7 @@ func (Bishop) IsAttacking(color core.PieceColor, target core.Position, ctx core.
 	return false
 }
 
-func (Bishop) Attacks(from core.Position, ctx core.BoardContext) []core.Position {
-	attacks := make([]core.Position, 0, 13)
-
+func (Bishop) Attacks(attacks []core.Position, from core.Position, ctx core.BoardContext) []core.Position {
 	for _, direction := range BishopDirections {
 		file, rank := from.File(), from.Rank()
 
@@ -71,12 +67,11 @@ func (Bishop) Attacks(from core.Position, ctx core.BoardContext) []core.Position
 		}
 	}
 
-	return slices.Clip(attacks)
+	return attacks
 }
 
-func (b Bishop) PseudoLegalMoves(from core.Position, ctx core.MoveContext) []core.Move {
+func (b Bishop) PseudoLegalMoves(moves []core.Move, from core.Position, ctx core.MoveContext) []core.Move {
 	bishop := core.Piece{Type: core.BISHOP, Color: ctx.SideToMove}
-	moves := make([]core.Move, 0, 13)
 
 	for _, direction := range BishopDirections {
 		file, rank := from.File(), from.Rank()
@@ -114,5 +109,5 @@ func (b Bishop) PseudoLegalMoves(from core.Position, ctx core.MoveContext) []cor
 		}
 	}
 
-	return slices.Clip(moves)
+	return moves
 }

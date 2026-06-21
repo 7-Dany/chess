@@ -41,17 +41,13 @@ type Engine interface {
 // game-state-aware checks (king safety, castling) that pieces cannot
 // know about on their own.
 type DefaultEngine struct {
-	pieces *piece.PieceProvider
+	pieces piece.Pieces
 }
+
+var defaultEngine = DefaultEngine{pieces: piece.GetDefaultPieces()}
 
 // NewDefaultEngine creates a DefaultEngine with the standard
 // PieceProvider that knows about all six piece types.
-func NewDefaultEngine() *DefaultEngine {
-	return &DefaultEngine{
-		pieces: piece.DefaultProvider(),
-	}
-}
-
-func (e *DefaultEngine) GetPiece(pt core.PieceType) piece.Piece {
-	return e.pieces.GetPiece(pt)
+func GetDefaultEngine() DefaultEngine {
+	return defaultEngine
 }

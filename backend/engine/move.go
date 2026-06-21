@@ -2,10 +2,12 @@ package engine
 
 import (
 	"github.com/7-Dany/chess/core"
+	"github.com/7-Dany/chess/piece"
 )
 
-func (e *DefaultEngine) GetLegalMoves(position core.Position, ctx core.TurnContext) []core.Move {
-	moves := e.GetPseudoLegalMoves(position, ctx)
+func (e *DefaultEngine) GetLegalMoves(moves []core.Move, position core.Position, ctx core.TurnContext) []core.Move {
+	moves = e.GetPseudoLegalMoves(moves, position, ctx)
+
 	current := ctx.SideToMove
 	enemy := current.Opponent()
 	kingStart := ctx.Sides[current].KingPosition
@@ -32,6 +34,9 @@ func (e *DefaultEngine) GetLegalMoves(position core.Position, ctx core.TurnConte
 }
 
 func (e *DefaultEngine) HasAnyLegalMoves(ctx core.TurnContext) bool {
+	// Stack allocated scratch buffer [moves], reused for every piece on the board.
+	var moves [piece.MAX_MOVES]core.Move
+
 	current := ctx.SideToMove
 	enemy := current.Opponent()
 	kingStart := ctx.Sides[current].KingPosition
@@ -41,7 +46,9 @@ func (e *DefaultEngine) HasAnyLegalMoves(ctx core.TurnContext) bool {
 			continue
 		}
 
-		pseudoMoves := e.GetPseudoLegalMoves(core.Position(i), ctx)
+		// if the square is occupied by enemy, we check all moves that piece can do
+		// to make sure the king will be safe
+		pseudoMoves := e.GetPseudoLegalMoves(moves[:0], core.Position(i), ctx)
 		for _, move := range pseudoMoves {
 			snapshot := e.Apply(&ctx, move)
 

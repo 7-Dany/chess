@@ -1,10 +1,11 @@
 package piece
 
 import (
-	"slices"
-
 	"github.com/7-Dany/chess/core"
 )
+
+// the pawn can attack diagonally, file (+1) or file (-1) -> 2 files change and one rank up
+var PawnDirections = [2]int8{1, -1}
 
 type Pawn struct{}
 
@@ -36,14 +37,28 @@ func (p Pawn) IsAttacking(color core.PieceColor, target core.Position, ctx core.
 	return false
 }
 
-func (p Pawn) Attacks(from core.Position, ctx core.BoardContext) []core.Position {
+func (p Pawn) Attacks(attacks []core.Position, from core.Position, ctx core.BoardContext) []core.Position {
 	color := ctx.Board[from].Color()
 	step, _, _ := p.direction(color)
 
-	return p.diagonals(from, step)
+	// guard against last rank to make sure pawn will not go off board
+	rank, ok := from.Rank().Add(step)
+	if !ok {
+		return attacks
+	}
+
+	// Pawns attack diagonally; guard file bounds for pawns on the A or H file.
+	if rightFile, ok := from.File().Add(PawnDirections[0]); ok {
+		attacks = append(attacks, core.NewPosition(rightFile, rank))
+	}
+	if leftFile, ok := from.File().Add(PawnDirections[1]); ok {
+		attacks = append(attacks, core.NewPosition(leftFile, rank))
+	}
+
+	return attacks
 }
 
-func (p Pawn) PseudoLegalMoves(from core.Position, ctx core.MoveContext) []core.Move {
+func (p Pawn) PseudoLegalMoves(moves []core.Move, from core.Position, ctx core.MoveContext) []core.Move {
 	// get pawn direction
 	step, _, end := p.direction(ctx.SideToMove)
 
@@ -55,10 +70,8 @@ func (p Pawn) PseudoLegalMoves(from core.Position, ctx core.MoveContext) []core.
 
 	// rule 1: if the next rank is the end, it's a promotion
 	if rank == end {
-		return p.promote(from, ctx)
+		return p.promote(moves, from, ctx)
 	}
-
-	moves := make([]core.Move, 0, 4)
 
 	// rule 2: handle push, at start singe or double, otherwise single
 	moves = p.push(moves, from, ctx)
@@ -66,20 +79,18 @@ func (p Pawn) PseudoLegalMoves(from core.Position, ctx core.MoveContext) []core.
 	// rule 3: capture on right file, or left file if occupied by enemy
 	moves = p.captures(moves, from, ctx)
 
-	return slices.Clip(moves)
+	return moves
 }
 
 // promote returns all promotion moves for a pawn whose next rank is the last rank,
 // Each destination expands to four moves — Q, R, B, N.
-func (p Pawn) promote(from core.Position, ctx core.MoveContext) []core.Move {
+func (p Pawn) promote(moves []core.Move, from core.Position, ctx core.MoveContext) []core.Move {
 	pawn := core.Piece{Type: core.PAWN, Color: ctx.SideToMove}
 
 	// rank is guaranteed valid: promote is only called when the dispatcher's
 	// Add(step) succeeded and landed on the end rank.
 	step, _, _ := p.direction(ctx.SideToMove)
 	rank, _ := from.Rank().Add(step)
-
-	moves := make([]core.Move, 0, 12)
 
 	// stamp appends the four promotion variants (Q, R, B, N) for a single destination.
 	stamp := func(to core.Position, hasCapture bool, captured core.Piece) {
@@ -106,14 +117,20 @@ func (p Pawn) promote(from core.Position, ctx core.MoveContext) []core.Move {
 	}
 
 	// diagonal capture promotions — walk attack squares
-	for _, to := range p.diagonals(from, step) {
+	for _, direction := range PawnDirections {
+		file, ok := from.File().Add(direction)
+		if !ok {
+			continue // pawn is on the A or H file, skip that side
+		}
+
+		to := core.NewPosition(file, rank)
 		square := ctx.Board[to]
 		if square.IsOccupiedBy(pawn.Color.Opponent()) {
 			stamp(to, true, square.Piece())
 		}
 	}
 
-	return slices.Clip(moves)
+	return moves
 }
 
 // push returns forward pushes only (single, and double from the start rank)
@@ -203,29 +220,6 @@ func (p Pawn) captures(moves []core.Move, from core.Position, ctx core.MoveConte
 	}
 
 	return moves
-}
-
-// diagonals returns the up-to-two squares diagonally adjacent to from,
-// one rank toward step, guarding both rank and file edges.
-func (p Pawn) diagonals(from core.Position, step int8) []core.Position {
-	squares := make([]core.Position, 0, 2)
-
-	// A pawn on its last rank is impossible (promotion occurs on arrival),
-	// but guard defensively for correctness.
-	rank, ok := from.Rank().Add(step)
-	if !ok {
-		return squares
-	}
-
-	// Pawns attack diagonally; guard file bounds for pawns on the A or H file.
-	if rightFile, ok := from.File().Add(1); ok {
-		squares = append(squares, core.NewPosition(rightFile, rank))
-	}
-	if leftFile, ok := from.File().Add(-1); ok {
-		squares = append(squares, core.NewPosition(leftFile, rank))
-	}
-
-	return squares
 }
 
 // direction returns the movement properties for a pawn of the given color.

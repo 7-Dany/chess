@@ -1,8 +1,6 @@
 package piece
 
 import (
-	"slices"
-
 	"github.com/7-Dany/chess/core"
 )
 
@@ -37,9 +35,7 @@ func (King) IsAttacking(color core.PieceColor, target core.Position, ctx core.Bo
 	return false
 }
 
-func (King) Attacks(from core.Position, ctx core.BoardContext) []core.Position {
-	attacks := make([]core.Position, 0, 8)
-
+func (King) Attacks(attacks []core.Position, from core.Position, ctx core.BoardContext) []core.Position {
 	for _, position := range KingDirections {
 		file, fok := from.File().Add(position[0])
 		rank, rok := from.Rank().Add(position[1])
@@ -47,13 +43,11 @@ func (King) Attacks(from core.Position, ctx core.BoardContext) []core.Position {
 			attacks = append(attacks, core.NewPosition(file, rank))
 		}
 	}
-
-	return slices.Clip(attacks)
+	return attacks
 }
 
-func (k King) PseudoLegalMoves(from core.Position, ctx core.MoveContext) []core.Move {
+func (k King) PseudoLegalMoves(moves []core.Move, from core.Position, ctx core.MoveContext) []core.Move {
 	king := core.Piece{Type: core.KING, Color: ctx.SideToMove}
-	moves := make([]core.Move, 0, 10)
 
 	for _, direction := range KingDirections {
 		file, fok := from.File().Add(direction[0])
