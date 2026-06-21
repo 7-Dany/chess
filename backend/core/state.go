@@ -75,6 +75,13 @@ type TurnContext struct {
 	ClockContext
 }
 
+// Reset zeroes the context and attaches a fresh Board. Call this before
+// filling in a TurnContext — the zero value has a nil Board pointer.
+func (ctx *TurnContext) Reset() {
+	*ctx = TurnContext{}
+	ctx.Board = new(Board)
+}
+
 // Copy returns a deep copy of the TurnContext with its own independent Board.
 // Mutating the copy's board does not affect the original.
 func (ctx *TurnContext) Copy() TurnContext {
