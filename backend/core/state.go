@@ -1,5 +1,10 @@
 package core
 
+import (
+	"fmt"
+	"strings"
+)
+
 type SideState struct {
 	KingPosition       Position
 	CanCastleKingSide  bool
@@ -92,6 +97,41 @@ func (ctx *TurnContext) Snapshot(move Move) Snapshot {
 		PreviousSides:           ctx.Sides,
 		PreviousEnPassantTarget: ctx.EnPassantTarget,
 	}
+}
+
+func (ctx *TurnContext) String() string {
+	var sb strings.Builder
+
+	sb.WriteString(ctx.Board.String())
+	sb.WriteByte('\n')
+
+	if ctx.SideToMove == WHITE {
+		sb.WriteString("Side:       White\n")
+	} else {
+		sb.WriteString("Side:       Black\n")
+	}
+
+	castling := ""
+	if ctx.Sides[WHITE].CanCastleKingSide {
+		castling += "K"
+	}
+	if ctx.Sides[WHITE].CanCastleQueenSide {
+		castling += "Q"
+	}
+	if ctx.Sides[BLACK].CanCastleKingSide {
+		castling += "k"
+	}
+	if ctx.Sides[BLACK].CanCastleQueenSide {
+		castling += "q"
+	}
+	if castling == "" {
+		castling = "-"
+	}
+	fmt.Fprintf(&sb, "Castling:   %s\n", castling)
+	fmt.Fprintf(&sb, "En passant: %s\n", ctx.EnPassantTarget)
+	fmt.Fprintf(&sb, "Clocks:     %d / %d\n", ctx.HalfMoveClock, ctx.FullMoveNumber)
+
+	return sb.String()
 }
 
 type ChessState struct {

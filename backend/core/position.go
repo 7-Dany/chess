@@ -1,5 +1,9 @@
 package core
 
+import (
+	"fmt"
+)
+
 // Board columns as files from A -> H
 type File uint8
 
@@ -26,6 +30,13 @@ func (f File) String() string {
 	return string(rune(f + 'A'))
 }
 
+func ParseFile(ch byte) (File, error) {
+	if ch < 'a' || ch > 'h' {
+		return 0, fmt.Errorf("file: failed to parse file %q", ch)
+	}
+	return File(ch - 'a'), nil
+}
+
 // Board raws as rank from 1 -> 8
 type Rank uint8
 
@@ -48,8 +59,20 @@ func (r Rank) Add(value int8) (Rank, bool) {
 	return Rank(result), true
 }
 
+// helper method for FEN Parsing, since FEN start from top to bottom not bottom to top (8 -> 1).
+func (r Rank) Reverse() Rank {
+	return Rank(7 - uint8(r))
+}
+
 func (r Rank) String() string {
 	return string(rune('1' + r))
+}
+
+func ParseRank(ch byte) (Rank, error) {
+	if ch < '1' || ch > '8' {
+		return 0, fmt.Errorf("rank: failed to parse rank %q", ch)
+	}
+	return Rank(ch - '1'), nil
 }
 
 type Position uint8

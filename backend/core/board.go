@@ -1,6 +1,10 @@
 package core
 
-import "slices"
+import (
+	"fmt"
+	"slices"
+	"strings"
+)
 
 // Square is a packed board cell.
 //
@@ -90,4 +94,27 @@ func (b *Board) Clear(pos Position) {
 func (b *Board) Move(from, to Position) {
 	b[to] = b[from]
 	b[from] = EmptySquare
+}
+
+func (b *Board) String() string {
+	var sb strings.Builder
+	for rank := int(RANK_8); rank >= int(RANK_1); rank-- {
+		fmt.Fprintf(&sb, "%d  ", rank+1)
+		for file := FILE_A; file <= FILE_H; file++ {
+			pos := NewPosition(file, Rank(rank))
+			sq := b[pos]
+			if sq.IsEmpty() {
+				sb.WriteByte('.')
+			} else {
+				sb.WriteByte(sq.Piece().Char())
+			}
+			if file != FILE_H {
+				sb.WriteByte(' ')
+			}
+		}
+		sb.WriteByte('\n')
+	}
+	sb.WriteString("   a b c d e f g h\n")
+
+	return sb.String()
 }
