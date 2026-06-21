@@ -4,7 +4,6 @@ import (
 	"testing"
 
 	"github.com/7-Dany/chess/core"
-	"github.com/7-Dany/chess/piece"
 	"github.com/7-Dany/chess/testutil"
 )
 
@@ -25,7 +24,7 @@ func TestGetLegalMoves(t *testing.T) {
 	// Helper: run GetLegalMoves on the given position and return the moves.
 	legalMoves := func(board *core.Board, side core.PieceColor, pos core.Position, opts ...testutil.TurnOption) []core.Move {
 		ctx := testutil.NewTurn(board, side, opts...)
-		return engine.GetLegalMoves(make([]core.Move, 0, piece.MAX_MOVES), pos, *ctx)
+		return engine.GetLegalMoves(make([]core.Move, 0, core.MAX_MOVES), pos, *ctx)
 	}
 
 	// =========================================================================

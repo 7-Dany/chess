@@ -290,7 +290,7 @@ func TestBishopAttacks(t *testing.T) {
 		var board core.Board
 		ctx := core.BoardContext{Board: &board}
 
-		got := bishop.Attacks(make([]core.Position, 0, MAX_MOVES), core.D4, ctx)
+		got := bishop.Attacks(make([]core.Position, 0, core.MAX_MOVES), core.D4, ctx)
 
 		testutil.AssertPositionsMatch(t, got, []core.Position{
 			// NE: E5 F6 G7 H8
@@ -309,7 +309,7 @@ func TestBishopAttacks(t *testing.T) {
 		var board core.Board
 		ctx := core.BoardContext{Board: &board}
 
-		got := bishop.Attacks(make([]core.Position, 0, MAX_MOVES), core.A1, ctx)
+		got := bishop.Attacks(make([]core.Position, 0, core.MAX_MOVES), core.A1, ctx)
 
 		testutil.AssertPositionsMatch(t, got, []core.Position{
 			core.B2, core.C3, core.D4, core.E5, core.F6, core.G7, core.H8,
@@ -320,7 +320,7 @@ func TestBishopAttacks(t *testing.T) {
 		var board core.Board
 		ctx := core.BoardContext{Board: &board}
 
-		got := bishop.Attacks(make([]core.Position, 0, MAX_MOVES), core.H1, ctx)
+		got := bishop.Attacks(make([]core.Position, 0, core.MAX_MOVES), core.H1, ctx)
 
 		testutil.AssertPositionsMatch(t, got, []core.Position{
 			core.G2, core.F3, core.E4, core.D5, core.C6, core.B7, core.A8,
@@ -331,7 +331,7 @@ func TestBishopAttacks(t *testing.T) {
 		var board core.Board
 		ctx := core.BoardContext{Board: &board}
 
-		got := bishop.Attacks(make([]core.Position, 0, MAX_MOVES), core.A8, ctx)
+		got := bishop.Attacks(make([]core.Position, 0, core.MAX_MOVES), core.A8, ctx)
 
 		testutil.AssertPositionsMatch(t, got, []core.Position{
 			core.B7, core.C6, core.D5, core.E4, core.F3, core.G2, core.H1,
@@ -342,7 +342,7 @@ func TestBishopAttacks(t *testing.T) {
 		var board core.Board
 		ctx := core.BoardContext{Board: &board}
 
-		got := bishop.Attacks(make([]core.Position, 0, MAX_MOVES), core.H8, ctx)
+		got := bishop.Attacks(make([]core.Position, 0, core.MAX_MOVES), core.H8, ctx)
 
 		testutil.AssertPositionsMatch(t, got, []core.Position{
 			core.G7, core.F6, core.E5, core.D4, core.C3, core.B2, core.A1,
@@ -354,7 +354,7 @@ func TestBishopAttacks(t *testing.T) {
 		var board core.Board
 		ctx := core.BoardContext{Board: &board}
 
-		got := bishop.Attacks(make([]core.Position, 0, MAX_MOVES), core.A4, ctx)
+		got := bishop.Attacks(make([]core.Position, 0, core.MAX_MOVES), core.A4, ctx)
 
 		testutil.AssertPositionsMatch(t, got, []core.Position{
 			// NE: B5 C6 D7 E8
@@ -373,7 +373,7 @@ func TestBishopAttacks(t *testing.T) {
 		board[core.F6] = core.NewSquare(core.Piece{Type: core.PAWN, Color: core.WHITE})
 		ctx := core.BoardContext{Board: &board}
 
-		got := bishop.Attacks(make([]core.Position, 0, MAX_MOVES), core.D4, ctx)
+		got := bishop.Attacks(make([]core.Position, 0, core.MAX_MOVES), core.D4, ctx)
 
 		testutil.AssertPositionsMatch(t, got, []core.Position{
 			// NE stops at F6 (the blocker is included)
@@ -396,7 +396,7 @@ func TestBishopAttacks(t *testing.T) {
 		board[core.C3] = core.NewSquare(core.Piece{Type: core.PAWN, Color: core.WHITE})
 		ctx := core.BoardContext{Board: &board}
 
-		got := bishop.Attacks(make([]core.Position, 0, MAX_MOVES), core.D4, ctx)
+		got := bishop.Attacks(make([]core.Position, 0, core.MAX_MOVES), core.D4, ctx)
 
 		testutil.AssertPositionsMatch(t, got, []core.Position{core.E5, core.E3, core.C5, core.C3})
 	})
@@ -407,7 +407,7 @@ func TestBishopAttacks(t *testing.T) {
 		board[core.C3] = core.NewSquare(core.Piece{Type: core.PAWN, Color: core.WHITE})
 		ctx := core.BoardContext{Board: &board}
 
-		got := bishop.Attacks(make([]core.Position, 0, MAX_MOVES), core.A1, ctx)
+		got := bishop.Attacks(make([]core.Position, 0, core.MAX_MOVES), core.A1, ctx)
 
 		testutil.AssertPositionsMatch(t, got, []core.Position{core.B2, core.C3})
 	})
@@ -420,7 +420,7 @@ func TestBishopAttacks(t *testing.T) {
 		board[core.F6] = core.NewSquare(core.Piece{Type: core.PAWN, Color: core.BLACK})
 		ctx := core.BoardContext{Board: &board}
 
-		got := bishop.Attacks(make([]core.Position, 0, MAX_MOVES), core.D4, ctx)
+		got := bishop.Attacks(make([]core.Position, 0, core.MAX_MOVES), core.D4, ctx)
 
 		testutil.AssertPositionsMatch(t, got, []core.Position{
 			core.E5, core.F6, // NE stops at the enemy
@@ -466,7 +466,7 @@ func TestBishopPseudoLegalMoves(t *testing.T) {
 		var board core.Board
 		ctx := core.MoveContext{BoardContext: core.BoardContext{Board: &board}, SideToMove: core.WHITE}
 
-		moves := bishop.PseudoLegalMoves(make([]core.Move, 0, MAX_MOVES), core.D4, ctx)
+		moves := bishop.PseudoLegalMoves(make([]core.Move, 0, core.MAX_MOVES), core.D4, ctx)
 
 		testutil.AssertPositionsMatch(t, destinations(moves), d4Empty)
 		testutil.AssertMoveCount(t, moves, 13)
@@ -479,7 +479,7 @@ func TestBishopPseudoLegalMoves(t *testing.T) {
 		board[core.F6] = core.NewSquare(core.Piece{Type: core.PAWN, Color: core.BLACK})
 		ctx := core.MoveContext{BoardContext: core.BoardContext{Board: &board}, SideToMove: core.WHITE}
 
-		moves := bishop.PseudoLegalMoves(make([]core.Move, 0, MAX_MOVES), core.D4, ctx)
+		moves := bishop.PseudoLegalMoves(make([]core.Move, 0, core.MAX_MOVES), core.D4, ctx)
 
 		testutil.AssertPositionsMatch(t, destinations(moves), []core.Position{
 			// NE stops at F6 (capture included)
@@ -515,7 +515,7 @@ func TestBishopPseudoLegalMoves(t *testing.T) {
 		board[core.B6] = core.NewSquare(core.Piece{Type: core.KNIGHT, Color: core.BLACK})
 		ctx := core.MoveContext{BoardContext: core.BoardContext{Board: &board}, SideToMove: core.WHITE}
 
-		moves := bishop.PseudoLegalMoves(make([]core.Move, 0, MAX_MOVES), core.D4, ctx)
+		moves := bishop.PseudoLegalMoves(make([]core.Move, 0, core.MAX_MOVES), core.D4, ctx)
 
 		wantCaptures := map[core.Position]core.Piece{
 			core.F6: {Type: core.QUEEN, Color: core.BLACK},
@@ -544,7 +544,7 @@ func TestBishopPseudoLegalMoves(t *testing.T) {
 		board[core.F6] = core.NewSquare(core.Piece{Type: core.PAWN, Color: core.WHITE})
 		ctx := core.MoveContext{BoardContext: core.BoardContext{Board: &board}, SideToMove: core.WHITE}
 
-		moves := bishop.PseudoLegalMoves(make([]core.Move, 0, MAX_MOVES), core.D4, ctx)
+		moves := bishop.PseudoLegalMoves(make([]core.Move, 0, core.MAX_MOVES), core.D4, ctx)
 
 		testutil.AssertPositionsMatch(t, destinations(moves), []core.Position{
 			// NE stops BEFORE F6 (F6 excluded, nothing beyond)
@@ -564,7 +564,7 @@ func TestBishopPseudoLegalMoves(t *testing.T) {
 		board[core.F6] = core.NewSquare(core.Piece{Type: core.PAWN, Color: core.BLACK})
 		ctx := core.MoveContext{BoardContext: core.BoardContext{Board: &board}, SideToMove: core.WHITE}
 
-		moves := bishop.PseudoLegalMoves(make([]core.Move, 0, MAX_MOVES), core.D4, ctx)
+		moves := bishop.PseudoLegalMoves(make([]core.Move, 0, core.MAX_MOVES), core.D4, ctx)
 
 		// NE diagonal is empty (E5 excluded, F6 unreachable). Other diagonals unchanged.
 		testutil.AssertPositionsMatch(t, destinations(moves), []core.Position{
@@ -582,7 +582,7 @@ func TestBishopPseudoLegalMoves(t *testing.T) {
 		board[core.H8] = core.NewSquare(core.Piece{Type: core.ROOK, Color: core.BLACK})
 		ctx := core.MoveContext{BoardContext: core.BoardContext{Board: &board}, SideToMove: core.WHITE}
 
-		moves := bishop.PseudoLegalMoves(make([]core.Move, 0, MAX_MOVES), core.D4, ctx)
+		moves := bishop.PseudoLegalMoves(make([]core.Move, 0, core.MAX_MOVES), core.D4, ctx)
 
 		testutil.AssertPositionsMatch(t, destinations(moves), []core.Position{
 			// NE: E5 (quiet), F6 (capture). H8 unreachable.
@@ -601,7 +601,7 @@ func TestBishopPseudoLegalMoves(t *testing.T) {
 		board[core.H8] = core.NewSquare(core.Piece{Type: core.ROOK, Color: core.WHITE})
 		ctx := core.MoveContext{BoardContext: core.BoardContext{Board: &board}, SideToMove: core.WHITE}
 
-		moves := bishop.PseudoLegalMoves(make([]core.Move, 0, MAX_MOVES), core.D4, ctx)
+		moves := bishop.PseudoLegalMoves(make([]core.Move, 0, core.MAX_MOVES), core.D4, ctx)
 
 		testutil.AssertPositionsMatch(t, destinations(moves), []core.Position{
 			core.E5, core.F6,
@@ -621,7 +621,7 @@ func TestBishopPseudoLegalMoves(t *testing.T) {
 		board[core.C3] = core.NewSquare(core.Piece{Type: core.PAWN, Color: core.WHITE})
 		ctx := core.MoveContext{BoardContext: core.BoardContext{Board: &board}, SideToMove: core.WHITE}
 
-		moves := bishop.PseudoLegalMoves(make([]core.Move, 0, MAX_MOVES), core.D4, ctx)
+		moves := bishop.PseudoLegalMoves(make([]core.Move, 0, core.MAX_MOVES), core.D4, ctx)
 
 		// Only the two enemy captures (E5, C5); the two own pieces block.
 		testutil.AssertPositionsMatch(t, destinations(moves), []core.Position{core.E5, core.C5})
@@ -635,7 +635,7 @@ func TestBishopPseudoLegalMoves(t *testing.T) {
 		board[core.C3] = core.NewSquare(core.Piece{Type: core.PAWN, Color: core.WHITE})
 		ctx := core.MoveContext{BoardContext: core.BoardContext{Board: &board}, SideToMove: core.WHITE}
 
-		moves := bishop.PseudoLegalMoves(make([]core.Move, 0, MAX_MOVES), core.D4, ctx)
+		moves := bishop.PseudoLegalMoves(make([]core.Move, 0, core.MAX_MOVES), core.D4, ctx)
 
 		testutil.AssertNoMoves(t, moves)
 	})
@@ -647,7 +647,7 @@ func TestBishopPseudoLegalMoves(t *testing.T) {
 		board[core.F6] = core.NewSquare(core.Piece{Type: core.PAWN, Color: core.WHITE})
 		ctx := core.MoveContext{BoardContext: core.BoardContext{Board: &board}, SideToMove: core.BLACK}
 
-		moves := bishop.PseudoLegalMoves(make([]core.Move, 0, MAX_MOVES), core.D4, ctx)
+		moves := bishop.PseudoLegalMoves(make([]core.Move, 0, core.MAX_MOVES), core.D4, ctx)
 
 		testutil.AssertPositionsMatch(t, destinations(moves), []core.Position{
 			core.E5, core.F6,
@@ -674,7 +674,7 @@ func TestBishopPseudoLegalMoves(t *testing.T) {
 		board[core.F6] = core.NewSquare(core.Piece{Type: core.PAWN, Color: core.BLACK})
 		ctx := core.MoveContext{BoardContext: core.BoardContext{Board: &board}, SideToMove: core.BLACK}
 
-		moves := bishop.PseudoLegalMoves(make([]core.Move, 0, MAX_MOVES), core.D4, ctx)
+		moves := bishop.PseudoLegalMoves(make([]core.Move, 0, core.MAX_MOVES), core.D4, ctx)
 
 		testutil.AssertPositionsMatch(t, destinations(moves), []core.Position{
 			core.E5, // NE stops before F6
@@ -690,7 +690,7 @@ func TestBishopPseudoLegalMoves(t *testing.T) {
 		var board core.Board
 		ctx := core.MoveContext{BoardContext: core.BoardContext{Board: &board}, SideToMove: core.WHITE}
 
-		moves := bishop.PseudoLegalMoves(make([]core.Move, 0, MAX_MOVES), core.D4, ctx)
+		moves := bishop.PseudoLegalMoves(make([]core.Move, 0, core.MAX_MOVES), core.D4, ctx)
 
 		mover := core.Piece{Type: core.BISHOP, Color: core.WHITE}
 		for _, m := range moves {

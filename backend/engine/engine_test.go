@@ -4,7 +4,6 @@ import (
 	"testing"
 
 	"github.com/7-Dany/chess/core"
-	"github.com/7-Dany/chess/piece"
 )
 
 // This file holds the engine benchmarks. Each measures a single engine
@@ -250,14 +249,14 @@ func attackedSquare() core.TurnContext {
 // GetPseudoLegalMoves — pseudo-legal move generation per piece type.
 //
 // Measures the cost of generating moves for a single piece, WITHOUT the
-// king-safety filter. The buffer is stack-allocated (var buf [piece.MAX_MOVES]);
+// king-safety filter. The buffer is stack-allocated (var buf [core.MAX_MOVES]);
 // passing buf[:0] each iteration means no allocation.
 // =============================================================================
 
 func BenchmarkGetPseudoLegalMoves_Pawn(b *testing.B) {
 	engine := GetDefaultEngine()
 	ctx := startPosition()
-	var buf [piece.MAX_MOVES]core.Move
+	var buf [core.MAX_MOVES]core.Move
 	b.ResetTimer()
 	for i := 0; i < b.N; i++ {
 		_ = engine.GetPseudoLegalMoves(buf[:0], core.A2, ctx)
@@ -267,7 +266,7 @@ func BenchmarkGetPseudoLegalMoves_Pawn(b *testing.B) {
 func BenchmarkGetPseudoLegalMoves_Knight(b *testing.B) {
 	engine := GetDefaultEngine()
 	ctx := startPosition()
-	var buf [piece.MAX_MOVES]core.Move
+	var buf [core.MAX_MOVES]core.Move
 	b.ResetTimer()
 	for i := 0; i < b.N; i++ {
 		_ = engine.GetPseudoLegalMoves(buf[:0], core.B1, ctx)
@@ -277,7 +276,7 @@ func BenchmarkGetPseudoLegalMoves_Knight(b *testing.B) {
 func BenchmarkGetPseudoLegalMoves_Bishop(b *testing.B) {
 	engine := GetDefaultEngine()
 	ctx := startPosition()
-	var buf [piece.MAX_MOVES]core.Move
+	var buf [core.MAX_MOVES]core.Move
 	b.ResetTimer()
 	for i := 0; i < b.N; i++ {
 		_ = engine.GetPseudoLegalMoves(buf[:0], core.C1, ctx)
@@ -287,7 +286,7 @@ func BenchmarkGetPseudoLegalMoves_Bishop(b *testing.B) {
 func BenchmarkGetPseudoLegalMoves_Rook(b *testing.B) {
 	engine := GetDefaultEngine()
 	ctx := startPosition()
-	var buf [piece.MAX_MOVES]core.Move
+	var buf [core.MAX_MOVES]core.Move
 	b.ResetTimer()
 	for i := 0; i < b.N; i++ {
 		_ = engine.GetPseudoLegalMoves(buf[:0], core.A1, ctx)
@@ -297,7 +296,7 @@ func BenchmarkGetPseudoLegalMoves_Rook(b *testing.B) {
 func BenchmarkGetPseudoLegalMoves_Queen(b *testing.B) {
 	engine := GetDefaultEngine()
 	ctx := startPosition()
-	var buf [piece.MAX_MOVES]core.Move
+	var buf [core.MAX_MOVES]core.Move
 	b.ResetTimer()
 	for i := 0; i < b.N; i++ {
 		_ = engine.GetPseudoLegalMoves(buf[:0], core.D1, ctx)
@@ -307,7 +306,7 @@ func BenchmarkGetPseudoLegalMoves_Queen(b *testing.B) {
 func BenchmarkGetPseudoLegalMoves_King(b *testing.B) {
 	engine := GetDefaultEngine()
 	ctx := startPosition()
-	var buf [piece.MAX_MOVES]core.Move
+	var buf [core.MAX_MOVES]core.Move
 	b.ResetTimer()
 	for i := 0; i < b.N; i++ {
 		_ = engine.GetPseudoLegalMoves(buf[:0], core.E1, ctx)
@@ -321,7 +320,7 @@ func BenchmarkGetPseudoLegalMoves_King(b *testing.B) {
 func BenchmarkGetPseudoLegalMoves_KiwipeteKnight(b *testing.B) {
 	engine := GetDefaultEngine()
 	ctx := kiwipete()
-	var buf [piece.MAX_MOVES]core.Move
+	var buf [core.MAX_MOVES]core.Move
 	b.ResetTimer()
 	for i := 0; i < b.N; i++ {
 		_ = engine.GetPseudoLegalMoves(buf[:0], core.D5, ctx)
@@ -331,7 +330,7 @@ func BenchmarkGetPseudoLegalMoves_KiwipeteKnight(b *testing.B) {
 func BenchmarkGetPseudoLegalMoves_KiwipeteQueen(b *testing.B) {
 	engine := GetDefaultEngine()
 	ctx := kiwipete()
-	var buf [piece.MAX_MOVES]core.Move
+	var buf [core.MAX_MOVES]core.Move
 	b.ResetTimer()
 	for i := 0; i < b.N; i++ {
 		_ = engine.GetPseudoLegalMoves(buf[:0], core.F3, ctx)
@@ -349,7 +348,7 @@ func BenchmarkGetPseudoLegalMoves_KiwipeteQueen(b *testing.B) {
 func BenchmarkGetLegalMoves_Pawn(b *testing.B) {
 	engine := GetDefaultEngine()
 	ctx := startPosition()
-	var buf [piece.MAX_MOVES]core.Move
+	var buf [core.MAX_MOVES]core.Move
 	b.ResetTimer()
 	for i := 0; i < b.N; i++ {
 		_ = engine.GetLegalMoves(buf[:0], core.A2, ctx)
@@ -359,7 +358,7 @@ func BenchmarkGetLegalMoves_Pawn(b *testing.B) {
 func BenchmarkGetLegalMoves_Knight(b *testing.B) {
 	engine := GetDefaultEngine()
 	ctx := startPosition()
-	var buf [piece.MAX_MOVES]core.Move
+	var buf [core.MAX_MOVES]core.Move
 	b.ResetTimer()
 	for i := 0; i < b.N; i++ {
 		_ = engine.GetLegalMoves(buf[:0], core.B1, ctx)
@@ -369,7 +368,7 @@ func BenchmarkGetLegalMoves_Knight(b *testing.B) {
 func BenchmarkGetLegalMoves_Bishop(b *testing.B) {
 	engine := GetDefaultEngine()
 	ctx := startPosition()
-	var buf [piece.MAX_MOVES]core.Move
+	var buf [core.MAX_MOVES]core.Move
 	b.ResetTimer()
 	for i := 0; i < b.N; i++ {
 		_ = engine.GetLegalMoves(buf[:0], core.C1, ctx)
@@ -379,7 +378,7 @@ func BenchmarkGetLegalMoves_Bishop(b *testing.B) {
 func BenchmarkGetLegalMoves_Rook(b *testing.B) {
 	engine := GetDefaultEngine()
 	ctx := startPosition()
-	var buf [piece.MAX_MOVES]core.Move
+	var buf [core.MAX_MOVES]core.Move
 	b.ResetTimer()
 	for i := 0; i < b.N; i++ {
 		_ = engine.GetLegalMoves(buf[:0], core.A1, ctx)
@@ -389,7 +388,7 @@ func BenchmarkGetLegalMoves_Rook(b *testing.B) {
 func BenchmarkGetLegalMoves_Queen(b *testing.B) {
 	engine := GetDefaultEngine()
 	ctx := startPosition()
-	var buf [piece.MAX_MOVES]core.Move
+	var buf [core.MAX_MOVES]core.Move
 	b.ResetTimer()
 	for i := 0; i < b.N; i++ {
 		_ = engine.GetLegalMoves(buf[:0], core.D1, ctx)
@@ -399,7 +398,7 @@ func BenchmarkGetLegalMoves_Queen(b *testing.B) {
 func BenchmarkGetLegalMoves_King(b *testing.B) {
 	engine := GetDefaultEngine()
 	ctx := startPosition()
-	var buf [piece.MAX_MOVES]core.Move
+	var buf [core.MAX_MOVES]core.Move
 	b.ResetTimer()
 	for i := 0; i < b.N; i++ {
 		_ = engine.GetLegalMoves(buf[:0], core.E1, ctx)
@@ -412,7 +411,7 @@ func BenchmarkGetLegalMoves_King(b *testing.B) {
 func BenchmarkGetLegalMoves_KiwipeteKnight(b *testing.B) {
 	engine := GetDefaultEngine()
 	ctx := kiwipete()
-	var buf [piece.MAX_MOVES]core.Move
+	var buf [core.MAX_MOVES]core.Move
 	b.ResetTimer()
 	for i := 0; i < b.N; i++ {
 		_ = engine.GetLegalMoves(buf[:0], core.D5, ctx)
@@ -422,7 +421,7 @@ func BenchmarkGetLegalMoves_KiwipeteKnight(b *testing.B) {
 func BenchmarkGetLegalMoves_KiwipeteQueen(b *testing.B) {
 	engine := GetDefaultEngine()
 	ctx := kiwipete()
-	var buf [piece.MAX_MOVES]core.Move
+	var buf [core.MAX_MOVES]core.Move
 	b.ResetTimer()
 	for i := 0; i < b.N; i++ {
 		_ = engine.GetLegalMoves(buf[:0], core.F3, ctx)
@@ -432,7 +431,7 @@ func BenchmarkGetLegalMoves_KiwipeteQueen(b *testing.B) {
 func BenchmarkGetLegalMoves_KiwipeteKing(b *testing.B) {
 	engine := GetDefaultEngine()
 	ctx := kiwipete()
-	var buf [piece.MAX_MOVES]core.Move
+	var buf [core.MAX_MOVES]core.Move
 	b.ResetTimer()
 	for i := 0; i < b.N; i++ {
 		_ = engine.GetLegalMoves(buf[:0], core.E1, ctx)

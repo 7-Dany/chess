@@ -295,7 +295,7 @@ func TestRookAttacks(t *testing.T) {
 		var board core.Board
 		ctx := core.BoardContext{Board: &board}
 
-		got := rook.Attacks(make([]core.Position, 0, MAX_MOVES), core.D4, ctx)
+		got := rook.Attacks(make([]core.Position, 0, core.MAX_MOVES), core.D4, ctx)
 
 		testutil.AssertPositionsMatch(t, got, []core.Position{
 			// up: D5 D6 D7 D8
@@ -314,7 +314,7 @@ func TestRookAttacks(t *testing.T) {
 		var board core.Board
 		ctx := core.BoardContext{Board: &board}
 
-		got := rook.Attacks(make([]core.Position, 0, MAX_MOVES), core.A1, ctx)
+		got := rook.Attacks(make([]core.Position, 0, core.MAX_MOVES), core.A1, ctx)
 
 		testutil.AssertPositionsMatch(t, got, []core.Position{
 			// up the file: A2 A3 A4 A5 A6 A7 A8
@@ -328,7 +328,7 @@ func TestRookAttacks(t *testing.T) {
 		var board core.Board
 		ctx := core.BoardContext{Board: &board}
 
-		got := rook.Attacks(make([]core.Position, 0, MAX_MOVES), core.H1, ctx)
+		got := rook.Attacks(make([]core.Position, 0, core.MAX_MOVES), core.H1, ctx)
 
 		testutil.AssertPositionsMatch(t, got, []core.Position{
 			// up: H2 H3 H4 H5 H6 H7 H8
@@ -342,7 +342,7 @@ func TestRookAttacks(t *testing.T) {
 		var board core.Board
 		ctx := core.BoardContext{Board: &board}
 
-		got := rook.Attacks(make([]core.Position, 0, MAX_MOVES), core.A8, ctx)
+		got := rook.Attacks(make([]core.Position, 0, core.MAX_MOVES), core.A8, ctx)
 
 		testutil.AssertPositionsMatch(t, got, []core.Position{
 			// down: A7 A6 A5 A4 A3 A2 A1
@@ -356,7 +356,7 @@ func TestRookAttacks(t *testing.T) {
 		var board core.Board
 		ctx := core.BoardContext{Board: &board}
 
-		got := rook.Attacks(make([]core.Position, 0, MAX_MOVES), core.H8, ctx)
+		got := rook.Attacks(make([]core.Position, 0, core.MAX_MOVES), core.H8, ctx)
 
 		testutil.AssertPositionsMatch(t, got, []core.Position{
 			// down: H7 H6 H5 H4 H3 H2 H1
@@ -371,7 +371,7 @@ func TestRookAttacks(t *testing.T) {
 		var board core.Board
 		ctx := core.BoardContext{Board: &board}
 
-		got := rook.Attacks(make([]core.Position, 0, MAX_MOVES), core.A4, ctx)
+		got := rook.Attacks(make([]core.Position, 0, core.MAX_MOVES), core.A4, ctx)
 
 		testutil.AssertPositionsMatch(t, got, []core.Position{
 			// up: A5 A6 A7 A8
@@ -392,7 +392,7 @@ func TestRookAttacks(t *testing.T) {
 		board[core.D6] = core.NewSquare(core.Piece{Type: core.PAWN, Color: core.WHITE})
 		ctx := core.BoardContext{Board: &board}
 
-		got := rook.Attacks(make([]core.Position, 0, MAX_MOVES), core.D4, ctx)
+		got := rook.Attacks(make([]core.Position, 0, core.MAX_MOVES), core.D4, ctx)
 
 		testutil.AssertPositionsMatch(t, got, []core.Position{
 			// up stops at D6 (the blocker is included)
@@ -411,7 +411,7 @@ func TestRookAttacks(t *testing.T) {
 		board[core.D6] = core.NewSquare(core.Piece{Type: core.PAWN, Color: core.BLACK})
 		ctx := core.BoardContext{Board: &board}
 
-		got := rook.Attacks(make([]core.Position, 0, MAX_MOVES), core.D4, ctx)
+		got := rook.Attacks(make([]core.Position, 0, core.MAX_MOVES), core.D4, ctx)
 
 		testutil.AssertPositionsMatch(t, got, []core.Position{
 			core.D5, core.D6,
@@ -430,7 +430,7 @@ func TestRookAttacks(t *testing.T) {
 		board[core.E4] = core.NewSquare(core.Piece{Type: core.PAWN, Color: core.WHITE})
 		ctx := core.BoardContext{Board: &board}
 
-		got := rook.Attacks(make([]core.Position, 0, MAX_MOVES), core.D4, ctx)
+		got := rook.Attacks(make([]core.Position, 0, core.MAX_MOVES), core.D4, ctx)
 
 		testutil.AssertPositionsMatch(t, got, []core.Position{core.D5, core.D3, core.C4, core.E4})
 	})
@@ -441,7 +441,7 @@ func TestRookAttacks(t *testing.T) {
 		board[core.A3] = core.NewSquare(core.Piece{Type: core.PAWN, Color: core.WHITE})
 		ctx := core.BoardContext{Board: &board}
 
-		got := rook.Attacks(make([]core.Position, 0, MAX_MOVES), core.A1, ctx)
+		got := rook.Attacks(make([]core.Position, 0, core.MAX_MOVES), core.A1, ctx)
 
 		// Up line: A2, A3 (blocker). Right line unchanged.
 		testutil.AssertPositionsMatch(t, got, []core.Position{
@@ -486,7 +486,7 @@ func TestRookPseudoLegalMoves(t *testing.T) {
 		var board core.Board
 		ctx := core.MoveContext{BoardContext: core.BoardContext{Board: &board}, SideToMove: core.WHITE}
 
-		moves := rook.PseudoLegalMoves(make([]core.Move, 0, MAX_MOVES), core.D4, ctx)
+		moves := rook.PseudoLegalMoves(make([]core.Move, 0, core.MAX_MOVES), core.D4, ctx)
 
 		testutil.AssertPositionsMatch(t, destinations(moves), d4Empty)
 		testutil.AssertMoveCount(t, moves, 14)
@@ -499,7 +499,7 @@ func TestRookPseudoLegalMoves(t *testing.T) {
 		board[core.D6] = core.NewSquare(core.Piece{Type: core.PAWN, Color: core.BLACK})
 		ctx := core.MoveContext{BoardContext: core.BoardContext{Board: &board}, SideToMove: core.WHITE}
 
-		moves := rook.PseudoLegalMoves(make([]core.Move, 0, MAX_MOVES), core.D4, ctx)
+		moves := rook.PseudoLegalMoves(make([]core.Move, 0, core.MAX_MOVES), core.D4, ctx)
 
 		testutil.AssertPositionsMatch(t, destinations(moves), []core.Position{
 			// up stops at D6 (capture included)
@@ -535,7 +535,7 @@ func TestRookPseudoLegalMoves(t *testing.T) {
 		board[core.B4] = core.NewSquare(core.Piece{Type: core.KNIGHT, Color: core.BLACK})
 		ctx := core.MoveContext{BoardContext: core.BoardContext{Board: &board}, SideToMove: core.WHITE}
 
-		moves := rook.PseudoLegalMoves(make([]core.Move, 0, MAX_MOVES), core.D4, ctx)
+		moves := rook.PseudoLegalMoves(make([]core.Move, 0, core.MAX_MOVES), core.D4, ctx)
 
 		wantCaptures := map[core.Position]core.Piece{
 			core.D6: {Type: core.QUEEN, Color: core.BLACK},
@@ -564,7 +564,7 @@ func TestRookPseudoLegalMoves(t *testing.T) {
 		board[core.D6] = core.NewSquare(core.Piece{Type: core.PAWN, Color: core.WHITE})
 		ctx := core.MoveContext{BoardContext: core.BoardContext{Board: &board}, SideToMove: core.WHITE}
 
-		moves := rook.PseudoLegalMoves(make([]core.Move, 0, MAX_MOVES), core.D4, ctx)
+		moves := rook.PseudoLegalMoves(make([]core.Move, 0, core.MAX_MOVES), core.D4, ctx)
 
 		testutil.AssertPositionsMatch(t, destinations(moves), []core.Position{
 			// up stops BEFORE D6 (D6 excluded, nothing beyond)
@@ -584,7 +584,7 @@ func TestRookPseudoLegalMoves(t *testing.T) {
 		board[core.D6] = core.NewSquare(core.Piece{Type: core.PAWN, Color: core.BLACK})
 		ctx := core.MoveContext{BoardContext: core.BoardContext{Board: &board}, SideToMove: core.WHITE}
 
-		moves := rook.PseudoLegalMoves(make([]core.Move, 0, MAX_MOVES), core.D4, ctx)
+		moves := rook.PseudoLegalMoves(make([]core.Move, 0, core.MAX_MOVES), core.D4, ctx)
 
 		// Up line is empty (D5 excluded, D6 unreachable). Other lines unchanged.
 		testutil.AssertPositionsMatch(t, destinations(moves), []core.Position{
@@ -602,7 +602,7 @@ func TestRookPseudoLegalMoves(t *testing.T) {
 		board[core.D8] = core.NewSquare(core.Piece{Type: core.ROOK, Color: core.BLACK})
 		ctx := core.MoveContext{BoardContext: core.BoardContext{Board: &board}, SideToMove: core.WHITE}
 
-		moves := rook.PseudoLegalMoves(make([]core.Move, 0, MAX_MOVES), core.D4, ctx)
+		moves := rook.PseudoLegalMoves(make([]core.Move, 0, core.MAX_MOVES), core.D4, ctx)
 
 		testutil.AssertPositionsMatch(t, destinations(moves), []core.Position{
 			// up: D5 (quiet), D6 (capture). D8 unreachable.
@@ -621,7 +621,7 @@ func TestRookPseudoLegalMoves(t *testing.T) {
 		board[core.D8] = core.NewSquare(core.Piece{Type: core.ROOK, Color: core.WHITE})
 		ctx := core.MoveContext{BoardContext: core.BoardContext{Board: &board}, SideToMove: core.WHITE}
 
-		moves := rook.PseudoLegalMoves(make([]core.Move, 0, MAX_MOVES), core.D4, ctx)
+		moves := rook.PseudoLegalMoves(make([]core.Move, 0, core.MAX_MOVES), core.D4, ctx)
 
 		testutil.AssertPositionsMatch(t, destinations(moves), []core.Position{
 			core.D5, core.D6,
@@ -641,7 +641,7 @@ func TestRookPseudoLegalMoves(t *testing.T) {
 		board[core.E4] = core.NewSquare(core.Piece{Type: core.PAWN, Color: core.WHITE})
 		ctx := core.MoveContext{BoardContext: core.BoardContext{Board: &board}, SideToMove: core.WHITE}
 
-		moves := rook.PseudoLegalMoves(make([]core.Move, 0, MAX_MOVES), core.D4, ctx)
+		moves := rook.PseudoLegalMoves(make([]core.Move, 0, core.MAX_MOVES), core.D4, ctx)
 
 		// Only the two enemy captures (D5, C4); the two own pieces block.
 		testutil.AssertPositionsMatch(t, destinations(moves), []core.Position{core.D5, core.C4})
@@ -655,7 +655,7 @@ func TestRookPseudoLegalMoves(t *testing.T) {
 		board[core.E4] = core.NewSquare(core.Piece{Type: core.PAWN, Color: core.WHITE})
 		ctx := core.MoveContext{BoardContext: core.BoardContext{Board: &board}, SideToMove: core.WHITE}
 
-		moves := rook.PseudoLegalMoves(make([]core.Move, 0, MAX_MOVES), core.D4, ctx)
+		moves := rook.PseudoLegalMoves(make([]core.Move, 0, core.MAX_MOVES), core.D4, ctx)
 
 		testutil.AssertNoMoves(t, moves)
 	})
@@ -667,7 +667,7 @@ func TestRookPseudoLegalMoves(t *testing.T) {
 		board[core.D6] = core.NewSquare(core.Piece{Type: core.PAWN, Color: core.WHITE})
 		ctx := core.MoveContext{BoardContext: core.BoardContext{Board: &board}, SideToMove: core.BLACK}
 
-		moves := rook.PseudoLegalMoves(make([]core.Move, 0, MAX_MOVES), core.D4, ctx)
+		moves := rook.PseudoLegalMoves(make([]core.Move, 0, core.MAX_MOVES), core.D4, ctx)
 
 		testutil.AssertPositionsMatch(t, destinations(moves), []core.Position{
 			core.D5, core.D6,
@@ -694,7 +694,7 @@ func TestRookPseudoLegalMoves(t *testing.T) {
 		board[core.D6] = core.NewSquare(core.Piece{Type: core.PAWN, Color: core.BLACK})
 		ctx := core.MoveContext{BoardContext: core.BoardContext{Board: &board}, SideToMove: core.BLACK}
 
-		moves := rook.PseudoLegalMoves(make([]core.Move, 0, MAX_MOVES), core.D4, ctx)
+		moves := rook.PseudoLegalMoves(make([]core.Move, 0, core.MAX_MOVES), core.D4, ctx)
 
 		testutil.AssertPositionsMatch(t, destinations(moves), []core.Position{
 			core.D5, // up stops before D6
@@ -711,7 +711,7 @@ func TestRookPseudoLegalMoves(t *testing.T) {
 		var board core.Board
 		ctx := core.MoveContext{BoardContext: core.BoardContext{Board: &board}, SideToMove: core.WHITE}
 
-		moves := rook.PseudoLegalMoves(make([]core.Move, 0, MAX_MOVES), core.D4, ctx)
+		moves := rook.PseudoLegalMoves(make([]core.Move, 0, core.MAX_MOVES), core.D4, ctx)
 
 		mover := core.Piece{Type: core.ROOK, Color: core.WHITE}
 		for _, m := range moves {

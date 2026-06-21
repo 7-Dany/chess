@@ -56,8 +56,6 @@ type Piece interface {
 	PseudoLegalMoves(moves []core.Move, from core.Position, ctx core.MoveContext) []core.Move
 }
 
-const MAX_MOVES uint8 = 32
-
 type Pieces struct {
 	pawn   Pawn
 	knight Knight

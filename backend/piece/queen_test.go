@@ -279,7 +279,7 @@ func TestQueenAttacks(t *testing.T) {
 		var board core.Board
 		ctx := core.BoardContext{Board: &board}
 
-		got := queen.Attacks(make([]core.Position, 0, MAX_MOVES), core.D4, ctx)
+		got := queen.Attacks(make([]core.Position, 0, core.MAX_MOVES), core.D4, ctx)
 
 		testutil.AssertPositionsMatch(t, got, []core.Position{
 			// up: D5 D6 D7 D8
@@ -306,7 +306,7 @@ func TestQueenAttacks(t *testing.T) {
 		var board core.Board
 		ctx := core.BoardContext{Board: &board}
 
-		got := queen.Attacks(make([]core.Position, 0, MAX_MOVES), core.A1, ctx)
+		got := queen.Attacks(make([]core.Position, 0, core.MAX_MOVES), core.A1, ctx)
 
 		testutil.AssertPositionsMatch(t, got, []core.Position{
 			// up the file: A2 A3 A4 A5 A6 A7 A8
@@ -322,7 +322,7 @@ func TestQueenAttacks(t *testing.T) {
 		var board core.Board
 		ctx := core.BoardContext{Board: &board}
 
-		got := queen.Attacks(make([]core.Position, 0, MAX_MOVES), core.H1, ctx)
+		got := queen.Attacks(make([]core.Position, 0, core.MAX_MOVES), core.H1, ctx)
 
 		testutil.AssertPositionsMatch(t, got, []core.Position{
 			// up: H2 H3 H4 H5 H6 H7 H8
@@ -338,7 +338,7 @@ func TestQueenAttacks(t *testing.T) {
 		var board core.Board
 		ctx := core.BoardContext{Board: &board}
 
-		got := queen.Attacks(make([]core.Position, 0, MAX_MOVES), core.A8, ctx)
+		got := queen.Attacks(make([]core.Position, 0, core.MAX_MOVES), core.A8, ctx)
 
 		testutil.AssertPositionsMatch(t, got, []core.Position{
 			// down: A7 A6 A5 A4 A3 A2 A1
@@ -354,7 +354,7 @@ func TestQueenAttacks(t *testing.T) {
 		var board core.Board
 		ctx := core.BoardContext{Board: &board}
 
-		got := queen.Attacks(make([]core.Position, 0, MAX_MOVES), core.H8, ctx)
+		got := queen.Attacks(make([]core.Position, 0, core.MAX_MOVES), core.H8, ctx)
 
 		testutil.AssertPositionsMatch(t, got, []core.Position{
 			// down: H7 H6 H5 H4 H3 H2 H1
@@ -372,7 +372,7 @@ func TestQueenAttacks(t *testing.T) {
 		var board core.Board
 		ctx := core.BoardContext{Board: &board}
 
-		got := queen.Attacks(make([]core.Position, 0, MAX_MOVES), core.A4, ctx)
+		got := queen.Attacks(make([]core.Position, 0, core.MAX_MOVES), core.A4, ctx)
 
 		testutil.AssertPositionsMatch(t, got, []core.Position{
 			// up: A5 A6 A7 A8
@@ -396,7 +396,7 @@ func TestQueenAttacks(t *testing.T) {
 		board[core.D6] = core.NewSquare(core.Piece{Type: core.PAWN, Color: core.WHITE})
 		ctx := core.BoardContext{Board: &board}
 
-		got := queen.Attacks(make([]core.Position, 0, MAX_MOVES), core.D4, ctx)
+		got := queen.Attacks(make([]core.Position, 0, core.MAX_MOVES), core.D4, ctx)
 
 		testutil.AssertPositionsMatch(t, got, []core.Position{
 			// up stops at D6 (the blocker is included)
@@ -419,7 +419,7 @@ func TestQueenAttacks(t *testing.T) {
 		board[core.D6] = core.NewSquare(core.Piece{Type: core.PAWN, Color: core.BLACK})
 		ctx := core.BoardContext{Board: &board}
 
-		got := queen.Attacks(make([]core.Position, 0, MAX_MOVES), core.D4, ctx)
+		got := queen.Attacks(make([]core.Position, 0, core.MAX_MOVES), core.D4, ctx)
 
 		testutil.AssertPositionsMatch(t, got, []core.Position{
 			core.D5, core.D6,
@@ -446,7 +446,7 @@ func TestQueenAttacks(t *testing.T) {
 		board[core.C3] = core.NewSquare(core.Piece{Type: core.PAWN, Color: core.WHITE})
 		ctx := core.BoardContext{Board: &board}
 
-		got := queen.Attacks(make([]core.Position, 0, MAX_MOVES), core.D4, ctx)
+		got := queen.Attacks(make([]core.Position, 0, core.MAX_MOVES), core.D4, ctx)
 
 		testutil.AssertPositionsMatch(t, got, []core.Position{
 			core.D5, core.D3, core.C4, core.E4, core.E5, core.E3, core.C5, core.C3,
@@ -460,7 +460,7 @@ func TestQueenAttacks(t *testing.T) {
 		board[core.A3] = core.NewSquare(core.Piece{Type: core.PAWN, Color: core.WHITE})
 		ctx := core.BoardContext{Board: &board}
 
-		got := queen.Attacks(make([]core.Position, 0, MAX_MOVES), core.A1, ctx)
+		got := queen.Attacks(make([]core.Position, 0, core.MAX_MOVES), core.A1, ctx)
 
 		testutil.AssertPositionsMatch(t, got, []core.Position{
 			// up stops at A3: A2, A3
@@ -512,7 +512,7 @@ func TestQueenPseudoLegalMoves(t *testing.T) {
 		var board core.Board
 		ctx := core.MoveContext{BoardContext: core.BoardContext{Board: &board}, SideToMove: core.WHITE}
 
-		moves := queen.PseudoLegalMoves(make([]core.Move, 0, MAX_MOVES), core.D4, ctx)
+		moves := queen.PseudoLegalMoves(make([]core.Move, 0, core.MAX_MOVES), core.D4, ctx)
 
 		testutil.AssertPositionsMatch(t, destinations(moves), d4Empty)
 		testutil.AssertMoveCount(t, moves, 27)
@@ -525,7 +525,7 @@ func TestQueenPseudoLegalMoves(t *testing.T) {
 		board[core.D6] = core.NewSquare(core.Piece{Type: core.PAWN, Color: core.BLACK})
 		ctx := core.MoveContext{BoardContext: core.BoardContext{Board: &board}, SideToMove: core.WHITE}
 
-		moves := queen.PseudoLegalMoves(make([]core.Move, 0, MAX_MOVES), core.D4, ctx)
+		moves := queen.PseudoLegalMoves(make([]core.Move, 0, core.MAX_MOVES), core.D4, ctx)
 
 		// Replace D6 in d4Empty with just D5, D6 (up stops at D6).
 		want := []core.Position{
@@ -565,7 +565,7 @@ func TestQueenPseudoLegalMoves(t *testing.T) {
 		board[core.B6] = core.NewSquare(core.Piece{Type: core.KNIGHT, Color: core.BLACK})
 		ctx := core.MoveContext{BoardContext: core.BoardContext{Board: &board}, SideToMove: core.WHITE}
 
-		moves := queen.PseudoLegalMoves(make([]core.Move, 0, MAX_MOVES), core.D4, ctx)
+		moves := queen.PseudoLegalMoves(make([]core.Move, 0, core.MAX_MOVES), core.D4, ctx)
 
 		wantCaptures := map[core.Position]core.Piece{
 			core.D6: {Type: core.QUEEN, Color: core.BLACK},
@@ -594,7 +594,7 @@ func TestQueenPseudoLegalMoves(t *testing.T) {
 		board[core.D6] = core.NewSquare(core.Piece{Type: core.PAWN, Color: core.WHITE})
 		ctx := core.MoveContext{BoardContext: core.BoardContext{Board: &board}, SideToMove: core.WHITE}
 
-		moves := queen.PseudoLegalMoves(make([]core.Move, 0, MAX_MOVES), core.D4, ctx)
+		moves := queen.PseudoLegalMoves(make([]core.Move, 0, core.MAX_MOVES), core.D4, ctx)
 
 		// Up ray stops BEFORE D6 (D6 excluded, nothing beyond).
 		want := []core.Position{
@@ -618,7 +618,7 @@ func TestQueenPseudoLegalMoves(t *testing.T) {
 		board[core.D6] = core.NewSquare(core.Piece{Type: core.PAWN, Color: core.BLACK})
 		ctx := core.MoveContext{BoardContext: core.BoardContext{Board: &board}, SideToMove: core.WHITE}
 
-		moves := queen.PseudoLegalMoves(make([]core.Move, 0, MAX_MOVES), core.D4, ctx)
+		moves := queen.PseudoLegalMoves(make([]core.Move, 0, core.MAX_MOVES), core.D4, ctx)
 
 		// Up ray is empty (D5 excluded, D6 unreachable). Other rays unchanged.
 		want := []core.Position{
@@ -641,7 +641,7 @@ func TestQueenPseudoLegalMoves(t *testing.T) {
 		board[core.D8] = core.NewSquare(core.Piece{Type: core.ROOK, Color: core.BLACK})
 		ctx := core.MoveContext{BoardContext: core.BoardContext{Board: &board}, SideToMove: core.WHITE}
 
-		moves := queen.PseudoLegalMoves(make([]core.Move, 0, MAX_MOVES), core.D4, ctx)
+		moves := queen.PseudoLegalMoves(make([]core.Move, 0, core.MAX_MOVES), core.D4, ctx)
 
 		want := []core.Position{
 			core.D5, core.D6, // up: D5 (quiet), D6 (capture). D8 unreachable.
@@ -664,7 +664,7 @@ func TestQueenPseudoLegalMoves(t *testing.T) {
 		board[core.D8] = core.NewSquare(core.Piece{Type: core.ROOK, Color: core.WHITE})
 		ctx := core.MoveContext{BoardContext: core.BoardContext{Board: &board}, SideToMove: core.WHITE}
 
-		moves := queen.PseudoLegalMoves(make([]core.Move, 0, MAX_MOVES), core.D4, ctx)
+		moves := queen.PseudoLegalMoves(make([]core.Move, 0, core.MAX_MOVES), core.D4, ctx)
 
 		want := []core.Position{
 			core.D5, core.D6,
@@ -697,7 +697,7 @@ func TestQueenPseudoLegalMoves(t *testing.T) {
 		board[core.C3] = core.NewSquare(core.Piece{Type: core.PAWN, Color: core.BLACK})
 		ctx := core.MoveContext{BoardContext: core.BoardContext{Board: &board}, SideToMove: core.WHITE}
 
-		moves := queen.PseudoLegalMoves(make([]core.Move, 0, MAX_MOVES), core.D4, ctx)
+		moves := queen.PseudoLegalMoves(make([]core.Move, 0, core.MAX_MOVES), core.D4, ctx)
 
 		// Only the 4 enemy captures (D5, E4, E5, C3); the 4 own pieces block.
 		testutil.AssertPositionsMatch(t, destinations(moves),
@@ -716,7 +716,7 @@ func TestQueenPseudoLegalMoves(t *testing.T) {
 		board[core.C3] = core.NewSquare(core.Piece{Type: core.PAWN, Color: core.WHITE})
 		ctx := core.MoveContext{BoardContext: core.BoardContext{Board: &board}, SideToMove: core.WHITE}
 
-		moves := queen.PseudoLegalMoves(make([]core.Move, 0, MAX_MOVES), core.D4, ctx)
+		moves := queen.PseudoLegalMoves(make([]core.Move, 0, core.MAX_MOVES), core.D4, ctx)
 
 		testutil.AssertNoMoves(t, moves)
 	})
@@ -728,7 +728,7 @@ func TestQueenPseudoLegalMoves(t *testing.T) {
 		board[core.D6] = core.NewSquare(core.Piece{Type: core.PAWN, Color: core.WHITE})
 		ctx := core.MoveContext{BoardContext: core.BoardContext{Board: &board}, SideToMove: core.BLACK}
 
-		moves := queen.PseudoLegalMoves(make([]core.Move, 0, MAX_MOVES), core.D4, ctx)
+		moves := queen.PseudoLegalMoves(make([]core.Move, 0, core.MAX_MOVES), core.D4, ctx)
 
 		want := []core.Position{
 			core.D5, core.D6,
@@ -760,7 +760,7 @@ func TestQueenPseudoLegalMoves(t *testing.T) {
 		board[core.D6] = core.NewSquare(core.Piece{Type: core.PAWN, Color: core.BLACK})
 		ctx := core.MoveContext{BoardContext: core.BoardContext{Board: &board}, SideToMove: core.BLACK}
 
-		moves := queen.PseudoLegalMoves(make([]core.Move, 0, MAX_MOVES), core.D4, ctx)
+		moves := queen.PseudoLegalMoves(make([]core.Move, 0, core.MAX_MOVES), core.D4, ctx)
 
 		want := []core.Position{
 			core.D5, // up stops before D6
@@ -781,7 +781,7 @@ func TestQueenPseudoLegalMoves(t *testing.T) {
 		var board core.Board
 		ctx := core.MoveContext{BoardContext: core.BoardContext{Board: &board}, SideToMove: core.WHITE}
 
-		moves := queen.PseudoLegalMoves(make([]core.Move, 0, MAX_MOVES), core.D4, ctx)
+		moves := queen.PseudoLegalMoves(make([]core.Move, 0, core.MAX_MOVES), core.D4, ctx)
 
 		mover := core.Piece{Type: core.QUEEN, Color: core.WHITE}
 		for _, m := range moves {

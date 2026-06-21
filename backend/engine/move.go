@@ -2,7 +2,6 @@ package engine
 
 import (
 	"github.com/7-Dany/chess/core"
-	"github.com/7-Dany/chess/piece"
 )
 
 func (e *DefaultEngine) GetLegalMoves(moves []core.Move, position core.Position, ctx core.TurnContext) []core.Move {
@@ -35,7 +34,7 @@ func (e *DefaultEngine) GetLegalMoves(moves []core.Move, position core.Position,
 
 func (e *DefaultEngine) HasAnyLegalMoves(ctx core.TurnContext) bool {
 	// Stack allocated scratch buffer [moves], reused for every piece on the board.
-	var moves [piece.MAX_MOVES]core.Move
+	var moves [core.MAX_MOVES]core.Move
 
 	current := ctx.SideToMove
 	enemy := current.Opponent()

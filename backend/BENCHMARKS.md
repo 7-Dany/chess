@@ -151,6 +151,6 @@ nodes-per-second.
 ## Buffer-size contract
 
 Callers of `GetPseudoLegalMoves` / `GetLegalMoves` / `PseudoLegalMoves` /
-`Attacks` must pass a buffer of at least (== `piece.MAX_MOVES` == 32) to guarantee no allocation. The largest
+`Attacks` must pass a buffer of at least (== `core.MAX_MOVES` == 32) to guarantee no allocation. The largest
 single-piece move set is a queen on an open board (27 moves); a king with
 both castling moves adds at most 2. 32 covers both with headroom.

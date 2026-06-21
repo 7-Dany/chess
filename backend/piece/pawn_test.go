@@ -187,7 +187,7 @@ func TestPawnAttacks(t *testing.T) {
 	t.Run("a white pawn on E4 threatens D5 and F5 (the two squares diagonally ahead)", func(t *testing.T) {
 		_, ctx := pawnCtx(core.E4, core.WHITE)
 
-		got := pawn.Attacks(make([]core.Position, 0, MAX_MOVES), core.E4, ctx)
+		got := pawn.Attacks(make([]core.Position, 0, core.MAX_MOVES), core.E4, ctx)
 
 		testutil.AssertPositionsMatch(t, got, []core.Position{core.D5, core.F5})
 	})
@@ -195,7 +195,7 @@ func TestPawnAttacks(t *testing.T) {
 	t.Run("a black pawn on E4 threatens D3 and F3 (the two squares diagonally ahead)", func(t *testing.T) {
 		_, ctx := pawnCtx(core.E4, core.BLACK)
 
-		got := pawn.Attacks(make([]core.Position, 0, MAX_MOVES), core.E4, ctx)
+		got := pawn.Attacks(make([]core.Position, 0, core.MAX_MOVES), core.E4, ctx)
 
 		testutil.AssertPositionsMatch(t, got, []core.Position{core.D3, core.F3})
 	})
@@ -204,7 +204,7 @@ func TestPawnAttacks(t *testing.T) {
 	t.Run("a white pawn on A4 threatens only B5 (no left diagonal)", func(t *testing.T) {
 		_, ctx := pawnCtx(core.A4, core.WHITE)
 
-		got := pawn.Attacks(make([]core.Position, 0, MAX_MOVES), core.A4, ctx)
+		got := pawn.Attacks(make([]core.Position, 0, core.MAX_MOVES), core.A4, ctx)
 
 		testutil.AssertPositionsMatch(t, got, []core.Position{core.B5})
 	})
@@ -212,7 +212,7 @@ func TestPawnAttacks(t *testing.T) {
 	t.Run("a white pawn on H4 threatens only G5 (no right diagonal)", func(t *testing.T) {
 		_, ctx := pawnCtx(core.H4, core.WHITE)
 
-		got := pawn.Attacks(make([]core.Position, 0, MAX_MOVES), core.H4, ctx)
+		got := pawn.Attacks(make([]core.Position, 0, core.MAX_MOVES), core.H4, ctx)
 
 		testutil.AssertPositionsMatch(t, got, []core.Position{core.G5})
 	})
@@ -220,7 +220,7 @@ func TestPawnAttacks(t *testing.T) {
 	t.Run("a black pawn on A4 threatens only B3 (no left diagonal)", func(t *testing.T) {
 		_, ctx := pawnCtx(core.A4, core.BLACK)
 
-		got := pawn.Attacks(make([]core.Position, 0, MAX_MOVES), core.A4, ctx)
+		got := pawn.Attacks(make([]core.Position, 0, core.MAX_MOVES), core.A4, ctx)
 
 		testutil.AssertPositionsMatch(t, got, []core.Position{core.B3})
 	})
@@ -228,7 +228,7 @@ func TestPawnAttacks(t *testing.T) {
 	t.Run("a black pawn on H4 threatens only G3 (no right diagonal)", func(t *testing.T) {
 		_, ctx := pawnCtx(core.H4, core.BLACK)
 
-		got := pawn.Attacks(make([]core.Position, 0, MAX_MOVES), core.H4, ctx)
+		got := pawn.Attacks(make([]core.Position, 0, core.MAX_MOVES), core.H4, ctx)
 
 		testutil.AssertPositionsMatch(t, got, []core.Position{core.G3})
 	})
@@ -242,7 +242,7 @@ func TestPawnAttacks(t *testing.T) {
 		board[core.F5] = core.NewSquare(core.Piece{Type: core.ROOK, Color: core.WHITE}) // friendly on right diagonal
 		ctx := core.BoardContext{Board: &board}
 
-		got := pawn.Attacks(make([]core.Position, 0, MAX_MOVES), core.E4, ctx)
+		got := pawn.Attacks(make([]core.Position, 0, core.MAX_MOVES), core.E4, ctx)
 
 		// Both diagonals returned regardless of occupancy.
 		testutil.AssertPositionsMatch(t, got, []core.Position{core.D5, core.F5})
@@ -284,7 +284,7 @@ func TestPawnPseudoLegalMoves(t *testing.T) {
 		board[core.E2] = core.NewSquare(core.Piece{Type: core.PAWN, Color: core.WHITE})
 		ctx := core.MoveContext{BoardContext: core.BoardContext{Board: &board}, SideToMove: core.WHITE}
 
-		moves := pawn.PseudoLegalMoves(make([]core.Move, 0, MAX_MOVES), core.E2, ctx)
+		moves := pawn.PseudoLegalMoves(make([]core.Move, 0, core.MAX_MOVES), core.E2, ctx)
 
 		testutil.AssertPositionsMatch(t, destinations(moves), []core.Position{core.E3, core.E4})
 		testutil.AssertMoveCount(t, moves, 2)
@@ -295,7 +295,7 @@ func TestPawnPseudoLegalMoves(t *testing.T) {
 		board[core.E7] = core.NewSquare(core.Piece{Type: core.PAWN, Color: core.BLACK})
 		ctx := core.MoveContext{BoardContext: core.BoardContext{Board: &board}, SideToMove: core.BLACK}
 
-		moves := pawn.PseudoLegalMoves(make([]core.Move, 0, MAX_MOVES), core.E7, ctx)
+		moves := pawn.PseudoLegalMoves(make([]core.Move, 0, core.MAX_MOVES), core.E7, ctx)
 
 		testutil.AssertPositionsMatch(t, destinations(moves), []core.Position{core.E6, core.E5})
 		testutil.AssertMoveCount(t, moves, 2)
@@ -307,7 +307,7 @@ func TestPawnPseudoLegalMoves(t *testing.T) {
 		board[core.E3] = core.NewSquare(core.Piece{Type: core.PAWN, Color: core.WHITE})
 		ctx := core.MoveContext{BoardContext: core.BoardContext{Board: &board}, SideToMove: core.WHITE}
 
-		moves := pawn.PseudoLegalMoves(make([]core.Move, 0, MAX_MOVES), core.E3, ctx)
+		moves := pawn.PseudoLegalMoves(make([]core.Move, 0, core.MAX_MOVES), core.E3, ctx)
 
 		testutil.AssertPositionsMatch(t, destinations(moves), []core.Position{core.E4})
 		testutil.AssertMoveCount(t, moves, 1)
@@ -320,7 +320,7 @@ func TestPawnPseudoLegalMoves(t *testing.T) {
 		board[core.E3] = core.NewSquare(core.Piece{Type: core.PAWN, Color: core.BLACK})
 		ctx := core.MoveContext{BoardContext: core.BoardContext{Board: &board}, SideToMove: core.WHITE}
 
-		moves := pawn.PseudoLegalMoves(make([]core.Move, 0, MAX_MOVES), core.E2, ctx)
+		moves := pawn.PseudoLegalMoves(make([]core.Move, 0, core.MAX_MOVES), core.E2, ctx)
 
 		// No push moves (E3 blocked). No captures either (E3 is same file, not diagonal).
 		testutil.AssertNoMoves(t, moves)
@@ -333,7 +333,7 @@ func TestPawnPseudoLegalMoves(t *testing.T) {
 		board[core.E4] = core.NewSquare(core.Piece{Type: core.PAWN, Color: core.BLACK})
 		ctx := core.MoveContext{BoardContext: core.BoardContext{Board: &board}, SideToMove: core.WHITE}
 
-		moves := pawn.PseudoLegalMoves(make([]core.Move, 0, MAX_MOVES), core.E2, ctx)
+		moves := pawn.PseudoLegalMoves(make([]core.Move, 0, core.MAX_MOVES), core.E2, ctx)
 
 		testutil.AssertPositionsMatch(t, destinations(moves), []core.Position{core.E3})
 		testutil.AssertMoveCount(t, moves, 1)
@@ -350,7 +350,7 @@ func TestPawnPseudoLegalMoves(t *testing.T) {
 		board[core.F5] = core.NewSquare(core.Piece{Type: core.PAWN, Color: core.BLACK})
 		ctx := core.MoveContext{BoardContext: core.BoardContext{Board: &board}, SideToMove: core.WHITE}
 
-		moves := pawn.PseudoLegalMoves(make([]core.Move, 0, MAX_MOVES), core.E4, ctx)
+		moves := pawn.PseudoLegalMoves(make([]core.Move, 0, core.MAX_MOVES), core.E4, ctx)
 
 		testutil.AssertPositionsMatch(t, destinations(moves), []core.Position{core.E5, core.F5})
 
@@ -372,7 +372,7 @@ func TestPawnPseudoLegalMoves(t *testing.T) {
 		board[core.D5] = core.NewSquare(core.Piece{Type: core.PAWN, Color: core.BLACK})
 		ctx := core.MoveContext{BoardContext: core.BoardContext{Board: &board}, SideToMove: core.WHITE}
 
-		moves := pawn.PseudoLegalMoves(make([]core.Move, 0, MAX_MOVES), core.E4, ctx)
+		moves := pawn.PseudoLegalMoves(make([]core.Move, 0, core.MAX_MOVES), core.E4, ctx)
 
 		testutil.AssertPositionsMatch(t, destinations(moves), []core.Position{core.E5, core.D5})
 	})
@@ -384,7 +384,7 @@ func TestPawnPseudoLegalMoves(t *testing.T) {
 		board[core.F5] = core.NewSquare(core.Piece{Type: core.PAWN, Color: core.BLACK})
 		ctx := core.MoveContext{BoardContext: core.BoardContext{Board: &board}, SideToMove: core.WHITE}
 
-		moves := pawn.PseudoLegalMoves(make([]core.Move, 0, MAX_MOVES), core.E4, ctx)
+		moves := pawn.PseudoLegalMoves(make([]core.Move, 0, core.MAX_MOVES), core.E4, ctx)
 
 		// Push E5 + captures D5, F5.
 		testutil.AssertPositionsMatch(t, destinations(moves), []core.Position{core.E5, core.D5, core.F5})
@@ -398,7 +398,7 @@ func TestPawnPseudoLegalMoves(t *testing.T) {
 		board[core.F5] = core.NewSquare(core.Piece{Type: core.PAWN, Color: core.WHITE})
 		ctx := core.MoveContext{BoardContext: core.BoardContext{Board: &board}, SideToMove: core.WHITE}
 
-		moves := pawn.PseudoLegalMoves(make([]core.Move, 0, MAX_MOVES), core.E4, ctx)
+		moves := pawn.PseudoLegalMoves(make([]core.Move, 0, core.MAX_MOVES), core.E4, ctx)
 
 		testutil.AssertPositionsMatch(t, destinations(moves), []core.Position{core.E5})
 	})
@@ -411,7 +411,7 @@ func TestPawnPseudoLegalMoves(t *testing.T) {
 		board[core.F5] = core.NewSquare(core.Piece{Type: core.ROOK, Color: core.BLACK})
 		ctx := core.MoveContext{BoardContext: core.BoardContext{Board: &board}, SideToMove: core.WHITE}
 
-		moves := pawn.PseudoLegalMoves(make([]core.Move, 0, MAX_MOVES), core.E4, ctx)
+		moves := pawn.PseudoLegalMoves(make([]core.Move, 0, core.MAX_MOVES), core.E4, ctx)
 
 		wantCaptures := map[core.Position]core.Piece{
 			core.D5: {Type: core.QUEEN, Color: core.BLACK},
@@ -442,7 +442,7 @@ func TestPawnPseudoLegalMoves(t *testing.T) {
 			EnPassantTarget: core.F6,
 		}
 
-		moves := pawn.PseudoLegalMoves(make([]core.Move, 0, MAX_MOVES), core.E5, ctx)
+		moves := pawn.PseudoLegalMoves(make([]core.Move, 0, core.MAX_MOVES), core.E5, ctx)
 
 		// Push E6 + en passant capture F6.
 		testutil.AssertPositionsMatch(t, destinations(moves), []core.Position{core.E6, core.F6})
@@ -473,7 +473,7 @@ func TestPawnPseudoLegalMoves(t *testing.T) {
 			EnPassantTarget: core.D6,
 		}
 
-		moves := pawn.PseudoLegalMoves(make([]core.Move, 0, MAX_MOVES), core.E5, ctx)
+		moves := pawn.PseudoLegalMoves(make([]core.Move, 0, core.MAX_MOVES), core.E5, ctx)
 
 		testutil.AssertPositionsMatch(t, destinations(moves), []core.Position{core.E6, core.D6})
 	})
@@ -489,7 +489,7 @@ func TestPawnPseudoLegalMoves(t *testing.T) {
 			EnPassantTarget: core.D3,
 		}
 
-		moves := pawn.PseudoLegalMoves(make([]core.Move, 0, MAX_MOVES), core.E4, ctx)
+		moves := pawn.PseudoLegalMoves(make([]core.Move, 0, core.MAX_MOVES), core.E4, ctx)
 
 		// Push E3 + en passant capture D3.
 		testutil.AssertPositionsMatch(t, destinations(moves), []core.Position{core.E3, core.D3})
@@ -518,7 +518,7 @@ func TestPawnPseudoLegalMoves(t *testing.T) {
 			EnPassantTarget: core.E6, // directly ahead, not diagonal
 		}
 
-		moves := pawn.PseudoLegalMoves(make([]core.Move, 0, MAX_MOVES), core.E5, ctx)
+		moves := pawn.PseudoLegalMoves(make([]core.Move, 0, core.MAX_MOVES), core.E5, ctx)
 
 		// Only the push to E6 (which happens to be the EP target, but it's
 		// a push not a capture).
@@ -541,7 +541,7 @@ func TestPawnPseudoLegalMoves(t *testing.T) {
 		board[core.E7] = core.NewSquare(core.Piece{Type: core.PAWN, Color: core.WHITE})
 		ctx := core.MoveContext{BoardContext: core.BoardContext{Board: &board}, SideToMove: core.WHITE}
 
-		moves := pawn.PseudoLegalMoves(make([]core.Move, 0, MAX_MOVES), core.E7, ctx)
+		moves := pawn.PseudoLegalMoves(make([]core.Move, 0, core.MAX_MOVES), core.E7, ctx)
 
 		// 4 moves, all to E8, all type PROMOTION, with PromoteTo = Q/R/B/N.
 		testutil.AssertMoveCount(t, moves, 4)
@@ -572,7 +572,7 @@ func TestPawnPseudoLegalMoves(t *testing.T) {
 		board[core.E2] = core.NewSquare(core.Piece{Type: core.PAWN, Color: core.BLACK})
 		ctx := core.MoveContext{BoardContext: core.BoardContext{Board: &board}, SideToMove: core.BLACK}
 
-		moves := pawn.PseudoLegalMoves(make([]core.Move, 0, MAX_MOVES), core.E2, ctx)
+		moves := pawn.PseudoLegalMoves(make([]core.Move, 0, core.MAX_MOVES), core.E2, ctx)
 
 		testutil.AssertMoveCount(t, moves, 4)
 		for _, m := range moves {
@@ -592,7 +592,7 @@ func TestPawnPseudoLegalMoves(t *testing.T) {
 		board[core.D8] = core.NewSquare(core.Piece{Type: core.ROOK, Color: core.BLACK})
 		ctx := core.MoveContext{BoardContext: core.BoardContext{Board: &board}, SideToMove: core.WHITE}
 
-		moves := pawn.PseudoLegalMoves(make([]core.Move, 0, MAX_MOVES), core.E7, ctx)
+		moves := pawn.PseudoLegalMoves(make([]core.Move, 0, core.MAX_MOVES), core.E7, ctx)
 
 		// 4 forward promotions (E8) + 4 capture promotions (D8) = 8 total.
 		testutil.AssertMoveCount(t, moves, 8)
@@ -623,7 +623,7 @@ func TestPawnPseudoLegalMoves(t *testing.T) {
 		board[core.F8] = core.NewSquare(core.Piece{Type: core.KNIGHT, Color: core.BLACK})
 		ctx := core.MoveContext{BoardContext: core.BoardContext{Board: &board}, SideToMove: core.WHITE}
 
-		moves := pawn.PseudoLegalMoves(make([]core.Move, 0, MAX_MOVES), core.E7, ctx)
+		moves := pawn.PseudoLegalMoves(make([]core.Move, 0, core.MAX_MOVES), core.E7, ctx)
 
 		// 4 forward (E8) + 4 capture D8 + 4 capture F8 = 12.
 		testutil.AssertMoveCount(t, moves, 12)
@@ -648,7 +648,7 @@ func TestPawnPseudoLegalMoves(t *testing.T) {
 		board[core.D8] = core.NewSquare(core.Piece{Type: core.QUEEN, Color: core.BLACK}) // capturable
 		ctx := core.MoveContext{BoardContext: core.BoardContext{Board: &board}, SideToMove: core.WHITE}
 
-		moves := pawn.PseudoLegalMoves(make([]core.Move, 0, MAX_MOVES), core.E7, ctx)
+		moves := pawn.PseudoLegalMoves(make([]core.Move, 0, core.MAX_MOVES), core.E7, ctx)
 
 		// 4 capture-promotions to D8 only (forward blocked, F8 empty).
 		testutil.AssertMoveCount(t, moves, 4)
@@ -666,7 +666,7 @@ func TestPawnPseudoLegalMoves(t *testing.T) {
 		board[core.E8] = core.NewSquare(core.Piece{Type: core.ROOK, Color: core.WHITE}) // own, blocks forward
 		ctx := core.MoveContext{BoardContext: core.BoardContext{Board: &board}, SideToMove: core.WHITE}
 
-		moves := pawn.PseudoLegalMoves(make([]core.Move, 0, MAX_MOVES), core.E7, ctx)
+		moves := pawn.PseudoLegalMoves(make([]core.Move, 0, core.MAX_MOVES), core.E7, ctx)
 
 		testutil.AssertNoMoves(t, moves)
 	})
@@ -682,7 +682,7 @@ func TestPawnPseudoLegalMoves(t *testing.T) {
 		board[core.B5] = core.NewSquare(core.Piece{Type: core.PAWN, Color: core.BLACK})
 		ctx := core.MoveContext{BoardContext: core.BoardContext{Board: &board}, SideToMove: core.WHITE}
 
-		moves := pawn.PseudoLegalMoves(make([]core.Move, 0, MAX_MOVES), core.A4, ctx)
+		moves := pawn.PseudoLegalMoves(make([]core.Move, 0, core.MAX_MOVES), core.A4, ctx)
 
 		testutil.AssertPositionsMatch(t, destinations(moves), []core.Position{core.A5, core.B5})
 	})
@@ -694,7 +694,7 @@ func TestPawnPseudoLegalMoves(t *testing.T) {
 		board[core.G5] = core.NewSquare(core.Piece{Type: core.PAWN, Color: core.BLACK})
 		ctx := core.MoveContext{BoardContext: core.BoardContext{Board: &board}, SideToMove: core.WHITE}
 
-		moves := pawn.PseudoLegalMoves(make([]core.Move, 0, MAX_MOVES), core.H4, ctx)
+		moves := pawn.PseudoLegalMoves(make([]core.Move, 0, core.MAX_MOVES), core.H4, ctx)
 
 		testutil.AssertPositionsMatch(t, destinations(moves), []core.Position{core.H5, core.G5})
 	})
@@ -710,7 +710,7 @@ func TestPawnPseudoLegalMoves(t *testing.T) {
 		board[core.D4] = core.NewSquare(core.Piece{Type: core.PAWN, Color: core.WHITE})
 		ctx := core.MoveContext{BoardContext: core.BoardContext{Board: &board}, SideToMove: core.BLACK}
 
-		moves := pawn.PseudoLegalMoves(make([]core.Move, 0, MAX_MOVES), core.E5, ctx)
+		moves := pawn.PseudoLegalMoves(make([]core.Move, 0, core.MAX_MOVES), core.E5, ctx)
 
 		testutil.AssertPositionsMatch(t, destinations(moves), []core.Position{core.E4, core.D4})
 
@@ -732,7 +732,7 @@ func TestPawnPseudoLegalMoves(t *testing.T) {
 		board[core.D4] = core.NewSquare(core.Piece{Type: core.PAWN, Color: core.BLACK})
 		ctx := core.MoveContext{BoardContext: core.BoardContext{Board: &board}, SideToMove: core.BLACK}
 
-		moves := pawn.PseudoLegalMoves(make([]core.Move, 0, MAX_MOVES), core.E5, ctx)
+		moves := pawn.PseudoLegalMoves(make([]core.Move, 0, core.MAX_MOVES), core.E5, ctx)
 
 		testutil.AssertPositionsMatch(t, destinations(moves), []core.Position{core.E4})
 	})
@@ -747,7 +747,7 @@ func TestPawnPseudoLegalMoves(t *testing.T) {
 		board[core.E2] = core.NewSquare(core.Piece{Type: core.PAWN, Color: core.WHITE})
 		ctx := core.MoveContext{BoardContext: core.BoardContext{Board: &board}, SideToMove: core.WHITE}
 
-		moves := pawn.PseudoLegalMoves(make([]core.Move, 0, MAX_MOVES), core.E2, ctx)
+		moves := pawn.PseudoLegalMoves(make([]core.Move, 0, core.MAX_MOVES), core.E2, ctx)
 
 		mover := core.Piece{Type: core.PAWN, Color: core.WHITE}
 		for _, m := range moves {

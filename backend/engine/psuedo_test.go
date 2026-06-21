@@ -4,7 +4,6 @@ import (
 	"testing"
 
 	"github.com/7-Dany/chess/core"
-	"github.com/7-Dany/chess/piece"
 	"github.com/7-Dany/chess/testutil"
 )
 
@@ -24,7 +23,7 @@ func TestGetPseudoLegalMoves(t *testing.T) {
 		board[core.E1] = core.NewSquare(core.Piece{Type: core.KING, Color: core.WHITE})
 		ctx := testutil.NewTurn(&board, core.WHITE)
 
-		moves := engine.GetPseudoLegalMoves(make([]core.Move, 0, piece.MAX_MOVES), core.E4, *ctx)
+		moves := engine.GetPseudoLegalMoves(make([]core.Move, 0, core.MAX_MOVES), core.E4, *ctx)
 
 		testutil.AssertNoMoves(t, moves)
 	})
@@ -35,7 +34,7 @@ func TestGetPseudoLegalMoves(t *testing.T) {
 		board[core.E8] = core.NewSquare(core.Piece{Type: core.KING, Color: core.BLACK})
 		ctx := testutil.NewTurn(&board, core.WHITE)
 
-		moves := engine.GetPseudoLegalMoves(make([]core.Move, 0, piece.MAX_MOVES), core.E8, *ctx)
+		moves := engine.GetPseudoLegalMoves(make([]core.Move, 0, core.MAX_MOVES), core.E8, *ctx)
 
 		testutil.AssertNoMoves(t, moves)
 	})
@@ -46,7 +45,7 @@ func TestGetPseudoLegalMoves(t *testing.T) {
 		board[core.B1] = core.NewSquare(core.Piece{Type: core.KNIGHT, Color: core.WHITE})
 		ctx := testutil.NewTurn(&board, core.WHITE)
 
-		moves := engine.GetPseudoLegalMoves(make([]core.Move, 0, piece.MAX_MOVES), core.B1, *ctx)
+		moves := engine.GetPseudoLegalMoves(make([]core.Move, 0, core.MAX_MOVES), core.B1, *ctx)
 
 		// A knight on B1 can reach A3 and C3 (among others). We just check
 		// those two are present — the full knight move set is tested in the
@@ -93,7 +92,7 @@ func TestCastlingMoves(t *testing.T) {
 		// King on D1 (not E1) but rights still set — the guard bails.
 		ctx := kingCtx(core.D1, core.WHITE, defaultSides, func(b *core.Board) {})
 
-		moves := engine.GetPseudoLegalMoves(make([]core.Move, 0, piece.MAX_MOVES), core.D1, ctx)
+		moves := engine.GetPseudoLegalMoves(make([]core.Move, 0, core.MAX_MOVES), core.D1, ctx)
 
 		// No castling moves (only the king's one-step moves, which we don't check here).
 		for _, m := range moves {
@@ -109,7 +108,7 @@ func TestCastlingMoves(t *testing.T) {
 			b[core.E8] = core.NewSquare(core.Piece{Type: core.ROOK, Color: core.BLACK})
 		})
 
-		moves := engine.GetPseudoLegalMoves(make([]core.Move, 0, piece.MAX_MOVES), core.E1, ctx)
+		moves := engine.GetPseudoLegalMoves(make([]core.Move, 0, core.MAX_MOVES), core.E1, ctx)
 
 		for _, m := range moves {
 			if m.Type == core.CASTLING {
@@ -122,7 +121,7 @@ func TestCastlingMoves(t *testing.T) {
 		// King on E1, F1/G1/B1/C1/D1 all empty, no enemy attackers.
 		ctx := kingCtx(core.E1, core.WHITE, defaultSides, func(b *core.Board) {})
 
-		moves := engine.GetPseudoLegalMoves(make([]core.Move, 0, piece.MAX_MOVES), core.E1, ctx)
+		moves := engine.GetPseudoLegalMoves(make([]core.Move, 0, core.MAX_MOVES), core.E1, ctx)
 
 		// King-side: E1 → G1. Queen-side: E1 → C1.
 		testutil.AssertMovePresent(t, moves, core.E1, core.G1)
@@ -136,7 +135,7 @@ func TestCastlingMoves(t *testing.T) {
 		}
 		ctx := kingCtx(core.E1, core.WHITE, kingSideOnly, func(b *core.Board) {})
 
-		moves := engine.GetPseudoLegalMoves(make([]core.Move, 0, piece.MAX_MOVES), core.E1, ctx)
+		moves := engine.GetPseudoLegalMoves(make([]core.Move, 0, core.MAX_MOVES), core.E1, ctx)
 
 		testutil.AssertMovePresent(t, moves, core.E1, core.G1)
 		testutil.AssertMoveAbsent(t, moves, core.E1, core.C1)
@@ -149,7 +148,7 @@ func TestCastlingMoves(t *testing.T) {
 		}
 		ctx := kingCtx(core.E1, core.WHITE, queenSideOnly, func(b *core.Board) {})
 
-		moves := engine.GetPseudoLegalMoves(make([]core.Move, 0, piece.MAX_MOVES), core.E1, ctx)
+		moves := engine.GetPseudoLegalMoves(make([]core.Move, 0, core.MAX_MOVES), core.E1, ctx)
 
 		testutil.AssertMovePresent(t, moves, core.E1, core.C1)
 		testutil.AssertMoveAbsent(t, moves, core.E1, core.G1)
@@ -158,7 +157,7 @@ func TestCastlingMoves(t *testing.T) {
 	t.Run("black king on E8 with both rights and clear paths gets two castling moves", func(t *testing.T) {
 		ctx := kingCtx(core.E8, core.BLACK, defaultSides, func(b *core.Board) {})
 
-		moves := engine.GetPseudoLegalMoves(make([]core.Move, 0, piece.MAX_MOVES), core.E8, ctx)
+		moves := engine.GetPseudoLegalMoves(make([]core.Move, 0, core.MAX_MOVES), core.E8, ctx)
 
 		// King-side: E8 → G8. Queen-side: E8 → C8.
 		testutil.AssertMovePresent(t, moves, core.E8, core.G8)
@@ -175,7 +174,7 @@ func TestCastlingMoves(t *testing.T) {
 			b[core.D1] = core.NewSquare(core.Piece{Type: core.QUEEN, Color: core.WHITE})
 		})
 
-		moves := engine.GetPseudoLegalMoves(make([]core.Move, 0, piece.MAX_MOVES), core.E1, ctx)
+		moves := engine.GetPseudoLegalMoves(make([]core.Move, 0, core.MAX_MOVES), core.E1, ctx)
 
 		for _, m := range moves {
 			if m.Type == core.CASTLING {
@@ -190,7 +189,7 @@ func TestCastlingMoves(t *testing.T) {
 			b[core.B1] = core.NewSquare(core.Piece{Type: core.KNIGHT, Color: core.WHITE})
 		})
 
-		moves := engine.GetPseudoLegalMoves(make([]core.Move, 0, piece.MAX_MOVES), core.E1, ctx)
+		moves := engine.GetPseudoLegalMoves(make([]core.Move, 0, core.MAX_MOVES), core.E1, ctx)
 
 		testutil.AssertMovePresent(t, moves, core.E1, core.G1) // king-side still available
 		testutil.AssertMoveAbsent(t, moves, core.E1, core.C1)  // queen-side blocked by B1
@@ -202,7 +201,7 @@ func TestCastlingMoves(t *testing.T) {
 			b[core.C1] = core.NewSquare(core.Piece{Type: core.KNIGHT, Color: core.BLACK})
 		})
 
-		moves := engine.GetPseudoLegalMoves(make([]core.Move, 0, piece.MAX_MOVES), core.E1, ctx)
+		moves := engine.GetPseudoLegalMoves(make([]core.Move, 0, core.MAX_MOVES), core.E1, ctx)
 
 		testutil.AssertMoveAbsent(t, moves, core.E1, core.C1)
 	})

@@ -223,7 +223,7 @@ func TestKnightAttacks(t *testing.T) {
 		var board core.Board
 		ctx := core.BoardContext{Board: &board}
 
-		got := knight.Attacks(make([]core.Position, 0, MAX_MOVES), core.D4, ctx)
+		got := knight.Attacks(make([]core.Position, 0, core.MAX_MOVES), core.D4, ctx)
 
 		testutil.AssertPositionsMatch(t, got, []core.Position{
 			core.E6, core.E2, core.C6, core.C2,
@@ -235,7 +235,7 @@ func TestKnightAttacks(t *testing.T) {
 		var board core.Board
 		ctx := core.BoardContext{Board: &board}
 
-		got := knight.Attacks(make([]core.Position, 0, MAX_MOVES), core.A1, ctx)
+		got := knight.Attacks(make([]core.Position, 0, core.MAX_MOVES), core.A1, ctx)
 
 		testutil.AssertPositionsMatch(t, got, []core.Position{core.B3, core.C2})
 	})
@@ -244,7 +244,7 @@ func TestKnightAttacks(t *testing.T) {
 		var board core.Board
 		ctx := core.BoardContext{Board: &board}
 
-		got := knight.Attacks(make([]core.Position, 0, MAX_MOVES), core.H1, ctx)
+		got := knight.Attacks(make([]core.Position, 0, core.MAX_MOVES), core.H1, ctx)
 
 		testutil.AssertPositionsMatch(t, got, []core.Position{core.G3, core.F2})
 	})
@@ -253,7 +253,7 @@ func TestKnightAttacks(t *testing.T) {
 		var board core.Board
 		ctx := core.BoardContext{Board: &board}
 
-		got := knight.Attacks(make([]core.Position, 0, MAX_MOVES), core.A8, ctx)
+		got := knight.Attacks(make([]core.Position, 0, core.MAX_MOVES), core.A8, ctx)
 
 		testutil.AssertPositionsMatch(t, got, []core.Position{core.B6, core.C7})
 	})
@@ -262,7 +262,7 @@ func TestKnightAttacks(t *testing.T) {
 		var board core.Board
 		ctx := core.BoardContext{Board: &board}
 
-		got := knight.Attacks(make([]core.Position, 0, MAX_MOVES), core.H8, ctx)
+		got := knight.Attacks(make([]core.Position, 0, core.MAX_MOVES), core.H8, ctx)
 
 		testutil.AssertPositionsMatch(t, got, []core.Position{core.G6, core.F7})
 	})
@@ -272,7 +272,7 @@ func TestKnightAttacks(t *testing.T) {
 		var board core.Board
 		ctx := core.BoardContext{Board: &board}
 
-		got := knight.Attacks(make([]core.Position, 0, MAX_MOVES), core.A4, ctx)
+		got := knight.Attacks(make([]core.Position, 0, core.MAX_MOVES), core.A4, ctx)
 
 		testutil.AssertPositionsMatch(t, got, []core.Position{core.B6, core.B2, core.C5, core.C3})
 	})
@@ -281,7 +281,7 @@ func TestKnightAttacks(t *testing.T) {
 		var board core.Board
 		ctx := core.BoardContext{Board: &board}
 
-		got := knight.Attacks(make([]core.Position, 0, MAX_MOVES), core.H4, ctx)
+		got := knight.Attacks(make([]core.Position, 0, core.MAX_MOVES), core.H4, ctx)
 
 		testutil.AssertPositionsMatch(t, got, []core.Position{core.G6, core.G2, core.F5, core.F3})
 	})
@@ -290,7 +290,7 @@ func TestKnightAttacks(t *testing.T) {
 		var board core.Board
 		ctx := core.BoardContext{Board: &board}
 
-		got := knight.Attacks(make([]core.Position, 0, MAX_MOVES), core.D1, ctx)
+		got := knight.Attacks(make([]core.Position, 0, core.MAX_MOVES), core.D1, ctx)
 
 		testutil.AssertPositionsMatch(t, got, []core.Position{core.E3, core.C3, core.F2, core.B2})
 	})
@@ -299,7 +299,7 @@ func TestKnightAttacks(t *testing.T) {
 		var board core.Board
 		ctx := core.BoardContext{Board: &board}
 
-		got := knight.Attacks(make([]core.Position, 0, MAX_MOVES), core.D8, ctx)
+		got := knight.Attacks(make([]core.Position, 0, core.MAX_MOVES), core.D8, ctx)
 
 		testutil.AssertPositionsMatch(t, got, []core.Position{core.E6, core.C6, core.F7, core.B7})
 	})
@@ -308,7 +308,7 @@ func TestKnightAttacks(t *testing.T) {
 		var board core.Board
 		ctx := core.BoardContext{Board: &board}
 
-		got := knight.Attacks(make([]core.Position, 0, MAX_MOVES), core.B2, ctx)
+		got := knight.Attacks(make([]core.Position, 0, core.MAX_MOVES), core.B2, ctx)
 
 		testutil.AssertPositionsMatch(t, got, []core.Position{core.D3, core.D1, core.A4, core.C4})
 	})
@@ -342,7 +342,7 @@ func TestKnightPseudoLegalMoves(t *testing.T) {
 		var board core.Board
 		ctx := core.MoveContext{BoardContext: core.BoardContext{Board: &board}, SideToMove: core.WHITE}
 
-		moves := knight.PseudoLegalMoves(make([]core.Move, 0, MAX_MOVES), core.D4, ctx)
+		moves := knight.PseudoLegalMoves(make([]core.Move, 0, core.MAX_MOVES), core.D4, ctx)
 
 		testutil.AssertPositionsMatch(t, destinations(moves), d4Attacks)
 		testutil.AssertMoveCount(t, moves, 8)
@@ -352,7 +352,7 @@ func TestKnightPseudoLegalMoves(t *testing.T) {
 		var board core.Board
 		ctx := core.MoveContext{BoardContext: core.BoardContext{Board: &board}, SideToMove: core.WHITE}
 
-		moves := knight.PseudoLegalMoves(make([]core.Move, 0, MAX_MOVES), core.A1, ctx)
+		moves := knight.PseudoLegalMoves(make([]core.Move, 0, core.MAX_MOVES), core.A1, ctx)
 
 		testutil.AssertPositionsMatch(t, destinations(moves), []core.Position{core.B3, core.C2})
 	})
@@ -361,7 +361,7 @@ func TestKnightPseudoLegalMoves(t *testing.T) {
 		var board core.Board
 		ctx := core.MoveContext{BoardContext: core.BoardContext{Board: &board}, SideToMove: core.WHITE}
 
-		moves := knight.PseudoLegalMoves(make([]core.Move, 0, MAX_MOVES), core.H8, ctx)
+		moves := knight.PseudoLegalMoves(make([]core.Move, 0, core.MAX_MOVES), core.H8, ctx)
 
 		testutil.AssertPositionsMatch(t, destinations(moves), []core.Position{core.G6, core.F7})
 	})
@@ -370,7 +370,7 @@ func TestKnightPseudoLegalMoves(t *testing.T) {
 		var board core.Board
 		ctx := core.MoveContext{BoardContext: core.BoardContext{Board: &board}, SideToMove: core.WHITE}
 
-		moves := knight.PseudoLegalMoves(make([]core.Move, 0, MAX_MOVES), core.A4, ctx)
+		moves := knight.PseudoLegalMoves(make([]core.Move, 0, core.MAX_MOVES), core.A4, ctx)
 
 		testutil.AssertPositionsMatch(t, destinations(moves), []core.Position{core.B6, core.B2, core.C5, core.C3})
 	})
@@ -380,7 +380,7 @@ func TestKnightPseudoLegalMoves(t *testing.T) {
 		board[core.E6] = core.NewSquare(core.Piece{Type: core.KNIGHT, Color: core.WHITE}) // own piece on E6
 		ctx := core.MoveContext{BoardContext: core.BoardContext{Board: &board}, SideToMove: core.WHITE}
 
-		moves := knight.PseudoLegalMoves(make([]core.Move, 0, MAX_MOVES), core.D4, ctx)
+		moves := knight.PseudoLegalMoves(make([]core.Move, 0, core.MAX_MOVES), core.D4, ctx)
 
 		// E6 is gone; the other 7 L-shapes remain.
 		testutil.AssertPositionsMatch(t, destinations(moves),
@@ -392,7 +392,7 @@ func TestKnightPseudoLegalMoves(t *testing.T) {
 		board[core.E6] = core.NewSquare(core.Piece{Type: core.KNIGHT, Color: core.BLACK}) // enemy on E6
 		ctx := core.MoveContext{BoardContext: core.BoardContext{Board: &board}, SideToMove: core.WHITE}
 
-		moves := knight.PseudoLegalMoves(make([]core.Move, 0, MAX_MOVES), core.D4, ctx)
+		moves := knight.PseudoLegalMoves(make([]core.Move, 0, core.MAX_MOVES), core.D4, ctx)
 
 		// All 8 L-shapes present (E6 is a capture, not a block).
 		testutil.AssertPositionsMatch(t, destinations(moves), d4Attacks)
@@ -419,7 +419,7 @@ func TestKnightPseudoLegalMoves(t *testing.T) {
 		board[core.C2] = core.NewSquare(core.Piece{Type: core.BISHOP, Color: core.BLACK})
 		ctx := core.MoveContext{BoardContext: core.BoardContext{Board: &board}, SideToMove: core.WHITE}
 
-		moves := knight.PseudoLegalMoves(make([]core.Move, 0, MAX_MOVES), core.D4, ctx)
+		moves := knight.PseudoLegalMoves(make([]core.Move, 0, core.MAX_MOVES), core.D4, ctx)
 
 		// All 8 L-shapes present (3 are captures, 5 are quiet).
 		testutil.AssertPositionsMatch(t, destinations(moves), d4Attacks)
@@ -452,7 +452,7 @@ func TestKnightPseudoLegalMoves(t *testing.T) {
 		board[core.F5] = core.NewSquare(core.Piece{Type: core.KNIGHT, Color: core.BLACK}) // enemy → capture
 		ctx := core.MoveContext{BoardContext: core.BoardContext{Board: &board}, SideToMove: core.WHITE}
 
-		moves := knight.PseudoLegalMoves(make([]core.Move, 0, MAX_MOVES), core.D4, ctx)
+		moves := knight.PseudoLegalMoves(make([]core.Move, 0, core.MAX_MOVES), core.D4, ctx)
 
 		// E6 and C6 excluded (own); F5 included (enemy capture); rest quiet.
 		testutil.AssertPositionsMatch(t, destinations(moves),
@@ -466,7 +466,7 @@ func TestKnightPseudoLegalMoves(t *testing.T) {
 		}
 		ctx := core.MoveContext{BoardContext: core.BoardContext{Board: &board}, SideToMove: core.WHITE}
 
-		moves := knight.PseudoLegalMoves(make([]core.Move, 0, MAX_MOVES), core.D4, ctx)
+		moves := knight.PseudoLegalMoves(make([]core.Move, 0, core.MAX_MOVES), core.D4, ctx)
 
 		testutil.AssertNoMoves(t, moves)
 	})
@@ -476,7 +476,7 @@ func TestKnightPseudoLegalMoves(t *testing.T) {
 		board[core.E6] = core.NewSquare(core.Piece{Type: core.KNIGHT, Color: core.WHITE}) // enemy → capture
 		ctx := core.MoveContext{BoardContext: core.BoardContext{Board: &board}, SideToMove: core.BLACK}
 
-		moves := knight.PseudoLegalMoves(make([]core.Move, 0, MAX_MOVES), core.D4, ctx)
+		moves := knight.PseudoLegalMoves(make([]core.Move, 0, core.MAX_MOVES), core.D4, ctx)
 
 		// E6 included (capture of white); all 8 present.
 		testutil.AssertPositionsMatch(t, destinations(moves), d4Attacks)
@@ -498,7 +498,7 @@ func TestKnightPseudoLegalMoves(t *testing.T) {
 		board[core.E6] = core.NewSquare(core.Piece{Type: core.KNIGHT, Color: core.BLACK}) // own → excluded
 		ctx := core.MoveContext{BoardContext: core.BoardContext{Board: &board}, SideToMove: core.BLACK}
 
-		moves := knight.PseudoLegalMoves(make([]core.Move, 0, MAX_MOVES), core.D4, ctx)
+		moves := knight.PseudoLegalMoves(make([]core.Move, 0, core.MAX_MOVES), core.D4, ctx)
 
 		// E6 excluded; the other 7 L-shapes remain.
 		testutil.AssertPositionsMatch(t, destinations(moves),
@@ -510,7 +510,7 @@ func TestKnightPseudoLegalMoves(t *testing.T) {
 		var board core.Board
 		ctx := core.MoveContext{BoardContext: core.BoardContext{Board: &board}, SideToMove: core.WHITE}
 
-		moves := knight.PseudoLegalMoves(make([]core.Move, 0, MAX_MOVES), core.D4, ctx)
+		moves := knight.PseudoLegalMoves(make([]core.Move, 0, core.MAX_MOVES), core.D4, ctx)
 
 		mover := core.Piece{Type: core.KNIGHT, Color: core.WHITE}
 		for _, m := range moves {

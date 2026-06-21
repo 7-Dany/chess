@@ -18,6 +18,16 @@ const (
 	PROMOTION
 )
 
+// MAX_MOVES is the buffer size that guarantees PseudoLegalMoves and Attacks
+// never need to grow their backing array, and therefore never allocate.
+//
+// The largest single-piece move set is a queen on a wide-open board (27
+// moves); a king with two castling moves adds at most 2 more. 32 provides
+// headroom over both. Pass a buffer of at least this size — e.g.
+// `var buf [core.MAX_MOVES]core.Move` on the stack — to keep move generation
+// allocation-free.
+const MAX_MOVES = 32
+
 type Move struct {
 	Piece      Piece
 	From       Position
