@@ -141,20 +141,20 @@ func kiwipete() core.TurnContext {
 	place(core.FILE_F, core.RANK_7, core.Piece{Type: core.PAWN, Color: core.BLACK})
 	place(core.FILE_G, core.RANK_7, core.Piece{Type: core.BISHOP, Color: core.BLACK})
 
-	// Black rank 6: two knights + two pawns.
+	// Black rank 6: FEN "bn2pnp1" = bishop A6, knight B6, 2 empty, pawn E6, knight F6, pawn G6, 1 empty.
+	place(core.FILE_A, core.RANK_6, core.Piece{Type: core.BISHOP, Color: core.BLACK})
 	place(core.FILE_B, core.RANK_6, core.Piece{Type: core.KNIGHT, Color: core.BLACK})
 	place(core.FILE_E, core.RANK_6, core.Piece{Type: core.PAWN, Color: core.BLACK})
 	place(core.FILE_F, core.RANK_6, core.Piece{Type: core.KNIGHT, Color: core.BLACK})
 	place(core.FILE_G, core.RANK_6, core.Piece{Type: core.PAWN, Color: core.BLACK})
 
-	// Rank 5: white pawn E5, white knight D5, black pawn B5.
-	place(core.FILE_E, core.RANK_5, core.Piece{Type: core.PAWN, Color: core.WHITE})
-	place(core.FILE_D, core.RANK_5, core.Piece{Type: core.KNIGHT, Color: core.WHITE})
-	place(core.FILE_B, core.RANK_5, core.Piece{Type: core.PAWN, Color: core.BLACK})
+	// Rank 5: FEN "3PN3" = 3 empty, white pawn D5, white knight E5, 3 empty.
+	place(core.FILE_D, core.RANK_5, core.Piece{Type: core.PAWN, Color: core.WHITE})
+	place(core.FILE_E, core.RANK_5, core.Piece{Type: core.KNIGHT, Color: core.WHITE})
 
-	// Rank 4: white pawn E4, black pawn H4.
+	// Rank 4: FEN "1p2P3" = 1 empty, black pawn B4, 2 empty, white pawn E4, 3 empty.
+	place(core.FILE_B, core.RANK_4, core.Piece{Type: core.PAWN, Color: core.BLACK})
 	place(core.FILE_E, core.RANK_4, core.Piece{Type: core.PAWN, Color: core.WHITE})
-	place(core.FILE_H, core.RANK_4, core.Piece{Type: core.PAWN, Color: core.BLACK})
 
 	// Rank 3: white knight C3, white queen F3, black pawn H3.
 	place(core.FILE_C, core.RANK_3, core.Piece{Type: core.KNIGHT, Color: core.WHITE})
@@ -941,4 +941,96 @@ func BenchmarkApplyUndo_Castling(b *testing.B) {
 		From:  core.E1,
 		To:    core.G1,
 	})
+}
+
+// =============================================================================
+// Perft — full move-tree traversal. The real throughput benchmark.
+//
+// Perft counts leaf nodes in the full move tree to a given depth. Each node
+// generates all legal moves, applies each, recurses, and undoes. This is
+// the real "nodes per second" figure that matters for search performance.
+//
+// Run with a long benchtime for accurate results:
+//
+//      go test ./engine -bench=BenchmarkPerft -benchtime=5s
+//
+// Reference node counts (from https://www.chessprogramming.org/Perft_Results):
+//
+//      Start position:     depth 4 = 197,281    depth 5 = 4,865,609
+//      Kiwipete:           depth 3 = 97,862     depth 4 = 4,085,603
+// =============================================================================
+
+// BenchmarkPerft_Start_Depth3 exercises the full pipeline on the starting
+// position at depth 3 (8,902 nodes). Quick — good for CI.
+func BenchmarkPerft_Start_Depth3(b *testing.B) {
+	engine := GetDefaultEngine()
+	ctx := startPosition()
+	b.ResetTimer()
+	for i := 0; i < b.N; i++ {
+		c := ctx.Copy()
+		if got := perft(engine, &c, 3); got != 8902 {
+			b.Fatalf("perft depth 3 = %d, want 8902", got)
+		}
+	}
+}
+
+// BenchmarkPerft_Start_Depth4 exercises the full pipeline at depth 4
+// (197,281 nodes). Takes ~0.04s per iteration — good for measuring nodes/sec.
+func BenchmarkPerft_Start_Depth4(b *testing.B) {
+	engine := GetDefaultEngine()
+	ctx := startPosition()
+	b.ResetTimer()
+	for i := 0; i < b.N; i++ {
+		c := ctx.Copy()
+		if got := perft(engine, &c, 4); got != 197281 {
+			b.Fatalf("perft depth 4 = %d, want 197281", got)
+		}
+	}
+}
+
+// BenchmarkPerft_Start_Depth5 exercises the full pipeline at depth 5
+// (4,865,609 nodes). Takes ~1 second per iteration — use a long benchtime
+// for an accurate nodes/sec figure:
+//
+//	go test ./engine -bench=BenchmarkPerft_Start_Depth5 -benchtime=5s
+func BenchmarkPerft_Start_Depth5(b *testing.B) {
+	engine := GetDefaultEngine()
+	ctx := startPosition()
+	b.ResetTimer()
+	for i := 0; i < b.N; i++ {
+		c := ctx.Copy()
+		if got := perft(engine, &c, 5); got != 4865609 {
+			b.Fatalf("perft depth 5 = %d, want 4865609", got)
+		}
+	}
+}
+
+// BenchmarkPerft_Kiwipete_Depth3 exercises the Kiwipete position at depth 3
+// (97,862 nodes). A dense middlegame — stresses sliders and castling.
+func BenchmarkPerft_Kiwipete_Depth3(b *testing.B) {
+	engine := GetDefaultEngine()
+	ctx := kiwipete()
+	b.ResetTimer()
+	for i := 0; i < b.N; i++ {
+		c := ctx.Copy()
+		if got := perft(engine, &c, 3); got != 97862 {
+			b.Fatalf("perft depth 3 = %d, want 97862", got)
+		}
+	}
+}
+
+// BenchmarkPerft_Kiwipete_Depth4 exercises Kiwipete at depth 4 (4,085,603
+// nodes). The heaviest benchmark — use a long benchtime:
+//
+//	go test ./engine -bench=BenchmarkPerft_Kiwipete_Depth4 -benchtime=10s
+func BenchmarkPerft_Kiwipete_Depth4(b *testing.B) {
+	engine := GetDefaultEngine()
+	ctx := kiwipete()
+	b.ResetTimer()
+	for i := 0; i < b.N; i++ {
+		c := ctx.Copy()
+		if got := perft(engine, &c, 4); got != 4085603 {
+			b.Fatalf("perft depth 4 = %d, want 4085603", got)
+		}
+	}
 }
