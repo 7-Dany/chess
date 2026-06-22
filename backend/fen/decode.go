@@ -11,7 +11,7 @@ import (
 func (FEN) Decode(str string, ctx *core.TurnContext) error {
 	ctx.Reset()
 
-	index, err := decodePiecePlacement(str, ctx.Board)
+	index, err := decodePiecePlacement(str, ctx)
 	if err != nil {
 		return err
 	}
@@ -46,7 +46,7 @@ func (FEN) Decode(str string, ctx *core.TurnContext) error {
 
 // decodePiecePlacement parses the first FEN field (piece placement) into board.
 // Returns the index of the space after the field (start of the next field).
-func decodePiecePlacement(str string, board *core.Board) (int, error) {
+func decodePiecePlacement(str string, ctx *core.TurnContext) (int, error) {
 	rank, file := uint8(0), uint8(0)
 
 	for i, letter := range str {
@@ -90,7 +90,11 @@ func decodePiecePlacement(str string, board *core.Board) (int, error) {
 			}
 
 			position := core.NewPosition(core.File(file), core.Rank(rank).Reverse())
-			board.Place(position, piece)
+			ctx.Board.Place(position, piece)
+
+			if piece.Type == core.KING {
+				ctx.Sides[piece.Color].KingPosition = position
+			}
 
 			file++
 		}

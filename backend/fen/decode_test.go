@@ -202,7 +202,7 @@ func TestDecode(t *testing.T) {
 
 	t.Run("the digit 8 fills an entire rank with empties", func(t *testing.T) {
 		ctx := mustDecode(t, "rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - 0 1")
-		for f := range uint8(8) {
+		for f := uint8(0); f < 8; f++ {
 			testutil.AssertSquareEmpty(t, ctx.Board, core.NewPosition(core.File(f), core.RANK_4))
 			testutil.AssertSquareEmpty(t, ctx.Board, core.NewPosition(core.File(f), core.RANK_5))
 		}
@@ -421,5 +421,64 @@ func TestDecode(t *testing.T) {
 		testutil.AssertSquareEmpty(t, ctx.Board, core.E4)
 		// And E2 should have a pawn again.
 		testutil.AssertSquareHas(t, ctx.Board, core.E2, core.PAWN, core.WHITE)
+	})
+
+	// =========================================================================
+	// King position auto-detection — the engine's castling and king-safety
+	// logic depends on Sides[color].KingPosition being set correctly. FEN
+	// doesn't encode this explicitly, so Decode must detect it from the board.
+	// =========================================================================
+
+	t.Run("the white king position is detected from the board", func(t *testing.T) {
+		// White king on E1 (standard position).
+		ctx := mustDecode(t, "rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - 0 1")
+		if ctx.Sides[core.WHITE].KingPosition != core.E1 {
+			t.Errorf("white KingPosition = %v, want E1", ctx.Sides[core.WHITE].KingPosition)
+		}
+	})
+
+	t.Run("the black king position is detected from the board", func(t *testing.T) {
+		// Black king on E8 (standard position).
+		ctx := mustDecode(t, "rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - 0 1")
+		if ctx.Sides[core.BLACK].KingPosition != core.E8 {
+			t.Errorf("black KingPosition = %v, want E8", ctx.Sides[core.BLACK].KingPosition)
+		}
+	})
+
+	t.Run("a king that has castled to G1 is detected at G1", func(t *testing.T) {
+		// White king on G1, rook on F1 (after king-side castling).
+		ctx := mustDecode(t, "rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/R4RK1 w kq - 0 1")
+		if ctx.Sides[core.WHITE].KingPosition != core.G1 {
+			t.Errorf("white KingPosition = %v, want G1", ctx.Sides[core.WHITE].KingPosition)
+		}
+	})
+
+	t.Run("a king that has castled to C8 is detected at C8", func(t *testing.T) {
+		// Black king on C8, rook on D8 (after queen-side castling).
+		ctx := mustDecode(t, "2kr3r/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQ - 0 1")
+		if ctx.Sides[core.BLACK].KingPosition != core.C8 {
+			t.Errorf("black KingPosition = %v, want C8", ctx.Sides[core.BLACK].KingPosition)
+		}
+	})
+
+	t.Run("a king in the middle of the board is detected at its square", func(t *testing.T) {
+		// White king on E4, black king on D5 — an unusual mid-board position.
+		ctx := mustDecode(t, "8/8/8/3k4/4K3/8/8/8 w - - 0 1")
+		if ctx.Sides[core.WHITE].KingPosition != core.E4 {
+			t.Errorf("white KingPosition = %v, want E4", ctx.Sides[core.WHITE].KingPosition)
+		}
+		if ctx.Sides[core.BLACK].KingPosition != core.D5 {
+			t.Errorf("black KingPosition = %v, want D5", ctx.Sides[core.BLACK].KingPosition)
+		}
+	})
+
+	t.Run("a missing white king leaves KingPosition at the zero value", func(t *testing.T) {
+		// No white king on the board — KingPosition stays at A1 (the zero
+		// value of Position). This is an illegal position, but Decode should
+		// not crash; it just leaves the field unset.
+		ctx := mustDecode(t, "4k3/8/8/8/8/8/8/8 w - - 0 1")
+		if ctx.Sides[core.WHITE].KingPosition != core.A1 {
+			t.Errorf("white KingPosition = %v, want A1 (zero value, no king found)", ctx.Sides[core.WHITE].KingPosition)
+		}
 	})
 }
