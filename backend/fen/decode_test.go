@@ -202,7 +202,7 @@ func TestDecode(t *testing.T) {
 
 	t.Run("the digit 8 fills an entire rank with empties", func(t *testing.T) {
 		ctx := mustDecode(t, "rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - 0 1")
-		for f := uint8(0); f < 8; f++ {
+		for f := range uint8(8) {
 			testutil.AssertSquareEmpty(t, ctx.Board, core.NewPosition(core.File(f), core.RANK_4))
 			testutil.AssertSquareEmpty(t, ctx.Board, core.NewPosition(core.File(f), core.RANK_5))
 		}
