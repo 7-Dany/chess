@@ -439,6 +439,35 @@ func BenchmarkGetLegalMoves_KiwipeteKing(b *testing.B) {
 }
 
 // =============================================================================
+// GetAllLegalMoves — all legal moves for the side to move.
+//
+// Iterates all 64 squares, generates legal moves per piece into a scratch
+// buffer, and accumulates into the caller's buffer. The scratch buffer is
+// stack-allocated; the caller's buffer must be at least MAX_TOTAL_MOVES
+// (256) to guarantee no allocation.
+// =============================================================================
+
+func BenchmarkGetAllLegalMoves_Start(b *testing.B) {
+	engine := GetDefaultEngine()
+	ctx := startPosition()
+	var buf [MAX_TOTAL_MOVES]core.Move
+	b.ResetTimer()
+	for i := 0; i < b.N; i++ {
+		_ = engine.GetAllLegalMoves(buf[:0], ctx)
+	}
+}
+
+func BenchmarkGetAllLegalMoves_Kiwipete(b *testing.B) {
+	engine := GetDefaultEngine()
+	ctx := kiwipete()
+	var buf [MAX_TOTAL_MOVES]core.Move
+	b.ResetTimer()
+	for i := 0; i < b.N; i++ {
+		_ = engine.GetAllLegalMoves(buf[:0], ctx)
+	}
+}
+
+// =============================================================================
 // HasAnyLegalMoves — checkmate / stalemate detection.
 //
 // Returns true as soon as one legal move is found; returns false only after

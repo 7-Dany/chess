@@ -17,6 +17,12 @@ type Engine interface {
 	// moves that do not leave the moving side's king in check, plus castling.
 	GetLegalMoves(position core.Position, ctx core.TurnContext) []core.Move
 
+	// GetAllLegalMoves appends every legal move for the side to move into
+	// moves and returns the extended slice. Iterates all 64 squares, calls
+	// GetLegalMoves per friendly piece, and accumulates into one buffer.
+	// Pass a buffer of at least MAX_TOTAL_MOVES (256).
+	GetAllLegalMoves(moves []core.Move, ctx core.TurnContext) []core.Move
+
 	// HasAnyLegalMoves reports whether color has at least one legal move
 	// anywhere on the board. Built for checkmate/stalemate detection, which
 	// need a yes/no answer to "can this side move at all".
@@ -35,6 +41,12 @@ type Engine interface {
 	// Undo reverses an Apply using the saved Snapshot.
 	Undo(ctx *core.TurnContext, snap core.Snapshot)
 }
+
+// MAX_TOTAL_MOVES is the maximum number of legal moves an entire side can
+// have in a single position. The theoretical maximum is 218 (achieved in
+// some contrived positions); 256 provides headroom. Pass a buffer of at
+// least this size to GetAllLegalMoves to guarantee zero heap allocations.
+const MAX_TOTAL_MOVES = 256
 
 // DefaultEngine is the standard implementation of Engine.
 // It delegates piece-specific logic to a PieceProvider and adds the

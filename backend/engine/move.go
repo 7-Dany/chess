@@ -32,6 +32,21 @@ func (e *DefaultEngine) GetLegalMoves(moves []core.Move, position core.Position,
 	return moves[:slot]
 }
 
+func (e *DefaultEngine) GetAllLegalMoves(moves []core.Move, ctx core.TurnContext) []core.Move {
+	var scratch [core.MAX_MOVES]core.Move
+
+	for i, square := range ctx.Board {
+		if !square.IsOccupiedBy(ctx.SideToMove) {
+			continue
+		}
+
+		pieceMoves := e.GetLegalMoves(scratch[:0], core.Position(i), ctx)
+		moves = append(moves, pieceMoves...)
+	}
+
+	return moves
+}
+
 func (e *DefaultEngine) HasAnyLegalMoves(ctx core.TurnContext) bool {
 	// Stack allocated scratch buffer [moves], reused for every piece on the board.
 	var moves [core.MAX_MOVES]core.Move

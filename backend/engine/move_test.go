@@ -4,6 +4,7 @@ import (
 	"testing"
 
 	"github.com/7-Dany/chess/core"
+	"github.com/7-Dany/chess/fen"
 	"github.com/7-Dany/chess/testutil"
 )
 
@@ -234,51 +235,15 @@ func TestGetLegalMoves(t *testing.T) {
 	})
 
 	t.Run("a knight can capture the checker or interpose to resolve check", func(t *testing.T) {
-		// White king on E1, black bishop on C3 (check via c3-e1 diagonal),
-		// white knight on D6. The knight can capture the bishop (D6→C4? No,
-		// that's not an L-shape... wait, D6 to C4 is file -1, rank -2 → yes,
-		// that's an L-shape). Actually let me check: the original test has
-		// the knight on E1's defense. Let me re-read the original.
-		// The original: knight on D6, can go to E4 (block? No, the check is
-		// from C3 bishop on the c3-e1 diagonal, not the E-file). Let me
-		// re-examine. C3→D2→E1 is the diagonal. To block, the knight must
-		// land on D2. D6→D2 is not a knight move. D6→C4 is a knight move
-		// (captures the bishop). D6→E5 is... file+1, rank-1 → not a knight
-		// move. Hmm, let me re-check the original.
-		// Original: knight on E1? No. Let me re-read...
-		// Actually the original setup is: E1 white king, D6 white knight,
-		// C3 black bishop, H8 black king. Checks: {D6,E8,true}, {D6,E4,true},
-		// {D6,B5,false}, {D6,F7,false}, {D6,C8,false}.
-		// Wait — that doesn't match the description "capture checker or
-		// interpose". The bishop is on C3, not E8. Let me look again...
-		// Hmm, the original actually has a different setup. Let me check line 252.
+		// White king on E1, black rook on E8 gives check down the E-file.
+		// White knight on D6 can capture the rook (E8) or interpose on E4.
 		var board core.Board
 		board[core.E1] = core.NewSquare(core.Piece{Type: core.KING, Color: core.WHITE})
 		board[core.D6] = core.NewSquare(core.Piece{Type: core.KNIGHT, Color: core.WHITE})
-		board[core.C3] = core.NewSquare(core.Piece{Type: core.BISHOP, Color: core.BLACK}) // checker on the c3-e1 diagonal
+		board[core.E8] = core.NewSquare(core.Piece{Type: core.ROOK, Color: core.BLACK})
 		board[core.H8] = core.NewSquare(core.Piece{Type: core.KING, Color: core.BLACK})
 
 		moves := legalMoves(&board, core.WHITE, core.D6, testutil.WithSides(
-			testutil.Side(core.E1, false, false),
-			testutil.Side(core.H8, true, true),
-		))
-
-		// The knight can capture the bishop on C3 (D6→C4? No — D6 is file 3
-		// rank 5, C3 is file 2 rank 2. Diff (-1, -3) — not an L-shape.
-		// Wait, the original test says {D6,E8,true} and {D6,E4,true}. E8?
-		// There's no piece on E8 in my setup. Let me re-read the original
-		// more carefully...
-		// Actually the original at line 252 has the checker on E8 (a rook),
-		// not C3. Let me re-read:
-		// "knight can capture checker or interpose to resolve check"
-		// setupBoard: E1 king, D6 knight, E8 rook, H8 king.
-		// checks: {D6,E8,true} (capture rook), {D6,E4,true} (block), others false.
-		// So it's a rook check on the E-file, same as the previous test but
-		// with a different knight position. Let me fix my setup.
-		board[core.C3] = core.EmptySquare // remove the bishop I wrongly added
-		board[core.E8] = core.NewSquare(core.Piece{Type: core.ROOK, Color: core.BLACK})
-
-		moves = legalMoves(&board, core.WHITE, core.D6, testutil.WithSides(
 			testutil.Side(core.E1, false, false),
 			testutil.Side(core.H8, true, true),
 		))
@@ -452,6 +417,171 @@ func TestGetLegalMoves(t *testing.T) {
 		for _, m := range moves {
 			if m.Type == core.CASTLING {
 				t.Errorf("rook should not generate castling moves, got %v", m)
+			}
+		}
+	})
+}
+
+// TestGetAllLegalMoves verifies the accumulation logic of GetAllLegalMoves —
+// that it collects every friendly piece's legal moves, excludes enemy moves,
+// and handles edge cases (check, checkmate, stalemate, pins, castling).
+func TestGetAllLegalMoves(t *testing.T) {
+	engine := GetDefaultEngine()
+
+	decode := func(t *testing.T, fenStr string) core.TurnContext {
+		t.Helper()
+		var ctx core.TurnContext
+		if err := fen.GetDefaultFenParser().Decode(fenStr, &ctx); err != nil {
+			t.Fatalf("Decode failed: %v", err)
+		}
+		return ctx
+	}
+
+	allLegalMoves := func(ctx core.TurnContext) []core.Move {
+		var buf [MAX_TOTAL_MOVES]core.Move
+		return engine.GetAllLegalMoves(buf[:0], ctx)
+	}
+
+	// =========================================================================
+	// Accumulation — only the side-to-move's pieces generate moves.
+	// =========================================================================
+
+	t.Run("only the side-to-move's pieces generate moves", func(t *testing.T) {
+		ctx := decode(t, "rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - 0 1")
+		moves := allLegalMoves(ctx)
+		for _, m := range moves {
+			if m.Piece.Color != core.WHITE {
+				t.Errorf("found a move for a black piece (%v) when white is to move", m.Piece)
+			}
+		}
+	})
+
+	t.Run("when black is to move, only black pieces generate moves", func(t *testing.T) {
+		ctx := decode(t, "rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR b KQkq - 0 1")
+		moves := allLegalMoves(ctx)
+		for _, m := range moves {
+			if m.Piece.Color != core.BLACK {
+				t.Errorf("found a move for a white piece (%v) when black is to move", m.Piece)
+			}
+		}
+	})
+
+	t.Run("the total equals the sum of per-piece GetLegalMoves counts", func(t *testing.T) {
+		ctx := decode(t, "rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - 0 1")
+		allMoves := allLegalMoves(ctx)
+
+		var perPieceTotal int
+		var scratch [core.MAX_MOVES]core.Move
+		for i, square := range ctx.Board {
+			if !square.IsOccupiedBy(ctx.SideToMove) {
+				continue
+			}
+			pieceMoves := engine.GetLegalMoves(scratch[:0], core.Position(i), ctx)
+			perPieceTotal += len(pieceMoves)
+		}
+		if len(allMoves) != perPieceTotal {
+			t.Errorf("GetAllLegalMoves = %d, sum of per-piece = %d", len(allMoves), perPieceTotal)
+		}
+	})
+
+	t.Run("no move appears more than once", func(t *testing.T) {
+		ctx := decode(t, "r3k2r/p1ppqpb1/bn2pnp1/3PN3/1p2P3/2N2Q1p/PPPBBPPP/R3K2R w KQkq - 0 1")
+		moves := allLegalMoves(ctx)
+		seen := make(map[core.Move]bool, len(moves))
+		for _, m := range moves {
+			if seen[m] {
+				t.Errorf("duplicate move: %v", m)
+			}
+			seen[m] = true
+		}
+	})
+
+	// =========================================================================
+	// King safety — the filter is applied to every piece's moves.
+	// =========================================================================
+
+	t.Run("a king in check only has moves that resolve the check", func(t *testing.T) {
+		ctx := decode(t, "4r3/8/8/8/8/8/8/4K3 w - - 0 1")
+		moves := allLegalMoves(ctx)
+		testutil.AssertMoveCount(t, moves, 4)
+		for _, m := range moves {
+			if m.Piece.Type != core.KING {
+				t.Errorf("expected only king moves, got %v", m.Piece)
+			}
+			if m.To.File() == core.FILE_E {
+				t.Errorf("king move to %v stays on the E-file (still in check)", m.To)
+			}
+		}
+	})
+
+	t.Run("a checkmated side has 0 legal moves", func(t *testing.T) {
+		ctx := decode(t, "7k/5Q2/5K2/8/8/8/8/8 b - - 0 1")
+		moves := allLegalMoves(ctx)
+		testutil.AssertNoMoves(t, moves)
+	})
+
+	t.Run("a stalemated side has 0 legal moves", func(t *testing.T) {
+		ctx := decode(t, "k7/2Q5/2K5/8/8/8/8/8 b - - 0 1")
+		moves := allLegalMoves(ctx)
+		testutil.AssertNoMoves(t, moves)
+	})
+
+	t.Run("a pinned piece's illegal moves are excluded", func(t *testing.T) {
+		ctx := decode(t, "4r3/8/8/8/8/8/4R3/4K3 w - - 0 1")
+		moves := allLegalMoves(ctx)
+		testutil.AssertMoveCount(t, moves, 10)
+		for _, m := range moves {
+			if m.Piece.Type == core.ROOK && m.From == core.E2 {
+				if m.To == core.D2 || m.To == core.F2 {
+					t.Errorf("pinned rook should not move sideways to %v", m.To)
+				}
+			}
+		}
+	})
+
+	// =========================================================================
+	// Castling and en passant are included.
+	// =========================================================================
+
+	t.Run("castling moves are included for the king", func(t *testing.T) {
+		ctx := decode(t, "4k3/8/8/8/8/8/8/R3K2R w KQ - 0 1")
+		moves := allLegalMoves(ctx)
+		testutil.AssertMovePresent(t, moves, core.E1, core.G1)
+		testutil.AssertMovePresent(t, moves, core.E1, core.C1)
+	})
+
+	t.Run("an en passant capture is included when legal", func(t *testing.T) {
+		ctx := decode(t, "rnbqkbnr/ppp1pppp/8/8/3pP3/8/PPPP1PPP/RNBQKBNR b KQkq e3 0 2")
+		moves := allLegalMoves(ctx)
+		found := false
+		for _, m := range moves {
+			if m.From == core.D4 && m.To == core.E3 && m.Type == core.EN_PASSANT {
+				found = true
+				break
+			}
+		}
+		if !found {
+			t.Errorf("en passant move D4→E3 not found in %d moves", len(moves))
+		}
+	})
+
+	// =========================================================================
+	// Edge cases.
+	// =========================================================================
+
+	t.Run("a side with no pieces returns 0 moves", func(t *testing.T) {
+		ctx := decode(t, "4k3/8/8/8/8/8/8/8 w - - 0 1")
+		moves := allLegalMoves(ctx)
+		testutil.AssertNoMoves(t, moves)
+	})
+
+	t.Run("a side with only a king returns the king's legal moves", func(t *testing.T) {
+		ctx := decode(t, "4k3/8/8/8/8/8/8/4K3 w - - 0 1")
+		moves := allLegalMoves(ctx)
+		testutil.AssertMoveCount(t, moves, 5)
+		for _, m := range moves {
+			if m.Piece.Type != core.KING {
+				t.Errorf("expected only king moves, got %v", m.Piece)
 			}
 		}
 	})
