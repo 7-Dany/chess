@@ -13,7 +13,7 @@ import "github.com/7-Dany/chess/core"
 // FENParser converts between FEN strings and TurnContext values.
 // Decode and Encode are inverses: Encode(Decode(s)) should round-trip
 // to the same FEN string.
-type FENParser interface {
+type Parser interface {
 	// Decode parses a FEN string into a TurnContext ready for the engine.
 	// Returns an error if any of the six fields is missing or malformed.
 	Decode(str string, ctx *core.TurnContext) error
