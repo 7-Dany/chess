@@ -6,31 +6,78 @@ A chess engine written in Go, built for correctness and clear separation of conc
 
 ```
 backend/
-├── core/      # Board, position, piece, move, and game-state primitives
-├── engine/    # Move generation, legality checking, apply/undo, attack detection
-├── piece/     # Per-piece-type move logic (pawn, knight, bishop, rook, queen, king)
+├── core/      # Domain types: board, position, piece, move, game state, snapshots
+├── engine/    # Move generation, legality filtering, apply/undo, attack detection
+├── piece/     # Per-piece movement and attack rules (pawn, knight, bishop, rook, queen, king)
 ├── fen/       # FEN string parsing and serialization
-├── testutil/  # Shared test helpers
+├── hash/      # Incremental Zobrist hashing for position identity
+├── history/   # Move history stack (undo support, threefold-repetition input)
+├── tracker/   # Position-occurrence counter (threefold repetition detection)
+├── testutil/  # Shared test helpers (context builders, board assertions, move assertions)
 └── main.go
 ```
 
 ## Packages
 
-- **`core`** — Data model (board, position, pieces, moves, game state). Plain value types designed to be cheap to copy.
-- **`piece`** — Move rules for each piece type. Stateless zero-size value types. `PseudoLegalMoves`/`Attacks` append into a caller-owned buffer, so move generation never allocates (see `core.MAX_MOVES`).
-- **`engine`** — The rules layer: generates moves, filters for legality, applies and undoes moves, detects attacks. Every method is allocation-free; `GetPseudoLegalMoves`/`GetLegalMoves` take a caller-owned `[]core.Move` buffer, and piece dispatch on the hot path is a concrete type switch (not the `Piece` interface) so escape analysis can keep the buffer on the stack. `DefaultEngine` is stateless (`struct{}`).
-- **`fen`** — Parses and serializes Forsyth-Edwards Notation strings. `Decode` fills a caller-owned `TurnContext`; `Encode` serializes one back to a FEN string.
+**`core`** — The shared domain layer. Defines every type the other packages build on:
+board coordinates (`File`, `Rank`, `Position`), piece identity (`PieceType`, `PieceColor`,
+`Piece`), board representation (`Square`, `Board`), move description (`Move`, `MoveType`),
+and the full game-state context (`TurnContext`, `SideState`, `Snapshot`). Has no
+chess-logic dependencies — nothing here generates or validates moves — so all other
+packages can import it without creating cycles.
+
+**`piece`** — Movement and attack rules for each of the six piece types. Every
+implementation (`Pawn`, `Knight`, `Bishop`, `Rook`, `Queen`, `King`) is a stateless
+zero-value struct that satisfies the `Piece` interface. The three methods are:
+- `PseudoLegalMoves` — all moves from a square, respecting geometry and blockers but not king safety.
+- `Attacks` — every square threatened from a position (including friendly-occupied squares).
+- `IsAttacking` — reverse scan: "does any piece of this type and color attack this square?".
+
+All three append into a caller-owned buffer, so move generation never allocates
+(see `core.MAX_MOVES`).
+
+**`engine`** — The rules layer. Combines `core` types with `piece` logic to provide:
+- `GetPseudoLegalMoves` / `GetLegalMoves` / `GetAllLegalMoves` — single-piece and whole-side move generation.
+- `HasAnyLegalMoves` — early-exit scan used for checkmate and stalemate detection.
+- `IsSquareAttacked` — reverse-ray scan across all piece types for check detection and castling validation.
+- `Apply` / `Undo` — mutate a `TurnContext` in place and revert it using a `Snapshot`.
+
+All methods are allocation-free. `GetPseudoLegalMoves` and `GetLegalMoves` take a
+caller-owned `[]core.Move` buffer. `DefaultEngine` is stateless so a single instance
+is safe to share across goroutines.
+
+**`fen`** — Parses and serializes Forsyth-Edwards Notation. `Decode` fills a
+caller-owned `TurnContext` from a FEN string; `Encode` serializes one back.
+Decode and Encode are inverses: `Encode(Decode(s))` round-trips to the same string.
+
+**`hash`** — Incremental Zobrist hashing. `InitHash` computes a full 64-bit hash
+from scratch (call once after FEN decode); `Hash` updates it incrementally after
+each `Apply` or before each `Undo`. Because XOR is self-inverse, the same call
+works in both directions. The random table is seeded from a fixed PCG source, so
+hashes are stable across process restarts.
+
+**`history`** — A stack of `core.Snapshot` values representing the moves played
+so far. `MemoryStore` is the default in-memory implementation; the `HistoryStore`
+interface leaves room for persistent backends (Redis, database) in the future.
+
+**`tracker`** — Counts how many times each position hash has been seen. Used to
+detect threefold repetition. `Record` is called after each `Apply` (once the hash
+is updated); `Undo` is called before each move is reversed (before the hash reverts).
+
+**`testutil`** — Test-only helpers shared across suites. Provides `TurnContext`
+builders (`NewTurn`, `WithSides`, `WithEnPassantTarget`), `SideState` factories
+(`DefaultSides`, `FullWhite`, `FullBlack`), and assertion helpers
+(`AssertSquareHas`, `AssertMovePresent`, `AssertMoveCount`, `AssertPositionsMatch`, etc.).
 
 ## Correctness — Perft Validation
 
 The engine is validated against the six standard perft positions from the
 [Chess Programming Wiki](https://www.chessprogramming.org/Perft_Results).
-Perft (performance test) recursively counts the number of leaf nodes in the
-full move tree to a given depth, then compares against trusted reference
-values. If the count matches, the move generator is correct.
+Perft (performance test) recursively counts leaf nodes in the full move tree
+to a given depth and compares against trusted reference values. A matching
+count proves the move generator is correct.
 
-All six positions pass at depth 1-3, and positions 1, 3, and 4 pass at
-depth 4:
+All six positions pass at depth 1–3, and positions 1, 3, and 4 pass at depth 4:
 
 | Position | Depth 1 | Depth 2 | Depth 3 | Depth 4 |
 |---|---|---|---|---|
@@ -41,19 +88,17 @@ depth 4:
 | Position 5 | 44 | 1,486 | 62,379 | — |
 | Position 6 | 46 | 2,079 | 89,890 | — |
 
-Run the perft tests:
+These positions collectively stress every edge case: en passant (including
+discovered-check en passant), promotion, promotion-captures, castling
+through/into/out-of check, pins, and double-checks.
 
 ```
 go test ./engine -run TestPerft -v
 ```
 
-These positions stress every edge case: en passant (including discovered-check
-en passant), promotion, promotion-captures, castling through/into check,
-pins, and double-checks.
+## Current State
 
-## Current state
-
-`core`, `engine`, `piece`, and `fen` are complete with tests and benchmarks.
+`core`, `piece`, `engine`, `fen`, `hash`, `history`, and `tracker` are complete with tests.
 `main.go` is a placeholder — no game orchestration, CLI, or search yet.
 
 All engine methods are allocation-free; see [BENCHMARKS.md](./BENCHMARKS.md).
@@ -61,3 +106,4 @@ All engine methods are allocation-free; see [BENCHMARKS.md](./BENCHMARKS.md).
 ## Benchmarks
 
 See [BENCHMARKS.md](./BENCHMARKS.md).
+
