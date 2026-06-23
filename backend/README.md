@@ -13,6 +13,7 @@ backend/
 ├── hash/      # Incremental Zobrist hashing for position identity
 ├── history/   # Move history stack (undo support, threefold-repetition input)
 ├── tracker/   # Position-occurrence counter (threefold repetition detection)
+├── rules/     # Game termination rules (checkmate, stalemate, draws)
 ├── testutil/  # Shared test helpers (context builders, board assertions, move assertions)
 └── main.go
 ```
@@ -64,6 +65,18 @@ interface leaves room for persistent backends (Redis, database) in the future.
 detect threefold repetition. `Record` is called after each `Apply` (once the hash
 is updated); `Undo` is called before each move is reversed (before the hash reverts).
 
+**`rules`** — Pure, stateless evaluator for all game-ending conditions. Every method
+receives only the data it actually needs — no `*Chess` pointer. `GetGameResult` is
+the single method to call after every move; it short-circuits from cheapest to most
+expensive:
+- `IsFiftyMoveRule` — O(1), single integer comparison on `HalfMoveClock`.
+- `IsThreefoldRepetition` — O(1), single map lookup via the `Tracker`.
+- `IsInsufficientMaterial` — O(64), one board scan; bails immediately on any pawn, rook, or queen.
+- Checkmate / Stalemate — `HasAnyLegalMoves` called once; `IsSquareAttacked` on the king determines which.
+
+`DefaultRules` is the standard implementation. The `Rules` interface allows alternative
+implementations (e.g. custom draw rules) without touching the orchestrator.
+
 **`testutil`** — Test-only helpers shared across suites. Provides `TurnContext`
 builders (`NewTurn`, `WithSides`, `WithEnPassantTarget`), `SideState` factories
 (`DefaultSides`, `FullWhite`, `FullBlack`), and assertion helpers
@@ -98,7 +111,7 @@ go test ./engine -run TestPerft -v
 
 ## Current State
 
-`core`, `piece`, `engine`, `fen`, `hash`, `history`, and `tracker` are complete with tests.
+`core`, `piece`, `engine`, `fen`, `hash`, `history`, `tracker`, and `rules` are complete with tests.
 `main.go` is a placeholder — no game orchestration, CLI, or search yet.
 
 All engine methods are allocation-free; see [BENCHMARKS.md](./BENCHMARKS.md).
