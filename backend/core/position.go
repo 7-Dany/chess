@@ -168,6 +168,10 @@ func (p Position) IsValid() bool {
 	return p < NoPosition
 }
 
+func (p Position) SquareColor() uint8 {
+	return (uint8(p.File()) + uint8(p.Rank())) % 2
+}
+
 func (p Position) String() string {
 	if !p.IsValid() {
 		return "-"

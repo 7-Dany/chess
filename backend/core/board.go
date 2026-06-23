@@ -67,6 +67,11 @@ func (s Square) IsOccupiedByAny(color PieceColor, types ...PieceType) bool {
 	return slices.Contains(types, s.Type())
 }
 
+// IsOccupiedByAnyPiece reports whether the square is occupied by any piece
+func (s Square) IsOccupiedByAnyPiece(types ...PieceType) bool {
+	return s.IsOccupied() && slices.Contains(types, s.Type())
+}
+
 // Board is the 8x8 grid of squares. At one byte per square.
 type Board [64]Square
 
