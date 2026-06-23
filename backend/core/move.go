@@ -63,6 +63,12 @@ func (m Move) EnPassantTarget() Position {
 	return NewPosition(m.To.File(), rank)
 }
 
+// EnPassantCapturedPosition returns the square that pawn has been captured from.
+// useful only when move type is EN_PASSANT
+func (m Move) EnPassantCapturedPosition() Position {
+	return NewPosition(m.To.File(), m.From.Rank())
+}
+
 // CastlingRookPositions returns the rook's from and to positions for a
 // castling move. King-side: H -> F. Queen-side: A -> D.
 func (m Move) CastlingRookPositions() (from, to Position) {

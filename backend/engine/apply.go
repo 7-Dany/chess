@@ -68,5 +68,5 @@ func (e *DefaultEngine) applyEnPassant(ctx *core.TurnContext, move core.Move) {
 	ctx.Board.Move(move.From, move.To)
 
 	// Remove the captured pawn (sits behind the destination, not on it).
-	ctx.Board.Clear(core.NewPosition(move.To.File(), move.From.Rank()))
+	ctx.Board.Clear(move.EnPassantCapturedPosition())
 }

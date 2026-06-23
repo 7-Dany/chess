@@ -60,5 +60,5 @@ func (e *DefaultEngine) undoEnPassant(ctx *core.TurnContext, move core.Move) {
 	ctx.Board.Place(move.From, move.Piece)
 
 	// Restore the captured pawn behind the destination.
-	ctx.Board.Place(core.NewPosition(move.To.File(), move.From.Rank()), move.Captured)
+	ctx.Board.Place(move.EnPassantCapturedPosition(), move.Captured)
 }
