@@ -16,6 +16,9 @@ func (e *DefaultEngine) Apply(ctx *core.TurnContext, move core.Move) core.Snapsh
 		e.applyEnPassant(ctx, move)
 	}
 
+	// En passant target: set on double pawn push, cleared otherwise.
+	ctx.SetEnPassantTarget(move)
+
 	return snapshot
 }
 
@@ -33,9 +36,6 @@ func (e *DefaultEngine) applyNormal(ctx *core.TurnContext, move core.Move) {
 
 	// Rook moves and rook captures each forfeit one castling right.
 	ctx.ForfeitCastlingRight(move)
-
-	// En passant target: set on double pawn push, cleared otherwise.
-	ctx.SetEnPassantTarget(move)
 }
 
 func (e *DefaultEngine) applyPromotion(ctx *core.TurnContext, move core.Move) {
@@ -48,9 +48,6 @@ func (e *DefaultEngine) applyPromotion(ctx *core.TurnContext, move core.Move) {
 
 	// Check if the pawn captured a rook to forfeit the castle rights for enemy
 	ctx.ForfeitCastlingRight(move)
-
-	// En passant target: set on double pawn push, cleared otherwise
-	ctx.SetEnPassantTarget(move)
 }
 
 func (e *DefaultEngine) applyCastling(ctx *core.TurnContext, move core.Move) {
@@ -58,19 +55,12 @@ func (e *DefaultEngine) applyCastling(ctx *core.TurnContext, move core.Move) {
 	ctx.Board.Move(move.From, move.To)
 
 	// Move the rook. King-side: H -> F. Queen-side: A -> D.
-	rank := move.From.Rank()
-	if move.To.File() > move.From.File() {
-		ctx.Board.Move(core.NewPosition(core.FILE_H, rank), core.NewPosition(core.FILE_F, rank))
-	} else {
-		ctx.Board.Move(core.NewPosition(core.FILE_A, rank), core.NewPosition(core.FILE_D, rank))
-	}
+	rookFrom, rookTo := move.CastlingRookPositions()
+	ctx.Board.Move(rookFrom, rookTo)
 
 	// Castling forfeits all castling rights.
 	ctx.Sides[move.Piece.Color].KingPosition = move.To
 	ctx.Sides[move.Piece.Color].ClearCastlingRights()
-
-	// En passant target: cleared (not a double pawn push).
-	ctx.SetEnPassantTarget(move)
 }
 
 func (e *DefaultEngine) applyEnPassant(ctx *core.TurnContext, move core.Move) {
@@ -79,7 +69,4 @@ func (e *DefaultEngine) applyEnPassant(ctx *core.TurnContext, move core.Move) {
 
 	// Remove the captured pawn (sits behind the destination, not on it).
 	ctx.Board.Clear(core.NewPosition(move.To.File(), move.From.Rank()))
-
-	// En passant target: cleared (not a double pawn push).
-	ctx.SetEnPassantTarget(move)
 }

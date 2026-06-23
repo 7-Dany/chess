@@ -62,3 +62,13 @@ func (m Move) EnPassantTarget() Position {
 	rank, _ := m.From.Rank().Add(step)
 	return NewPosition(m.To.File(), rank)
 }
+
+// CastlingRookPositions returns the rook's from and to positions for a
+// castling move. King-side: H -> F. Queen-side: A -> D.
+func (m Move) CastlingRookPositions() (from, to Position) {
+	rank := m.From.Rank()
+	if m.To.File() > m.From.File() {
+		return NewPosition(FILE_H, rank), NewPosition(FILE_F, rank)
+	}
+	return NewPosition(FILE_A, rank), NewPosition(FILE_D, rank)
+}

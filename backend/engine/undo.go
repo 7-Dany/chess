@@ -50,12 +50,8 @@ func (e *DefaultEngine) undoCastling(ctx *core.TurnContext, move core.Move) {
 	ctx.Board.Place(move.From, move.Piece)
 
 	// Restore rook. King-side: F -> H. Queen-side: D -> A.
-	rank := move.From.Rank()
-	if move.To.File() > move.From.File() {
-		ctx.Board.Move(core.NewPosition(core.FILE_F, rank), core.NewPosition(core.FILE_H, rank))
-	} else {
-		ctx.Board.Move(core.NewPosition(core.FILE_D, rank), core.NewPosition(core.FILE_A, rank))
-	}
+	rookTo, rookFrom := move.CastlingRookPositions()
+	ctx.Board.Move(rookFrom, rookTo)
 }
 
 func (e *DefaultEngine) undoEnPassant(ctx *core.TurnContext, move core.Move) {
