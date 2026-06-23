@@ -42,7 +42,7 @@ func GetDefaultHasher() Zobrist {
 	return defaultZobrist
 }
 
-func (z *Zobrist) InitHash(ctx *core.TurnContext) uint64 {
+func (z Zobrist) InitHash(ctx *core.TurnContext) uint64 {
 	var hash uint64
 
 	// hash board
@@ -83,7 +83,7 @@ func (z *Zobrist) InitHash(ctx *core.TurnContext) uint64 {
 	return hash
 }
 
-func (z *Zobrist) Hash(current uint64, move core.MoveHash) uint64 {
+func (z Zobrist) Hash(current uint64, move core.MoveHash) uint64 {
 	hash := current
 
 	switch move.Type {
@@ -122,7 +122,7 @@ func (z *Zobrist) hashNormal(hash uint64, move core.MoveHash) uint64 {
 	return hash
 }
 
-func (z *Zobrist) hashPromotion(hash uint64, move core.MoveHash) uint64 {
+func (z Zobrist) hashPromotion(hash uint64, move core.MoveHash) uint64 {
 	pawnSquare := core.NewSquare(move.Piece) - 1
 	promotedSquare := core.NewSquare(core.Piece{Type: move.PromoteTo, Color: move.Piece.Color}) - 1
 
@@ -139,7 +139,7 @@ func (z *Zobrist) hashPromotion(hash uint64, move core.MoveHash) uint64 {
 	return hash
 }
 
-func (z *Zobrist) hashCastling(hash uint64, move core.MoveHash) uint64 {
+func (z Zobrist) hashCastling(hash uint64, move core.MoveHash) uint64 {
 	kingSquare := core.NewSquare(move.Piece) - 1
 	rookSquare := core.NewSquare(core.Piece{Type: core.ROOK, Color: move.Piece.Color}) - 1
 	rookFrom, rookTo := move.CastlingRookPositions()
@@ -155,7 +155,7 @@ func (z *Zobrist) hashCastling(hash uint64, move core.MoveHash) uint64 {
 	return hash
 }
 
-func (z *Zobrist) hashEnPassantCapture(hash uint64, move core.MoveHash) uint64 {
+func (z Zobrist) hashEnPassantCapture(hash uint64, move core.MoveHash) uint64 {
 	pieceSquare := core.NewSquare(move.Piece) - 1
 
 	// move piece
@@ -170,7 +170,7 @@ func (z *Zobrist) hashEnPassantCapture(hash uint64, move core.MoveHash) uint64 {
 	return hash
 }
 
-func (z *Zobrist) hashEnCastlingRights(hash uint64, move core.MoveHash) uint64 {
+func (z Zobrist) hashEnCastlingRights(hash uint64, move core.MoveHash) uint64 {
 	// new castling rights for white side
 	nWCR := move.NewSides[core.WHITE]
 	// previous castling rights for white side
@@ -198,7 +198,7 @@ func (z *Zobrist) hashEnCastlingRights(hash uint64, move core.MoveHash) uint64 {
 	return hash
 }
 
-func (z *Zobrist) hashEnPassantTarget(hash uint64, move core.MoveHash) uint64 {
+func (z Zobrist) hashEnPassantTarget(hash uint64, move core.MoveHash) uint64 {
 	if move.PreviousEnPassantTarget != core.NoPosition {
 		file := move.PreviousEnPassantTarget.File()
 		hash ^= z.enPassant[file]
