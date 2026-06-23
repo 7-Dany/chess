@@ -4,7 +4,7 @@ import (
 	"github.com/7-Dany/chess/core"
 )
 
-func (e *DefaultEngine) GetLegalMoves(moves []core.Move, position core.Position, ctx core.TurnContext) []core.Move {
+func (e DefaultEngine) GetLegalMoves(moves []core.Move, position core.Position, ctx core.TurnContext) []core.Move {
 	moves = e.GetPseudoLegalMoves(moves, position, ctx)
 
 	current := ctx.SideToMove
@@ -32,7 +32,7 @@ func (e *DefaultEngine) GetLegalMoves(moves []core.Move, position core.Position,
 	return moves[:slot]
 }
 
-func (e *DefaultEngine) GetAllLegalMoves(moves []core.Move, ctx core.TurnContext) []core.Move {
+func (e DefaultEngine) GetAllLegalMoves(moves []core.Move, ctx core.TurnContext) []core.Move {
 	var scratch [core.MAX_MOVES]core.Move
 
 	for i, square := range ctx.Board {
@@ -47,7 +47,7 @@ func (e *DefaultEngine) GetAllLegalMoves(moves []core.Move, ctx core.TurnContext
 	return moves
 }
 
-func (e *DefaultEngine) HasAnyLegalMoves(ctx core.TurnContext) bool {
+func (e DefaultEngine) HasAnyLegalMoves(ctx core.TurnContext) bool {
 	// Stack allocated scratch buffer [moves], reused for every piece on the board.
 	var moves [core.MAX_MOVES]core.Move
 

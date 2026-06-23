@@ -2,7 +2,7 @@ package engine
 
 import "github.com/7-Dany/chess/core"
 
-func (e *DefaultEngine) Undo(ctx *core.TurnContext, snapshot core.Snapshot) {
+func (e DefaultEngine) Undo(ctx *core.TurnContext, snapshot core.Snapshot) {
 	move := snapshot.Move
 
 	switch move.Type {
@@ -21,7 +21,7 @@ func (e *DefaultEngine) Undo(ctx *core.TurnContext, snapshot core.Snapshot) {
 	ctx.EnPassantTarget = snapshot.PreviousEnPassantTarget
 }
 
-func (e *DefaultEngine) undoNormal(ctx *core.TurnContext, move core.Move) {
+func (e DefaultEngine) undoNormal(ctx *core.TurnContext, move core.Move) {
 	// Move the piece back to its origin.
 	ctx.Board.Move(move.To, move.From)
 
@@ -31,7 +31,7 @@ func (e *DefaultEngine) undoNormal(ctx *core.TurnContext, move core.Move) {
 	}
 }
 
-func (e *DefaultEngine) undoPromotion(ctx *core.TurnContext, move core.Move) {
+func (e DefaultEngine) undoPromotion(ctx *core.TurnContext, move core.Move) {
 	// Clear the prompoted pawn.
 	ctx.Board.Clear(move.To)
 
@@ -44,7 +44,7 @@ func (e *DefaultEngine) undoPromotion(ctx *core.TurnContext, move core.Move) {
 	}
 }
 
-func (e *DefaultEngine) undoCastling(ctx *core.TurnContext, move core.Move) {
+func (e DefaultEngine) undoCastling(ctx *core.TurnContext, move core.Move) {
 	// Restore king to origin, clear destination.
 	ctx.Board.Clear(move.To)
 	ctx.Board.Place(move.From, move.Piece)
@@ -54,7 +54,7 @@ func (e *DefaultEngine) undoCastling(ctx *core.TurnContext, move core.Move) {
 	ctx.Board.Move(rookFrom, rookTo)
 }
 
-func (e *DefaultEngine) undoEnPassant(ctx *core.TurnContext, move core.Move) {
+func (e DefaultEngine) undoEnPassant(ctx *core.TurnContext, move core.Move) {
 	// Restore pawn to origin, clear destination.
 	ctx.Board.Clear(move.To)
 	ctx.Board.Place(move.From, move.Piece)

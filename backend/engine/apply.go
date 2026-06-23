@@ -2,7 +2,7 @@ package engine
 
 import "github.com/7-Dany/chess/core"
 
-func (e *DefaultEngine) Apply(ctx *core.TurnContext, move core.Move) core.Snapshot {
+func (e DefaultEngine) Apply(ctx *core.TurnContext, move core.Move) core.Snapshot {
 	snapshot := ctx.Snapshot(move)
 
 	switch move.Type {
@@ -22,7 +22,7 @@ func (e *DefaultEngine) Apply(ctx *core.TurnContext, move core.Move) core.Snapsh
 	return snapshot
 }
 
-func (e *DefaultEngine) applyNormal(ctx *core.TurnContext, move core.Move) {
+func (e DefaultEngine) applyNormal(ctx *core.TurnContext, move core.Move) {
 	// Move the piece (mover is unchanged for a NORMAL move).
 	ctx.Board.Move(move.From, move.To)
 
@@ -38,7 +38,7 @@ func (e *DefaultEngine) applyNormal(ctx *core.TurnContext, move core.Move) {
 	ctx.ForfeitCastlingRight(move)
 }
 
-func (e *DefaultEngine) applyPromotion(ctx *core.TurnContext, move core.Move) {
+func (e DefaultEngine) applyPromotion(ctx *core.TurnContext, move core.Move) {
 	piece := move.Piece
 	piece.Type = move.PromoteTo
 
@@ -50,7 +50,7 @@ func (e *DefaultEngine) applyPromotion(ctx *core.TurnContext, move core.Move) {
 	ctx.ForfeitCastlingRight(move)
 }
 
-func (e *DefaultEngine) applyCastling(ctx *core.TurnContext, move core.Move) {
+func (e DefaultEngine) applyCastling(ctx *core.TurnContext, move core.Move) {
 	// Move the king.
 	ctx.Board.Move(move.From, move.To)
 
@@ -63,7 +63,7 @@ func (e *DefaultEngine) applyCastling(ctx *core.TurnContext, move core.Move) {
 	ctx.Sides[move.Piece.Color].ClearCastlingRights()
 }
 
-func (e *DefaultEngine) applyEnPassant(ctx *core.TurnContext, move core.Move) {
+func (e DefaultEngine) applyEnPassant(ctx *core.TurnContext, move core.Move) {
 	// Move the pawn.
 	ctx.Board.Move(move.From, move.To)
 

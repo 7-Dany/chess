@@ -4,7 +4,7 @@ import (
 	"github.com/7-Dany/chess/core"
 )
 
-func (e *DefaultEngine) GetPseudoLegalMoves(moves []core.Move, position core.Position, ctx core.TurnContext) []core.Move {
+func (e DefaultEngine) GetPseudoLegalMoves(moves []core.Move, position core.Position, ctx core.TurnContext) []core.Move {
 	square := ctx.Board[position]
 	if !square.IsOccupiedBy(ctx.SideToMove) {
 		return nil
@@ -34,7 +34,7 @@ func (e *DefaultEngine) GetPseudoLegalMoves(moves []core.Move, position core.Pos
 }
 
 // return king castling moves, if rights are valid
-func (e *DefaultEngine) castlingMoves(moves []core.Move, kingPosition core.Position, ctx core.TurnContext) []core.Move {
+func (e DefaultEngine) castlingMoves(moves []core.Move, kingPosition core.Position, ctx core.TurnContext) []core.Move {
 	current := ctx.SideToMove
 	enemy := current.Opponent()
 
@@ -74,7 +74,7 @@ func (e *DefaultEngine) castlingMoves(moves []core.Move, kingPosition core.Posit
 }
 
 // canCastleKingSide return true, if rights allow the king to castle from king side
-func (e *DefaultEngine) canCastleKingSide(rank core.Rank, ctx core.TurnContext) bool {
+func (e DefaultEngine) canCastleKingSide(rank core.Rank, ctx core.TurnContext) bool {
 	if !ctx.Sides[ctx.SideToMove].CanCastleKingSide {
 		return false
 	}
@@ -96,7 +96,7 @@ func (e *DefaultEngine) canCastleKingSide(rank core.Rank, ctx core.TurnContext) 
 }
 
 // canCastleQueenSide return true, if rights allow the king to castle from queen side
-func (e *DefaultEngine) canCastleQueenSide(rank core.Rank, ctx core.TurnContext) bool {
+func (e DefaultEngine) canCastleQueenSide(rank core.Rank, ctx core.TurnContext) bool {
 	if !ctx.Sides[ctx.SideToMove].CanCastleQueenSide {
 		return false
 	}

@@ -28,11 +28,11 @@ import (
 type Engine interface {
 	// GetPseudoLegalMoves returns all pseudo-legal moves for the piece
 	// at the given position.
-	GetPseudoLegalMoves(position core.Position, ctx core.TurnContext) []core.Move
+	GetPseudoLegalMoves(moves []core.Move, position core.Position, ctx core.TurnContext) []core.Move
 
 	// GetLegalMoves returns only moves that are strictly legal — pseudo-legal
 	// moves that do not leave the moving side's king in check, plus castling.
-	GetLegalMoves(position core.Position, ctx core.TurnContext) []core.Move
+	GetLegalMoves(moves []core.Move, position core.Position, ctx core.TurnContext) []core.Move
 
 	// GetAllLegalMoves appends every legal move for the side to move into
 	// moves and returns the extended slice. Iterates all 64 squares, calls

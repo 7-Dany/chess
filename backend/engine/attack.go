@@ -5,7 +5,7 @@ import (
 	"github.com/7-Dany/chess/piece"
 )
 
-func (e *DefaultEngine) IsSquareAttacked(target core.Position, color core.PieceColor, ctx core.BoardContext) bool {
+func (e DefaultEngine) IsSquareAttacked(target core.Position, color core.PieceColor, ctx core.BoardContext) bool {
 	if e.pieces.Knight().IsAttacking(color, target, ctx) {
 		return true
 	}
