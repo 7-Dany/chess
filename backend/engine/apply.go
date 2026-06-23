@@ -19,6 +19,19 @@ func (e DefaultEngine) Apply(ctx *core.TurnContext, move core.Move) core.Snapsho
 	// En passant target: set on double pawn push, cleared otherwise.
 	ctx.SetEnPassantTarget(move)
 
+	// Update the half-move clock: reset on pawn moves and captures (any
+	// irreversible move), increment otherwise.
+	if move.Piece.Type == core.PAWN || move.HasCapture {
+		ctx.HalfMoveClock = 0
+	} else {
+		ctx.HalfMoveClock++
+	}
+
+	// Update the full-move number: increment after black moves.
+	if move.Piece.Color == core.BLACK {
+		ctx.FullMoveNumber++
+	}
+
 	return snapshot
 }
 

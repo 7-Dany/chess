@@ -667,4 +667,135 @@ func TestApply(t *testing.T) {
 			t.Errorf("SideToMove = %v, want WHITE (Apply should not flip side)", ctx.SideToMove)
 		}
 	})
+
+	// =========================================================================
+	// Clock maintenance — HalfMoveClock and FullMoveNumber.
+	// =========================================================================
+
+	t.Run("a pawn push resets the halfmove clock to 0", func(t *testing.T) {
+		var board core.Board
+		board[core.E2] = core.NewSquare(core.Piece{Type: core.PAWN, Color: core.WHITE})
+		board[core.E1] = core.NewSquare(core.Piece{Type: core.KING, Color: core.WHITE})
+		board[core.E8] = core.NewSquare(core.Piece{Type: core.KING, Color: core.BLACK})
+		ctx := testutil.NewTurn(&board, core.WHITE)
+		ctx.HalfMoveClock = 10
+
+		engine.Apply(ctx, core.Move{
+			Type:  core.NORMAL,
+			Piece: core.Piece{Type: core.PAWN, Color: core.WHITE},
+			From:  core.E2,
+			To:    core.E4,
+		})
+
+		if ctx.HalfMoveClock != 0 {
+			t.Errorf("HalfMoveClock = %d, want 0 (pawn move resets)", ctx.HalfMoveClock)
+		}
+	})
+
+	t.Run("a capture resets the halfmove clock to 0", func(t *testing.T) {
+		var board core.Board
+		board[core.C4] = core.NewSquare(core.Piece{Type: core.KNIGHT, Color: core.WHITE})
+		board[core.D5] = core.NewSquare(core.Piece{Type: core.PAWN, Color: core.BLACK})
+		board[core.E1] = core.NewSquare(core.Piece{Type: core.KING, Color: core.WHITE})
+		board[core.E8] = core.NewSquare(core.Piece{Type: core.KING, Color: core.BLACK})
+		ctx := testutil.NewTurn(&board, core.WHITE)
+		ctx.HalfMoveClock = 15
+
+		engine.Apply(ctx, core.Move{
+			Type:       core.NORMAL,
+			Piece:      core.Piece{Type: core.KNIGHT, Color: core.WHITE},
+			From:       core.C4,
+			To:         core.D5,
+			HasCapture: true,
+			Captured:   core.Piece{Type: core.PAWN, Color: core.BLACK},
+		})
+
+		if ctx.HalfMoveClock != 0 {
+			t.Errorf("HalfMoveClock = %d, want 0 (capture resets)", ctx.HalfMoveClock)
+		}
+	})
+
+	t.Run("a knight move increments the halfmove clock", func(t *testing.T) {
+		var board core.Board
+		board[core.B1] = core.NewSquare(core.Piece{Type: core.KNIGHT, Color: core.WHITE})
+		board[core.E1] = core.NewSquare(core.Piece{Type: core.KING, Color: core.WHITE})
+		board[core.E8] = core.NewSquare(core.Piece{Type: core.KING, Color: core.BLACK})
+		ctx := testutil.NewTurn(&board, core.WHITE)
+		ctx.HalfMoveClock = 5
+
+		engine.Apply(ctx, core.Move{
+			Type:  core.NORMAL,
+			Piece: core.Piece{Type: core.KNIGHT, Color: core.WHITE},
+			From:  core.B1,
+			To:    core.C3,
+		})
+
+		if ctx.HalfMoveClock != 6 {
+			t.Errorf("HalfMoveClock = %d, want 6 (5+1)", ctx.HalfMoveClock)
+		}
+	})
+
+	t.Run("a white move does not increment the fullmove number", func(t *testing.T) {
+		var board core.Board
+		board[core.E2] = core.NewSquare(core.Piece{Type: core.PAWN, Color: core.WHITE})
+		board[core.E1] = core.NewSquare(core.Piece{Type: core.KING, Color: core.WHITE})
+		board[core.E8] = core.NewSquare(core.Piece{Type: core.KING, Color: core.BLACK})
+		ctx := testutil.NewTurn(&board, core.WHITE)
+		ctx.FullMoveNumber = 1
+
+		engine.Apply(ctx, core.Move{
+			Type:  core.NORMAL,
+			Piece: core.Piece{Type: core.PAWN, Color: core.WHITE},
+			From:  core.E2,
+			To:    core.E4,
+		})
+
+		if ctx.FullMoveNumber != 1 {
+			t.Errorf("FullMoveNumber = %d, want 1 (white moved, no increment)", ctx.FullMoveNumber)
+		}
+	})
+
+	t.Run("a black move increments the fullmove number", func(t *testing.T) {
+		var board core.Board
+		board[core.E7] = core.NewSquare(core.Piece{Type: core.PAWN, Color: core.BLACK})
+		board[core.E1] = core.NewSquare(core.Piece{Type: core.KING, Color: core.WHITE})
+		board[core.E8] = core.NewSquare(core.Piece{Type: core.KING, Color: core.BLACK})
+		ctx := testutil.NewTurn(&board, core.BLACK)
+		ctx.FullMoveNumber = 1
+
+		engine.Apply(ctx, core.Move{
+			Type:  core.NORMAL,
+			Piece: core.Piece{Type: core.PAWN, Color: core.BLACK},
+			From:  core.E7,
+			To:    core.E5,
+		})
+
+		if ctx.FullMoveNumber != 2 {
+			t.Errorf("FullMoveNumber = %d, want 2 (black moved, increment)", ctx.FullMoveNumber)
+		}
+	})
+
+	t.Run("a promotion resets the halfmove clock (pawn move)", func(t *testing.T) {
+		var board core.Board
+		board[core.E7] = core.NewSquare(core.Piece{Type: core.PAWN, Color: core.WHITE})
+		board[core.A1] = core.NewSquare(core.Piece{Type: core.KING, Color: core.WHITE})
+		board[core.A8] = core.NewSquare(core.Piece{Type: core.KING, Color: core.BLACK})
+		ctx := testutil.NewTurn(&board, core.WHITE, testutil.WithSides(
+			testutil.Side(core.A1, false, false),
+			testutil.Side(core.A8, false, false),
+		))
+		ctx.HalfMoveClock = 12
+
+		engine.Apply(ctx, core.Move{
+			Type:      core.PROMOTION,
+			Piece:     core.Piece{Type: core.PAWN, Color: core.WHITE},
+			From:      core.E7,
+			To:        core.E8,
+			PromoteTo: core.QUEEN,
+		})
+
+		if ctx.HalfMoveClock != 0 {
+			t.Errorf("HalfMoveClock = %d, want 0 (promotion is a pawn move)", ctx.HalfMoveClock)
+		}
+	})
 }

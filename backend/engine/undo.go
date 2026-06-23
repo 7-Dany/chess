@@ -19,6 +19,8 @@ func (e DefaultEngine) Undo(ctx *core.TurnContext, snapshot core.Snapshot) {
 	// Restore state captured at the start of Apply.
 	ctx.Sides = snapshot.PreviousSides
 	ctx.EnPassantTarget = snapshot.PreviousEnPassantTarget
+	ctx.HalfMoveClock = snapshot.PreviousHalfMoveClock
+	ctx.FullMoveNumber = snapshot.PreviousFullMoveNumber
 }
 
 func (e DefaultEngine) undoNormal(ctx *core.TurnContext, move core.Move) {

@@ -827,4 +827,70 @@ func TestApplyThenUndo(t *testing.T) {
 		roundTrip(t, b, core.WHITE, defaultSides, core.E3,
 			core.Move{Type: core.NORMAL, Piece: wn, From: core.B1, To: core.C3})
 	})
+
+	// =========================================================================
+	// Clock restoration — HalfMoveClock and FullMoveNumber must be saved
+	// in the snapshot and restored by Undo.
+	// =========================================================================
+
+	t.Run("a pawn push that resets the clock round-trips (clock restored)", func(t *testing.T) {
+		b := board(
+			placement{core.E2, wp},
+			placement{core.E1, wk},
+			placement{core.E8, bk},
+		)
+		// Set a non-zero clock so we can verify it's restored (not stuck at 0).
+		ctx := &core.TurnContext{
+			MoveContext: core.MoveContext{
+				BoardContext: core.BoardContext{Board: b},
+				SideToMove:   core.WHITE,
+				Sides:        defaultSides,
+			},
+			ClockContext: core.ClockContext{HalfMoveClock: 10, FullMoveNumber: 6},
+		}
+		originalClock := ctx.HalfMoveClock
+		originalFull := ctx.FullMoveNumber
+
+		snap := engine.Apply(ctx, core.Move{Type: core.NORMAL, Piece: wp, From: core.E2, To: core.E4})
+		// After apply: clock should be 0 (pawn move), fullmove still 6 (white moved).
+		if ctx.HalfMoveClock != 0 {
+			t.Fatalf("HalfMoveClock after apply = %d, want 0", ctx.HalfMoveClock)
+		}
+		engine.Undo(ctx, snap)
+
+		if ctx.HalfMoveClock != originalClock {
+			t.Errorf("HalfMoveClock after undo = %d, want %d", ctx.HalfMoveClock, originalClock)
+		}
+		if ctx.FullMoveNumber != originalFull {
+			t.Errorf("FullMoveNumber after undo = %d, want %d", ctx.FullMoveNumber, originalFull)
+		}
+	})
+
+	t.Run("a black move that increments fullmove round-trips (fullmove restored)", func(t *testing.T) {
+		b := board(
+			placement{core.E7, bp},
+			placement{core.E1, wk},
+			placement{core.E8, bk},
+		)
+		ctx := &core.TurnContext{
+			MoveContext: core.MoveContext{
+				BoardContext: core.BoardContext{Board: b},
+				SideToMove:   core.BLACK,
+				Sides:        defaultSides,
+			},
+			ClockContext: core.ClockContext{HalfMoveClock: 3, FullMoveNumber: 5},
+		}
+		originalFull := ctx.FullMoveNumber
+
+		snap := engine.Apply(ctx, core.Move{Type: core.NORMAL, Piece: bp, From: core.E7, To: core.E5})
+		// After apply: fullmove should be 6 (black moved).
+		if ctx.FullMoveNumber != 6 {
+			t.Fatalf("FullMoveNumber after apply = %d, want 6", ctx.FullMoveNumber)
+		}
+		engine.Undo(ctx, snap)
+
+		if ctx.FullMoveNumber != originalFull {
+			t.Errorf("FullMoveNumber after undo = %d, want %d", ctx.FullMoveNumber, originalFull)
+		}
+	})
 }

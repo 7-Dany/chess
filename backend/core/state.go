@@ -103,6 +103,8 @@ func (ctx *TurnContext) Snapshot(move Move) Snapshot {
 		Move:                    move,
 		PreviousSides:           ctx.Sides,
 		PreviousEnPassantTarget: ctx.EnPassantTarget,
+		PreviousHalfMoveClock:   ctx.HalfMoveClock,
+		PreviousFullMoveNumber:  ctx.FullMoveNumber,
 	}
 }
 
