@@ -6,22 +6,6 @@ import (
 	"github.com/7-Dany/chess/core"
 )
 
-// Hasher computes incremental Zobrist hashes for position identity.
-// A single Hash call handles both apply and undo — because XOR is
-// self-inverse, the same operations that update the hash forward
-// also revert it backward.
-type Hasher interface {
-	// InitHash computes the full hash from scratch for the given context.
-	// Call this once to bootstrap (e.g. after FEN decode), then use Hash
-	// for every subsequent Apply/Undo.
-	InitHash(ctx *core.TurnContext) uint64
-	// Hash updates current by XOR-ing out the facts that became false
-	// and XOR-ing in the facts that became true, as described by snap.
-	// Call after Apply to advance the hash, or before Undo to revert it —
-	// the result is identical either way.
-	Hash(current uint64, move core.MoveHash) uint64
-}
-
 type Zobrist struct {
 	piecePosition [12][64]uint64 // [12]piece * [64]position
 	castling      [4]uint64      // [0, 1] -> White Castling Rights, [2, 3] -> Black Castling Rights

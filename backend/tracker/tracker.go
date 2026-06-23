@@ -1,3 +1,12 @@
+// Package tracker counts how many times each board position has occurred
+// during a game, identified by its Zobrist hash. It is used to detect
+// threefold repetition: when the same position appears three times, the game
+// can be claimed as a draw.
+//
+// The Tracker interface is the public contract. PositionTracker is the default
+// in-memory implementation backed by a map. Record is called after each move
+// (once the hash is updated) and Undo is called before each move is reversed
+// (before the hash is reverted).
 package tracker
 
 type Tracker interface {
@@ -13,32 +22,4 @@ type Tracker interface {
 	// Count returns how many times the given hash has been recorded. Returns
 	// 0 for a hash that was never recorded (or was recorded and fully undone).
 	Count(hash uint64) int
-}
-
-type PositionTracker struct {
-	counter map[uint64]int
-}
-
-// NewHashPositionTracker creates an empty tracker.
-func NewPositionTracker() *PositionTracker {
-	return &PositionTracker{
-		counter: make(map[uint64]int),
-	}
-}
-
-func (t *PositionTracker) Record(hash uint64) {
-	t.counter[hash]++
-}
-
-func (t *PositionTracker) Undo(hash uint64) {
-	count := t.counter[hash]
-	if count <= 1 {
-		delete(t.counter, hash)
-		return
-	}
-	t.counter[hash] = count - 1
-}
-
-func (t *PositionTracker) Count(hash uint64) int {
-	return t.counter[hash]
 }

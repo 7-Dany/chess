@@ -1,3 +1,20 @@
+// Package engine is the move-generation and move-execution layer of the chess
+// backend. It sits between the pure domain types in core and the
+// piece-movement rules in piece, combining both to answer three questions:
+//
+//  1. What moves can a piece make? (pseudo-legal, then legal after king-safety
+//     filtering)
+//  2. Is a given square attacked? (used for check detection and castling
+//     validation)
+//  3. How does a move change the board — and how do we take it back?
+//
+// The Engine interface is the public contract; DefaultEngine is the standard
+// implementation. All methods operate on core.TurnContext, which holds the
+// board, side-to-move, castling rights, and en passant target in one struct.
+//
+// Move generation is allocation-friendly: callers pass in a []core.Move buffer
+// and the methods append to it. Stack-allocated buffers (e.g. [core.MAX_MOVES]
+// or [MAX_TOTAL_MOVES]) are enough to keep hot paths heap-free.
 package engine
 
 import (

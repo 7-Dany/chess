@@ -1,4 +1,15 @@
-// Package testutil holds small helpers shared by the engine and piece test suites.
+// Package testutil holds small helpers shared across the engine, piece, and
+// other test suites. It is imported only in _test.go files and is never part
+// of production binaries.
+//
+// It provides:
+//   - TurnContext builders (NewTurn, WithSides, WithEnPassantTarget) for
+//     constructing board positions from scratch without going through FEN.
+//   - SideState factories (DefaultSides, FullWhite, FullBlack, Side) for
+//     common starting configurations.
+//   - Assertion helpers (AssertSquareHas, AssertSquareEmpty, AssertMovePresent,
+//     AssertMoveAbsent, AssertMoveCount, AssertNoMoves, AssertPositionsMatch)
+//     that produce readable t.Error messages on failure.
 package testutil
 
 import (

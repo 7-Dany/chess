@@ -1,3 +1,19 @@
+// Package piece implements the movement and attack rules for each of the six
+// chess piece types: Pawn, Knight, Bishop, Rook, Queen, and King.
+//
+// Every piece type satisfies the Piece interface, which has three methods:
+//
+//   - PseudoLegalMoves – all moves a piece can make from a given square,
+//     respecting movement geometry, blockers, and capture eligibility, but
+//     without checking whether the move leaves the king in check.
+//   - Attacks – every square the piece threatens (including squares occupied
+//     by friendly pieces), used for generating attack maps.
+//   - IsAttacking – a targeted reverse-scan that checks whether any piece of
+//     a given type and color attacks a specific square; faster than generating
+//     full attack sets when only a yes/no answer is needed.
+//
+// All implementations are stateless zero-value structs. The Pieces aggregate
+// holds one of each and is the entry point used by the engine layer.
 package piece
 
 import "github.com/7-Dany/chess/core"
