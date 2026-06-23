@@ -1,6 +1,8 @@
 package engine
 
 import (
+	"slices"
+
 	"github.com/7-Dany/chess/core"
 )
 
@@ -82,4 +84,10 @@ func (e DefaultEngine) HasAnyLegalMoves(ctx core.TurnContext) bool {
 	}
 
 	return false
+}
+
+func (e DefaultEngine) IsLegalMove(move core.Move, ctx core.TurnContext) bool {
+	var buf [MAX_TOTAL_MOVES]core.Move
+	moves := e.GetLegalMoves(buf[:0], move.From, ctx)
+	return slices.Contains(moves, move)
 }

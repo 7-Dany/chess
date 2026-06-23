@@ -724,3 +724,159 @@ func TestHasAnyLegalMoves(t *testing.T) {
 		}
 	})
 }
+
+// TestIsLegalMove verifies that IsLegalMove correctly identifies whether a
+// specific move is legal in the given position. It delegates to GetLegalMoves
+// internally, so these tests focus on the API contract rather than exhaustive
+// move-generation coverage (which is tested in TestGetLegalMoves).
+func TestIsLegalMove(t *testing.T) {
+	engine := GetDefaultEngine()
+
+	isLegal := func(board *core.Board, side core.PieceColor, move core.Move, opts ...testutil.TurnOption) bool {
+		ctx := testutil.NewTurn(board, side, opts...)
+		return engine.IsLegalMove(move, *ctx)
+	}
+
+	// =========================================================================
+	// Basic legality.
+	// =========================================================================
+
+	t.Run("a normal legal move returns true", func(t *testing.T) {
+		var board core.Board
+		board[core.E2] = core.NewSquare(core.Piece{Type: core.PAWN, Color: core.WHITE})
+		board[core.E1] = core.NewSquare(core.Piece{Type: core.KING, Color: core.WHITE})
+		board[core.E8] = core.NewSquare(core.Piece{Type: core.KING, Color: core.BLACK})
+
+		move := core.Move{Piece: core.Piece{Type: core.PAWN, Color: core.WHITE}, From: core.E2, To: core.E4, Type: core.NORMAL}
+		if !isLegal(&board, core.WHITE, move) {
+			t.Errorf("IsLegalMove = false, want true for a legal pawn push")
+		}
+	})
+
+	t.Run("a move that exposes the king returns false", func(t *testing.T) {
+		// White king on E1, white rook on E2 pinned by black rook on E8.
+		// Moving the rook sideways exposes the king.
+		var board core.Board
+		board[core.E1] = core.NewSquare(core.Piece{Type: core.KING, Color: core.WHITE})
+		board[core.E2] = core.NewSquare(core.Piece{Type: core.ROOK, Color: core.WHITE})
+		board[core.E8] = core.NewSquare(core.Piece{Type: core.ROOK, Color: core.BLACK})
+		board[core.H8] = core.NewSquare(core.Piece{Type: core.KING, Color: core.BLACK})
+
+		move := core.Move{Piece: core.Piece{Type: core.ROOK, Color: core.WHITE}, From: core.E2, To: core.D2, Type: core.NORMAL}
+		if isLegal(&board, core.WHITE, move, testutil.WithSides(
+			testutil.Side(core.E1, false, false),
+			testutil.Side(core.H8, true, true),
+		)) {
+			t.Errorf("IsLegalMove = true, want false (move exposes king on E-file)")
+		}
+	})
+
+	t.Run("a move from an empty square returns false", func(t *testing.T) {
+		var board core.Board
+		board[core.E1] = core.NewSquare(core.Piece{Type: core.KING, Color: core.WHITE})
+		board[core.E8] = core.NewSquare(core.Piece{Type: core.KING, Color: core.BLACK})
+
+		move := core.Move{Piece: core.Piece{Type: core.PAWN, Color: core.WHITE}, From: core.E4, To: core.E5, Type: core.NORMAL}
+		if isLegal(&board, core.WHITE, move) {
+			t.Errorf("IsLegalMove = true, want false (no piece on E4)")
+		}
+	})
+
+	t.Run("a move for the opponent's piece returns false", func(t *testing.T) {
+		var board core.Board
+		board[core.E1] = core.NewSquare(core.Piece{Type: core.KING, Color: core.WHITE})
+		board[core.E7] = core.NewSquare(core.Piece{Type: core.PAWN, Color: core.BLACK})
+		board[core.E8] = core.NewSquare(core.Piece{Type: core.KING, Color: core.BLACK})
+
+		move := core.Move{Piece: core.Piece{Type: core.PAWN, Color: core.BLACK}, From: core.E7, To: core.E5, Type: core.NORMAL}
+		if isLegal(&board, core.WHITE, move) {
+			t.Errorf("IsLegalMove = true, want false (piece belongs to opponent)")
+		}
+	})
+
+	// =========================================================================
+	// Special move types.
+	// =========================================================================
+
+	t.Run("a legal castling move returns true", func(t *testing.T) {
+		var board core.Board
+		board[core.E1] = core.NewSquare(core.Piece{Type: core.KING, Color: core.WHITE})
+		board[core.H1] = core.NewSquare(core.Piece{Type: core.ROOK, Color: core.WHITE})
+		board[core.E8] = core.NewSquare(core.Piece{Type: core.KING, Color: core.BLACK})
+
+		move := core.Move{Piece: core.Piece{Type: core.KING, Color: core.WHITE}, From: core.E1, To: core.G1, Type: core.CASTLING}
+		if !isLegal(&board, core.WHITE, move) {
+			t.Errorf("IsLegalMove = false, want true for king-side castling")
+		}
+	})
+
+	t.Run("a legal en passant move returns true", func(t *testing.T) {
+		var board core.Board
+		board[core.E1] = core.NewSquare(core.Piece{Type: core.KING, Color: core.WHITE})
+		board[core.E5] = core.NewSquare(core.Piece{Type: core.PAWN, Color: core.WHITE})
+		board[core.D5] = core.NewSquare(core.Piece{Type: core.PAWN, Color: core.BLACK})
+		board[core.E8] = core.NewSquare(core.Piece{Type: core.KING, Color: core.BLACK})
+
+		move := core.Move{
+			Piece:      core.Piece{Type: core.PAWN, Color: core.WHITE},
+			From:       core.E5,
+			To:         core.D6,
+			Type:       core.EN_PASSANT,
+			Captured:   core.Piece{Type: core.PAWN, Color: core.BLACK},
+			HasCapture: true,
+		}
+		if !isLegal(&board, core.WHITE, move, testutil.WithSides(
+			testutil.Side(core.E1, false, false),
+			testutil.Side(core.E8, false, false),
+		), testutil.WithEnPassantTarget(core.D6)) {
+			t.Errorf("IsLegalMove = false, want true for a legal en passant")
+		}
+	})
+
+	t.Run("an en passant that exposes the king on the rank returns false", func(t *testing.T) {
+		// White king H5, white pawn F5, black pawn E5 (EP target E6), black rook A5.
+		// Capturing en passant removes both pawns from rank 5, exposing the king.
+		var board core.Board
+		board[core.H5] = core.NewSquare(core.Piece{Type: core.KING, Color: core.WHITE})
+		board[core.F5] = core.NewSquare(core.Piece{Type: core.PAWN, Color: core.WHITE})
+		board[core.E5] = core.NewSquare(core.Piece{Type: core.PAWN, Color: core.BLACK})
+		board[core.A5] = core.NewSquare(core.Piece{Type: core.ROOK, Color: core.BLACK})
+		board[core.E8] = core.NewSquare(core.Piece{Type: core.KING, Color: core.BLACK})
+
+		move := core.Move{
+			Piece:      core.Piece{Type: core.PAWN, Color: core.WHITE},
+			From:       core.F5,
+			To:         core.E6,
+			Type:       core.EN_PASSANT,
+			Captured:   core.Piece{Type: core.PAWN, Color: core.BLACK},
+			HasCapture: true,
+		}
+		if isLegal(&board, core.WHITE, move, testutil.WithSides(
+			testutil.Side(core.H5, false, false),
+			testutil.Side(core.E8, true, true),
+		), testutil.WithEnPassantTarget(core.E6)) {
+			t.Errorf("IsLegalMove = true, want false (en passant exposes king on rank 5)")
+		}
+	})
+
+	t.Run("a legal promotion move returns true", func(t *testing.T) {
+		var board core.Board
+		board[core.E1] = core.NewSquare(core.Piece{Type: core.KING, Color: core.WHITE})
+		board[core.D7] = core.NewSquare(core.Piece{Type: core.PAWN, Color: core.WHITE})
+		board[core.H8] = core.NewSquare(core.Piece{Type: core.KING, Color: core.BLACK})
+
+		move := core.Move{
+			Piece:     core.Piece{Type: core.PAWN, Color: core.WHITE},
+			From:      core.D7,
+			To:        core.D8,
+			Type:      core.PROMOTION,
+			PromoteTo: core.QUEEN,
+		}
+		if !isLegal(&board, core.WHITE, move, testutil.WithSides(
+			testutil.Side(core.E1, false, false),
+			testutil.Side(core.H8, false, false),
+		)) {
+			t.Errorf("IsLegalMove = false, want true for a legal promotion")
+		}
+	})
+}

@@ -45,6 +45,9 @@ type Engine interface {
 	// need a yes/no answer to "can this side move at all".
 	HasAnyLegalMoves(ctx core.TurnContext) bool
 
+	// IsLegalMove reports whether move is legal in the given context.
+	IsLegalMove(move core.Move, ctx core.TurnContext) bool
+
 	// IsSquareAttacked reports whether any piece of the given color
 	// attacks the specified position.
 	IsSquareAttacked(position core.Position, attackerColor core.PieceColor, ctx core.BoardContext) bool
